@@ -42,14 +42,16 @@ public class GameCanvas : MonoBehaviour
         //---------------------------------------------
         _canvasWindowSize = SetupWindow(0f);
         _settingWindowSize = SetupWindow(_paddingPercentage);
-        _hackWindowSize = SetupWindow2(0f);
-        ///TODO make this better
-        gameWindow.Initialize(_hackWindowSize);
+   
         // gameWindow.Initialize(_canvasWindowSize);
     }
-    public IEnumerator ChangePaddingWithAnimation()
+    public void Initialize()
     {
-  
+        _hackWindowSize = SetupWindow2(0f);
+        gameWindow.Initialize(_hackWindowSize);
+    }
+    public IEnumerator ChangePaddingWithAnimation(GameWindow gameWindow, bool gameStart = false)
+    {
         float elapsedTime = 0f;
         float startPadding = _paddingPercentage;
         while (elapsedTime < _animationDuration)
@@ -66,6 +68,13 @@ public class GameCanvas : MonoBehaviour
         var tmp = _targetPaddingPercentage;
         _targetPaddingPercentage = startPadding;
         _paddingPercentage = tmp;
+        if (gameStart)
+        {
+            Initialize();
+            gameWindow._miniGame.ToggleCards(true, true);
+        }
+
+
         yield return null;
     }
 
@@ -104,13 +113,12 @@ public class GameCanvas : MonoBehaviour
         Rect canvasRectValue = hackRect.rect;
         float width, height, leftBorder, rightBorder, topBorder, bottomBorder;
         Debug.Log("Scale:" + hackRect.transform.localScale);
-        width = canvasRectValue.width - (paddingPercentage * canvasRectValue.width *2);
+        width = canvasRectValue.width;
         height = canvasRectValue.height - (paddingPercentage * canvasRectValue.height*2);
-        leftBorder = canvasRectValue.xMin + (paddingPercentage * canvasRectValue.width);
+        leftBorder = canvasRectValue.xMin ;
         rightBorder = canvasRectValue.xMax - (paddingPercentage * canvasRectValue.width);
         topBorder = canvasRectValue.yMax - (paddingPercentage * canvasRectValue.height);
         bottomBorder = canvasRectValue.yMin + (paddingPercentage * canvasRectValue.height);
-        
         Debug.Log("width: "+width + "height: "+height + "leftBorder: "+leftBorder + "rightBorder: "+rightBorder + "topBorder: "+topBorder + "bottomBorder: "+bottomBorder);
         WindowSize tmpWindow = new WindowSize(width, height, leftBorder, rightBorder, topBorder, bottomBorder);
         return tmpWindow;

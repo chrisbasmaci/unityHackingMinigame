@@ -76,7 +76,7 @@ public class MiniGame : MonoBehaviour
     private void continueHacks()
     {
         //wait 1 second
-        StartCoroutine(ToggleCards(true));
+        ToggleCards(true);
     }
 
     //getter setter
@@ -113,16 +113,21 @@ public class MiniGame : MonoBehaviour
 
         yield return null; 
     }
-    
-    public IEnumerator ToggleCards(bool toggle, bool isStart  =false)
+
+    public void destr()
+    {
+        _cardDeck.ForEach(card => Destroy(card.gameObject));
+
+    }
+    public void ToggleCards(bool toggle, bool isStart  =false)
     {
         //TODO THIS WAIT IS ANIMATION DUROATION FIX need to only happen at start
         fillCardDeck();
-        if (isStart)
-        {
-            yield return new WaitForSeconds(0.3f);
-
-        }
+        // if (isStart)
+        // {
+        //     yield return new WaitForSeconds(0.3f);
+        //
+        // }
         _cardDeck.ForEach(card =>
         { 
             card.gameObject.SetActive(toggle);

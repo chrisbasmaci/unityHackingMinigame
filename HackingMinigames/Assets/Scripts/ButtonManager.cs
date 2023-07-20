@@ -39,9 +39,8 @@ public class ButtonManager : MonoBehaviour
         hackPanel.SetActive(true);
         questionPanel.SetActive(true);
         uuperGUI.SetActive(true);
-        StartCoroutine(gameCanvas.ChangePaddingWithAnimation());
+        StartCoroutine(gameCanvas.ChangePaddingWithAnimation(_gameWindow, true));
         //wait one second
-        StartCoroutine(_gameWindow._miniGame.ToggleCards(true, true));
         
     }
 
@@ -51,7 +50,7 @@ public class ButtonManager : MonoBehaviour
     }
     public void TileAmountSlider()
     {
-        _gameWindow._miniGame.TileAmount = (int)tileSlider.value;
+        Game.Instance.defaultTileAmount = (int)tileSlider.value;
     }
     public void mainMenu()
     {
@@ -65,6 +64,7 @@ public class ButtonManager : MonoBehaviour
         _gameWindow.streakText.text = "Streak: 0";
         _gameWindow.questionTextField.text = " ";            
         _gameWindow._miniGame._puzzleTimer.reset_timer();
+        _gameWindow._miniGame.destr();
 
         hackPanel.SetActive(false);
         questionPanel.SetActive(false);
@@ -72,7 +72,7 @@ public class ButtonManager : MonoBehaviour
 
         settingsPanel.SetActive(true);
         navigationPanel.SetActive(true);        
-        StartCoroutine(gameCanvas.ChangePaddingWithAnimation());
+        StartCoroutine(gameCanvas.ChangePaddingWithAnimation(_gameWindow));
 
     }
 

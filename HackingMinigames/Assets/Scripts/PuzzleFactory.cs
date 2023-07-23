@@ -9,26 +9,7 @@ public static class PuzzleFactory
 {
     public static string getQuestionSolution(List<Card> current_tiles, string question)
     {
-        // string solution = "";
-        // string[] splitQuestions = question.Split(new[] { " AND " }, StringSplitOptions.None);
-        // Debug.Assert(splitQuestions.Length == wanted_tiles.Count, 
-        //     "You need same amount of questions as well as required tiles!");
-        // int question_index = 0;
-        // foreach (var wantedTilePos in wanted_tiles)
-        // {
-        //     string clean_question = splitQuestions[question_index].Remove(splitQuestions[question_index].Length - 4);
-        //     if (question_index != 0)
-        //     {
-        //         solution += " ";
-        //     }
-        //     var wantedTile = current_tiles.Find(tile => tile.Order == wantedTilePos);
-        //     wantedTile.isWanted = true;
-        //     solution += getPartSolution(wantedTile, clean_question);
-        //     question_index++;
-        // }
-        //
-        //
-        
+
         string solution = "";
         string[] splitQuestions = question.Split(new[] { " AND " }, StringSplitOptions.None);
         // Debug.Assert(splitQuestions.Length == wanted_tiles.Count, 

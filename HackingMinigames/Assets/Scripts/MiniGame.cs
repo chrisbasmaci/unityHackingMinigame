@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,16 +31,31 @@ public class MiniGame : MonoBehaviour
     public IEnumerator StartIntroTimer()
     {
         Debug.Log("Checking Time");
+        string question ="";
+        var questionFirst = Game.Instance.questionFirstToggle;
+        if (questionFirst)
+        {
+            Debug.Log("Set question");
+
+            question = _gameWindow.SetQuestion(_tileAmount, _cardDeck);
+        }
+
         _puzzleTimer.startTimer();
+
         while (!_puzzleTimer.introFinished())
         {
             yield return null;
             
         }
-        Debug.Log("Timer check 1");
-        flipCards(true);
-        yield return new WaitForSeconds(1);
-        var question = _gameWindow.SetQuestion(_tileAmount, _cardDeck);
+
+        yield return flipCards(true);
+        _gameWindow.enableRetry();
+        Debug.Log("flip cards end");
+
+        if (!questionFirst)
+        { 
+            question = _gameWindow.SetQuestion(_tileAmount, _cardDeck);
+        }
         StartCoroutine(StartGameTimer(question));
 
     }
@@ -49,27 +63,34 @@ public class MiniGame : MonoBehaviour
     public IEnumerator StartGameTimer(string question)
     {
         Debug.Log("Game timer started");
+        if (Game.Instance.questionFirstToggle)
+        {
+            _gameWindow.questionTextFieldObject.SetActive(false);
+        }
+        
         _puzzleTimer.startPuzzleTimer();
+        string correctAnswer = PuzzleFactory.getQuestionSolution(_cardDeck, question);
         while (!_puzzleTimer.IsGameOver())
         {
-            if (_gameWindow.CheckAnswer(PuzzleFactory.getQuestionSolution(_cardDeck, question)))
+            if (_gameWindow.CheckAnswer(correctAnswer))
             {
+
+                _gameWindow.questionTextFieldObject.SetActive(true);
                 Debug.Log("Game success");
                 _gameWindow.streakText.text = "Streak: "+ (++currentStreak);
                 _cardDeck.ForEach(card => card.backSprite =Game.Instance.cardOrderSheet[10]);
-                flipCards();
+                yield return flipCards();
+                _gameWindow.enableRetry();
                 _puzzleTimer.reset_timer();
-                yield return new WaitForSeconds(1);
                 continueHacks();
                 yield break;
             }
-            Debug.Log("Timer check 2");
             yield return null;
 
         }
-        Debug.Log("Timer check hello");
-        Debug.Log("Timer check 3");
-        flipCards();
+        yield return flipCards();
+        _gameWindow.enableRetry();
+        _gameWindow.questionTextFieldObject.SetActive(true);
         yield return null;
     }
 
@@ -136,47 +157,91 @@ public class MiniGame : MonoBehaviour
         Debug.Log("about to start timer");
         StartCoroutine( StartIntroTimer());
     }
-    public void flipCards(bool isCardReveal = false)
+    public IEnumerator flipCards(bool isCardReveal = false)
     {
-        
+        _gameWindow.disableRetry();
+        int flippedCount = 0;
         foreach (var card in _cardDeck)
         {
             StartCoroutine(pullCurtainDown(card, isCardReveal));
-        }
-        
-    }
-    private IEnumerator disableCurtain(Card card)
-    {
-        // Wait until the animation finishes playing
-        while (!card.cardAnimator.GetCurrentAnimatorStateInfo(0).IsName("pullFinished"))
-        {
-            yield return null;
+            card.cardBeingFlipped = true;
         }
 
-        card.cardCover.SetActive(false);
-        // Animation has finished, continue with other actions if needed
+        foreach (var card in _cardDeck)
+        {
+            yield return new WaitUntil(() => !card.cardBeingFlipped);
+        }
+
+    }
+    private void disableCurtain(Card card)
+    {
+        // Wait until the animation finishes playing
+        // while (card  && !card.cardAnimator.GetCurrentAnimatorStateInfo(0).IsName("pullFinished"))
+        // {
+        //     yield return null;
+        // }
+
+        // Check if the card reference is still valid
+        if (card)
+        {
+            card.cardCover.SetActive(false);
+            // Animation has finished, continue with other actions if needed
+        }
     }
     private IEnumerator pullCurtainDown(Card card, bool isCardReveal = false)
     {
+        card.cardBeingFlipped = true;
         if (isCardReveal)
         {
             Debug.Log("curtain down start");
             card.cardAnimator.SetTrigger("pullCurtainDown");
             // Wait until the animation finishes playing
             yield return new WaitForSeconds(1);
-            StartCoroutine(card.RotateCard());
+            if (card)
+            {
+                card._cardRenderer.sprite = Game.Instance.cardOrderSheet[10];
+                disableCurtain(card);
+                yield return card.RotateCard();
+            }
             //tmp back to cover
-            card._cardRenderer.sprite = Game.Instance.cardOrderSheet[10];
-            StartCoroutine(disableCurtain(card));
+
             Debug.Log("curtain down");
         }
         else
         {
-            StartCoroutine(card.RotateCard());
+            if (card)
+            {
+                yield return card.RotateCard();
+                card.enableFlipping();
+            }
 
         }
 
+        card.cardBeingFlipped = false;
+
     }
+
+    public bool flipCardBacks()
+    {
+        bool needed = false;
+        foreach (var card in _cardDeck)
+        {
+            card.disableFlipping();
+            if (card.isCardFacedUp())
+            {
+                needed = true;
+            }
+
+            if (card)
+            {
+                StartCoroutine(card.RotateCard(true));
+            }
+        }
+
+        return needed;
+    }
+
+
 
 
 }

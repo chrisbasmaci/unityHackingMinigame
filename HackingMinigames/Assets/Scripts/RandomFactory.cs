@@ -9,6 +9,11 @@ public class RandomFactory : MonoBehaviour
 {
 
     // Start is called before the first frame update
+    public static bool isSwitched()
+    {
+        int random = UnityEngine.Random.Range(0, 2);
+        return random == 1;
+    }
     public static int getRandomColor(){
         int random = UnityEngine.Random.Range(0, ColorHex.color_total);
         return random;

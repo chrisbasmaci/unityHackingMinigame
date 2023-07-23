@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.U2D.Animation;
 
@@ -34,12 +33,17 @@ public class Game : MonoBehaviour
 
     [SerializeField] public GameObject cardBackPrefab;
     [SerializeField] public AnimationClip orderRevealAnimation;
-    [SerializeField] public AnimatorController curtainController;
+    [SerializeField] public RuntimeAnimatorController curtainController;
 
     [SerializeField] public Sprite[] shapeSheet;
     [SerializeField] public Sprite[] shapeTextSheet;
     [SerializeField] public Sprite[] colorTextSheet;
     // Public property to access the singleton instance
+    
+    //Toggles
+    public bool invertToggle;
+    public bool questionFirstToggle;
+
     public static Game Instance
     {
         get

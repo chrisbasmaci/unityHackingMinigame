@@ -6,7 +6,6 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Threading;
 using Unity.VisualScripting;
-using UnityEditor.Animations;
 using UnityEngine.Serialization;
 
 public class Card: MonoBehaviour
@@ -16,7 +15,7 @@ public class Card: MonoBehaviour
     private CardBack _back;
     public CardFace _face;
     public Sprite faceSprite, backSprite;
-    private bool coroutineAllowed, facedUp;
+    private bool coroutineAllowed, facedUp, flippingEnabled;
     private BoxCollider2D _collider;
     public bool isStartingSideBack =true;
     
@@ -29,6 +28,7 @@ public class Card: MonoBehaviour
     public GameObject cardCover;
     public bool isWanted;
     public int wantedOrder;
+    public bool cardBeingFlipped = false;
     public Sprite CurrentSprite
     {
         get { return _cardRenderer.sprite; }
@@ -44,6 +44,10 @@ public class Card: MonoBehaviour
         }
     }
 
+    public bool isCardFacedUp()
+    {
+        return facedUp;
+    }
     public void Initialize(WindowSize cardDimensions, GameWindow window, int order)
     {
         cardOrder = order;
@@ -61,7 +65,7 @@ public class Card: MonoBehaviour
     private void OnMouseDown()
     {
         Debug.Log("PRESSED CARD");
-        if (coroutineAllowed)
+        if (flippingEnabled && coroutineAllowed)
         {
             StartCoroutine(RotateCard());
         }
@@ -103,13 +107,28 @@ public class Card: MonoBehaviour
         //collider
         _collider = gameObject.AddComponent<BoxCollider2D>();
         // _collider.size = new Vector2(_cardDimensions.Width, _cardDimensions.Height);
-        coroutineAllowed =true;
+    }
+
+    public void enableFlipping()
+    {
+        flippingEnabled =true;
+    }    
+    public void disableFlipping()
+    {
+        flippingEnabled = false;
     }
 
 
-    public IEnumerator RotateCard()
+    public IEnumerator RotateCard(bool isBackflip = false)
     {
+        
         coroutineAllowed = false;
+        if (isBackflip && !facedUp)
+        {
+            coroutineAllowed = true;
+
+            yield break;
+        }
 
         if (!facedUp)
         {
@@ -140,5 +159,7 @@ public class Card: MonoBehaviour
         coroutineAllowed = true;
 
         facedUp = !facedUp;
+
+
     }
 }

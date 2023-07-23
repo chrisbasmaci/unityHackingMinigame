@@ -30,8 +30,13 @@ public class CardFace : CardSide
     private void initPuzzleParts()
     {
         initShape();
-        initUpperPrompt();
-        initLowerPrompt();
+        bool isShape =true;
+        //invert the shape and color text if toggles on
+        if(Game.Instance.invertToggle && RandomFactory.isSwitched()){
+            isShape = !isShape;
+        }
+        initUpperPrompt(isShape);
+        initLowerPrompt(!isShape);
         if (_card.isStartingSideBack)
         {
             transform.rotation = Quaternion.Euler(0f, 180f, 0f);
@@ -52,13 +57,13 @@ public class CardFace : CardSide
         _shapeObject._renderer.sprite = Game.Instance.shapeSheet[_shape.shapePos];
     }
 
-    private void initUpperPrompt()
+    private void initUpperPrompt(bool isShape)
     {
-        initPrompt(true ,0.5f);
+        initPrompt(isShape ,0.5f);
     }        
-    private void initLowerPrompt()
+    private void initLowerPrompt(bool isShape)
     {
-        initPrompt(false ,-0.5f);
+        initPrompt(isShape ,-0.5f);
     }      
     private void initPrompt(bool isShape, float promptY)
     {

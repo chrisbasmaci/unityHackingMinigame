@@ -11,11 +11,13 @@ public class GameWindow : MonoBehaviour
     [SerializeField]GameCanvas gameCanvas;
     public WindowSize _windowSize;
     public MiniGame _miniGame;
-    [SerializeField]TMP_InputField questionInputField;
-    [SerializeField]private GameObject questionTextFieldObject;
+    [SerializeField]public TMP_InputField questionInputField;
+    [SerializeField]public GameObject questionTextFieldObject;
     [SerializeField]public TMP_Text questionTextField;
     [SerializeField]public TMP_Text streakText;
     [SerializeField] public Image loadingbarTimer;
+    private bool _retryAvailable =true;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -31,19 +33,19 @@ public class GameWindow : MonoBehaviour
         _windowSize = windowSize;
         gameCanvas.gameWindow.StartMinigame();
         questionTextField = questionTextFieldObject.GetComponent<TMP_Text>();
-        questionInputField.Select();
+        //questionInputField.Select();
     }
     public void StartMinigame()
     {
         _miniGame = this.AddComponent<MiniGame>();
         _miniGame.Initialize(_windowSize, this);
-        questionInputField.Select();
+        //questionInputField.Select();
 
     }
     public string SetQuestion(int tileAmount,List<Card> cardDeck)
     {
+        questionInputField.text = "";
         questionInputField.Select();
-        Debug.Log("sq");
         List<int> wanted_tiles = new List<int>();
         questionTextField.text = RandomFactory.getRandomQuestion(2, tileAmount,ref wanted_tiles);
         cardDeck.ForEach(card =>
@@ -72,9 +74,42 @@ private void UpdateSavedText(string newText)
     // Debug.Log(questionInputField.text);
 }
 
-// Update is called once per frame
-    void Update()
+    public IEnumerator Retry()
     {
-        
+        while(!_retryAvailable)
+        {
+            yield return null;
+        }
+        StopAllCoroutines();
+
+        questionTextFieldObject.SetActive(true);
+        streakText.text = "Streak: 0";
+        questionTextField.text = " ";
+        questionInputField.text = " ";
+
+        _miniGame._puzzleTimer.reset_timer();
+        // _miniGame.destr();
+
+        if (_miniGame.flipCardBacks())
+        {
+            yield return new WaitForSeconds(1);
+        }
+        // yield return new WaitForSeconds(1);
+
+        _miniGame.ToggleCards(true, true);
+
     }
+
+    public void disableRetry()
+    {
+        Debug.Log("retry IS HERE disabled");
+        _retryAvailable = false;
+    }
+
+    public void enableRetry()
+    {
+        Debug.Log("retry IS HERE enabled");
+        _retryAvailable = true;
+    }
+
 }

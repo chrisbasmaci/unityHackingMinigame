@@ -15,7 +15,8 @@ public class Card: MonoBehaviour
     private CardBack _back;
     public CardFace _face;
     public Sprite faceSprite, backSprite;
-    private bool coroutineAllowed, facedUp, flippingEnabled;
+    private bool coroutineAllowed, facedUp;
+    private bool flippingEnabled = true;
     private BoxCollider2D _collider;
     public bool isStartingSideBack =true;
     
@@ -28,7 +29,6 @@ public class Card: MonoBehaviour
     public GameObject cardCover;
     public bool isWanted;
     public int wantedOrder;
-    public bool cardBeingFlipped = false;
     public Sprite CurrentSprite
     {
         get { return _cardRenderer.sprite; }
@@ -111,11 +111,15 @@ public class Card: MonoBehaviour
 
     public void enableFlipping()
     {
-        flippingEnabled =true;
+        flippingEnabled = true;
     }    
     public void disableFlipping()
     {
         flippingEnabled = false;
+    }    
+    public bool isFlippable()
+    {
+        return flippingEnabled;
     }
 
 
@@ -123,13 +127,12 @@ public class Card: MonoBehaviour
     {
         
         coroutineAllowed = false;
-        if (isBackflip && !facedUp)
-        {
-            coroutineAllowed = true;
-
-            yield break;
-        }
-
+        // if (isBackflip && !facedUp)
+        // {
+        //     coroutineAllowed = true;
+        //
+        //     yield break;
+        // }
         if (!facedUp)
         {
             for (float i = 0f; i <= 180f; i += 10f)
@@ -159,7 +162,7 @@ public class Card: MonoBehaviour
         coroutineAllowed = true;
 
         facedUp = !facedUp;
-
+        enableFlipping();
 
     }
 }

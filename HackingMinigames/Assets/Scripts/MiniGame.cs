@@ -33,12 +33,12 @@ public class MiniGame : MonoBehaviour
         Debug.Log("Checking Time");
         string question ="";
         var questionFirst = Game.Instance.questionFirstToggle;
-        if (questionFirst)
-        {
-            Debug.Log("Set question");
-
-            question = _gameWindow.SetQuestion(_tileAmount, _cardDeck);
-        }
+        // if (questionFirst)
+        // {
+        //     Debug.Log("Set question");
+        //
+        //     question = _gameWindow.SetQuestion(_tileAmount, _cardDeck);
+        // }
 
         _puzzleTimer.startTimer();
 
@@ -47,9 +47,7 @@ public class MiniGame : MonoBehaviour
             yield return null;
             
         }
-
         yield return flipCards(true);
-        _gameWindow.enableRetry();
         Debug.Log("flip cards end");
 
         if (!questionFirst)
@@ -80,7 +78,6 @@ public class MiniGame : MonoBehaviour
                 _gameWindow.streakText.text = "Streak: "+ (++currentStreak);
                 _cardDeck.ForEach(card => card.backSprite =Game.Instance.cardOrderSheet[10]);
                 yield return flipCards();
-                _gameWindow.enableRetry();
                 _puzzleTimer.reset_timer();
                 continueHacks();
                 yield break;
@@ -89,7 +86,6 @@ public class MiniGame : MonoBehaviour
 
         }
         yield return flipCards();
-        _gameWindow.enableRetry();
         _gameWindow.questionTextFieldObject.SetActive(true);
         yield return null;
     }
@@ -113,10 +109,10 @@ public class MiniGame : MonoBehaviour
     //methods
     public void fillCardDeck()
     {
-        StopCoroutine("FillCardDeckRoutine");
-        StartCoroutine("FillCardDeckRoutine",FillCardDeckRoutine());
+        // StopCoroutine("FillCardDeckRoutine");
+        FillCardDeckRoutine();
     }
-    private IEnumerator FillCardDeckRoutine()
+    private void FillCardDeckRoutine()
     {
         Debug.Log("FillCardDeckRoutine");
         _cardDeck.ForEach(card => Destroy(card.gameObject));
@@ -132,7 +128,6 @@ public class MiniGame : MonoBehaviour
                 return card;
             }));
 
-        yield return null; 
     }
 
     public void destr()
@@ -142,6 +137,7 @@ public class MiniGame : MonoBehaviour
     }
     public void ToggleCards(bool toggle, bool isStart  =false)
     {
+        StopAllCoroutines();
         //TODO THIS WAIT IS ANIMATION DUROATION FIX need to only happen at start
         fillCardDeck();
         // if (isStart)
@@ -149,6 +145,8 @@ public class MiniGame : MonoBehaviour
         //     yield return new WaitForSeconds(0.3f);
         //
         // }
+        _gameWindow.enableRetry();
+
         _cardDeck.ForEach(card =>
         { 
             card.gameObject.SetActive(toggle);
@@ -159,18 +157,30 @@ public class MiniGame : MonoBehaviour
     }
     public IEnumerator flipCards(bool isCardReveal = false)
     {
+        if (!_gameWindow.isRetryable())
+        {
+            yield break;
+        }
         _gameWindow.disableRetry();
         int flippedCount = 0;
         foreach (var card in _cardDeck)
         {
+            if (!card.isFlippable())
+            {
+                yield return null;
+            }
+            else
+            {
+                card.disableFlipping();
+            }
             StartCoroutine(pullCurtainDown(card, isCardReveal));
-            card.cardBeingFlipped = true;
         }
 
         foreach (var card in _cardDeck)
         {
-            yield return new WaitUntil(() => !card.cardBeingFlipped);
+            yield return new WaitUntil(() => card.isFlippable());
         }
+        _gameWindow.enableRetry();
 
     }
     private void disableCurtain(Card card)
@@ -190,34 +200,26 @@ public class MiniGame : MonoBehaviour
     }
     private IEnumerator pullCurtainDown(Card card, bool isCardReveal = false)
     {
-        card.cardBeingFlipped = true;
         if (isCardReveal)
         {
             Debug.Log("curtain down start");
             card.cardAnimator.SetTrigger("pullCurtainDown");
             // Wait until the animation finishes playing
             yield return new WaitForSeconds(1);
-            if (card)
-            {
-                card._cardRenderer.sprite = Game.Instance.cardOrderSheet[10];
-                disableCurtain(card);
-                yield return card.RotateCard();
-            }
+
+            card._cardRenderer.sprite = Game.Instance.cardOrderSheet[10];
+            disableCurtain(card);
+            yield return card.RotateCard();
+        
             //tmp back to cover
 
             Debug.Log("curtain down");
         }
         else
         {
-            if (card)
-            {
-                yield return card.RotateCard();
-                card.enableFlipping();
-            }
-
+            yield return card.RotateCard();
         }
 
-        card.cardBeingFlipped = false;
 
     }
 

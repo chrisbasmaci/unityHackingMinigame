@@ -44,10 +44,11 @@ public class GameWindow : MonoBehaviour
     }
     public string SetQuestion(int tileAmount,List<Card> cardDeck)
     {
-        questionInputField.text = "";
         questionInputField.Select();
         List<int> wanted_tiles = new List<int>();
         questionTextField.text = RandomFactory.getRandomQuestion(2, tileAmount,ref wanted_tiles);
+        Debug.Log("NEW QUESTION IS: "+questionTextField.text);
+
         cardDeck.ForEach(card =>
         {   
             card.isWanted = wanted_tiles.Contains(card.cardOrder);
@@ -74,28 +75,27 @@ private void UpdateSavedText(string newText)
     // Debug.Log(questionInputField.text);
 }
 
-    public IEnumerator Retry()
+    public void Retry()
     {
-        while(!_retryAvailable)
-        {
-            yield return null;
-        }
+
+        disableRetry();
         StopAllCoroutines();
 
         questionTextFieldObject.SetActive(true);
         streakText.text = "Streak: 0";
-        questionTextField.text = " ";
-        questionInputField.text = " ";
+        questionTextField.text = "retry";
+        questionInputField.text = "";
+        // questionTextFieldObject.SetActive(false);
 
         _miniGame._puzzleTimer.reset_timer();
         // _miniGame.destr();
 
-        if (_miniGame.flipCardBacks())
-        {
-            yield return new WaitForSeconds(1);
-        }
+        // if (_miniGame.flipCardBacks())
+        // {
+        //     yield return new WaitForSeconds(1);
+        // }
+        
         // yield return new WaitForSeconds(1);
-
         _miniGame.ToggleCards(true, true);
 
     }
@@ -110,6 +110,11 @@ private void UpdateSavedText(string newText)
     {
         Debug.Log("retry IS HERE enabled");
         _retryAvailable = true;
+    }    
+    public bool isRetryable()
+    {
+        Debug.Log("_retryAvailable getter");
+        return _retryAvailable;
     }
 
 }

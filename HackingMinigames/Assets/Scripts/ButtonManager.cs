@@ -101,11 +101,9 @@ public class ButtonManager : MonoBehaviour
 
     public void RetryPuzzle()
     {
-        // StopAllCoroutines();
-        if (_gameWindow.isRetryable())
-        {
-            _gameWindow.Retry();
-        }
+        _gameWindow.stopGameCoroutines();
+        _gameWindow.Retry();
+        
     }
 
 

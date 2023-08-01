@@ -120,8 +120,8 @@ public class Card: MonoBehaviour
     public bool isFlippable()
     {
         return flippingEnabled;
-    }
-
+    }    
+    
 
     public IEnumerator RotateCard(bool isBackflip = false)
     {

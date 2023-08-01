@@ -137,7 +137,6 @@ public class MiniGame : MonoBehaviour
     }
     public void ToggleCards(bool toggle, bool isStart  =false)
     {
-        StopAllCoroutines();
         //TODO THIS WAIT IS ANIMATION DUROATION FIX need to only happen at start
         fillCardDeck();
         // if (isStart)
@@ -145,7 +144,6 @@ public class MiniGame : MonoBehaviour
         //     yield return new WaitForSeconds(0.3f);
         //
         // }
-        _gameWindow.enableRetry();
 
         _cardDeck.ForEach(card =>
         { 
@@ -157,11 +155,7 @@ public class MiniGame : MonoBehaviour
     }
     public IEnumerator flipCards(bool isCardReveal = false)
     {
-        if (!_gameWindow.isRetryable())
-        {
-            yield break;
-        }
-        _gameWindow.disableRetry();
+
         int flippedCount = 0;
         foreach (var card in _cardDeck)
         {
@@ -180,7 +174,6 @@ public class MiniGame : MonoBehaviour
         {
             yield return new WaitUntil(() => card.isFlippable());
         }
-        _gameWindow.enableRetry();
 
     }
     private void disableCurtain(Card card)
@@ -243,7 +236,11 @@ public class MiniGame : MonoBehaviour
         return needed;
     }
 
-
+    public void stopAllCardRoutines()
+    {
+        _cardDeck.ForEach(card => card.StopAllCoroutines());
+        StopAllCoroutines();
+    }
 
 
 }

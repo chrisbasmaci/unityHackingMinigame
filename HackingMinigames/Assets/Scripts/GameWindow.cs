@@ -78,7 +78,6 @@ private void UpdateSavedText(string newText)
     public void Retry()
     {
 
-        disableRetry();
         StopAllCoroutines();
 
         questionTextFieldObject.SetActive(true);
@@ -99,22 +98,10 @@ private void UpdateSavedText(string newText)
         _miniGame.ToggleCards(true, true);
 
     }
-
-    public void disableRetry()
+    public void stopGameCoroutines()
     {
-        Debug.Log("retry IS HERE disabled");
-        _retryAvailable = false;
-    }
-
-    public void enableRetry()
-    {
-        Debug.Log("retry IS HERE enabled");
-        _retryAvailable = true;
-    }    
-    public bool isRetryable()
-    {
-        Debug.Log("_retryAvailable getter");
-        return _retryAvailable;
+        _miniGame.stopAllCardRoutines();
+        StopAllCoroutines();
     }
 
 }

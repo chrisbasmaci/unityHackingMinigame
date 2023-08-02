@@ -45,11 +45,7 @@ public class GameCanvas : MonoBehaviour
    
         // gameWindow.Initialize(_canvasWindowSize);
     }
-    public void Initialize()
-    {
-        _hackWindowSize = SetupWindow2(0f);
-        gameWindow.Initialize(_hackWindowSize);
-    }
+
     public IEnumerator ChangePaddingWithAnimation(GameWindow gameWindow, bool gameStart = false)
     {
         float elapsedTime = 0f;
@@ -70,8 +66,8 @@ public class GameCanvas : MonoBehaviour
         _paddingPercentage = tmp;
         if (gameStart)
         {
-            Initialize();
-            gameWindow._miniGame.ToggleCards(true, true);
+            _hackWindowSize = SetupWindow2(0f);
+            gameWindow.Initialize(_hackWindowSize);
         }
 
 

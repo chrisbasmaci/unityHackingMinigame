@@ -16,7 +16,6 @@ public class GameWindow : MonoBehaviour
     [SerializeField]public TMP_Text questionTextField;
     [SerializeField]public TMP_Text streakText;
     [SerializeField] public Image loadingbarTimer;
-    private bool _retryAvailable =true;
     
 
     // Start is called before the first frame update
@@ -31,14 +30,24 @@ public class GameWindow : MonoBehaviour
     public void Initialize(WindowSize windowSize)
     {
         _windowSize = windowSize;
-        gameCanvas.gameWindow.StartMinigame();
         questionTextField = questionTextFieldObject.GetComponent<TMP_Text>();
         //questionInputField.Select();
     }
-    public void StartMinigame()
+    public void StartMinigame(MinigameType minigameType)
     {
-        _miniGame = this.AddComponent<MiniGame>();
+        switch (minigameType)
+        {
+            case MinigameType.HACK:
+                _miniGame = this.AddComponent<HackingMG>();
+                break;
+            case MinigameType.UNTANGLE:
+                break;
+            default:
+                Debug.Log("NOT IMPLEMENTED");
+                break;
+        }
         _miniGame.Initialize(_windowSize, this);
+        _miniGame.StartMinigame();
         //questionInputField.Select();
 
     }
@@ -95,12 +104,12 @@ private void UpdateSavedText(string newText)
         // }
         
         // yield return new WaitForSeconds(1);
-        _miniGame.ToggleCards(true, true);
+        _miniGame.StartMinigame();
 
     }
     public void stopGameCoroutines()
     {
-        _miniGame.stopAllCardRoutines();
+        _miniGame.EndMinigame();
         StopAllCoroutines();
     }
 

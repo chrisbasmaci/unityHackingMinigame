@@ -27,13 +27,12 @@ public class ButtonManager : MonoBehaviour
 
     //Toggles
 
-    public void NormalHack()
+    public void NormalHackStart()
     {
-        Debug.Log("Normal Hack Button Pressed");
-        SceneManager.LoadScene(normalHackSceneName, LoadSceneMode.Single);
+        StartCoroutine(NormalHackCoroutine());
     }
 
-    public void NormalHackStart()
+    public IEnumerator NormalHackCoroutine()
     {
         if (gameCanvas == null)
             Debug.Log("FAIL");
@@ -45,7 +44,9 @@ public class ButtonManager : MonoBehaviour
         hackPanel.SetActive(true);
         questionPanel.SetActive(true);
         uuperGUI.SetActive(true);
-        StartCoroutine(gameCanvas.ChangePaddingWithAnimation(_gameWindow, true));
+        yield return gameCanvas.ChangePaddingWithAnimation(_gameWindow, true);
+        gameCanvas.gameWindow.StartMinigame(MinigameType.HACK);
+
         //wait one second
 
     }
@@ -75,7 +76,7 @@ public class ButtonManager : MonoBehaviour
         _gameWindow.questionInputField.text = " ";
 
         _gameWindow._miniGame._puzzleTimer.reset_timer();
-        _gameWindow._miniGame.destr();
+        _gameWindow._miniGame.EndMinigame();
 
         hackPanel.SetActive(false);
         questionPanel.SetActive(false);
@@ -103,6 +104,10 @@ public class ButtonManager : MonoBehaviour
     {
         _gameWindow.stopGameCoroutines();
         _gameWindow.Retry();
+    }
+
+    public void StartUntangle()
+    {
         
     }
 

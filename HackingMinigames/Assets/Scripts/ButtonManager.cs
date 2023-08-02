@@ -74,9 +74,8 @@ public class ButtonManager : MonoBehaviour
         _gameWindow.streakText.text = "Streak: 0";
         _gameWindow.questionTextField.text = " ";
         _gameWindow.questionInputField.text = " ";
-
-        _gameWindow._miniGame._puzzleTimer.reset_timer();
-        _gameWindow._miniGame.EndMinigame();
+        
+        _gameWindow.stopGameCoroutines();
 
         hackPanel.SetActive(false);
         questionPanel.SetActive(false);

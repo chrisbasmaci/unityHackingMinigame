@@ -10,7 +10,7 @@ public class GameWindow : MonoBehaviour
 {
     [SerializeField]GameCanvas gameCanvas;
     public WindowSize _windowSize;
-    public MiniGame _miniGame;
+    private MiniGame _miniGame;
     [SerializeField]public TMP_InputField questionInputField;
     [SerializeField]public GameObject questionTextFieldObject;
     [SerializeField]public TMP_Text questionTextField;
@@ -86,26 +86,7 @@ private void UpdateSavedText(string newText)
 
     public void Retry()
     {
-
-        StopAllCoroutines();
-
-        questionTextFieldObject.SetActive(true);
-        streakText.text = "Streak: 0";
-        questionTextField.text = "retry";
-        questionInputField.text = "";
-        // questionTextFieldObject.SetActive(false);
-
-        _miniGame._puzzleTimer.reset_timer();
-        // _miniGame.destr();
-
-        // if (_miniGame.flipCardBacks())
-        // {
-        //     yield return new WaitForSeconds(1);
-        // }
-        
-        // yield return new WaitForSeconds(1);
-        _miniGame.StartMinigame();
-
+        _miniGame.RetryMinigame();
     }
     public void stopGameCoroutines()
     {

@@ -36,6 +36,20 @@ public class HackingMG : MiniGame
         });
         StopAllCoroutines();
     }
+
+    public override void RetryMinigame()
+    {
+        StopAllCoroutines();
+
+        _gameWindow.questionTextFieldObject.SetActive(true);
+        _gameWindow.streakText.text = "Streak: 0";
+        _gameWindow.questionTextField.text = "retry";
+        _gameWindow.questionInputField.text = "";
+        // questionTextFieldObject.SetActive(false);
+
+        _puzzleTimer.reset_timer();
+        StartMinigame();
+    }
     private void continueHacks()
     {
         //wait 1 second
@@ -231,6 +245,6 @@ public class HackingMG : MiniGame
         yield return null;
     }
 
-
+    
 
 }

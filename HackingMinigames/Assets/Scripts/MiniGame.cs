@@ -19,5 +19,6 @@ public abstract class MiniGame : MonoBehaviour
     public abstract void Initialize(WindowSize hackWindowDimensions, GameWindow window);
     public abstract void StartMinigame();
     public abstract void EndMinigame();
+    public abstract void RetryMinigame();
 }
 

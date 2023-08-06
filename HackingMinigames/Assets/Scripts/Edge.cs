@@ -5,22 +5,26 @@ using System;
 
 public class Edge : MonoBehaviour
 {
-    [SerializeField] private (Vertice leftVertice, Vertice rightVertice) _verticePair;
+    private (Vertice leftVertice, Vertice rightVertice) _verticePair;
     private LineRenderer _lineRenderer;
 
     // Start is called before the first frame update
     void Start()
     {
         gameObject.AddComponent<BoxCollider2D>();
-        _lineRenderer = gameObject.AddComponent<LineRenderer>();
         // var lVert = GameObject.Find("leftV").GetComponent<Vertice>();
         // var rVert = GameObject.Find("rightV").GetComponent<Vertice>();
         // _verticePair = (lVert, rVert);
     }
 
-    public void Initialize(Vertice leftVertice, Vertice rightVertice)
+    public void Initialize(GameWindow gameWindow, Vertice leftVertice, Vertice rightVertice)
     {
         _verticePair = (leftVertice, rightVertice);
+        _lineRenderer = gameObject.AddComponent<LineRenderer>();
+        transform.SetParent(gameWindow.transform);
+        _lineRenderer.startWidth = 0.1f;
+        _lineRenderer.endWidth = 0.1f;
+        stretchEdge();
     }
 
     // Update is called once per frame

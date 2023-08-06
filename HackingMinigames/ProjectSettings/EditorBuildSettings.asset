@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/NormalHackGameScene.unity
     guid: 178b833dfb78fdb47a86018146f36f6e
+  - enabled: 1
+    path: Assets/Scenes/untangleScene.unity
+    guid: caa261060fb9cc24486ef159c057b680
   m_configObjects: {}

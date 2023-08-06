@@ -27,18 +27,29 @@ public class ButtonManager : MonoBehaviour
 
     //Toggles
 
-    public void NormalHackStart()
+    public void SwitchToCardHackScene()
     {
-        StartCoroutine(NormalHackCoroutine());
+        SceneManager.LoadScene("NormalHackScene", LoadSceneMode.Single);
+    }    
+    public void SwitchToUntantleScene()
+    {
+        SceneManager.LoadScene("untangleScene", LoadSceneMode.Single);
+    }
+    public void CardHackStart()
+    {
+        StartCoroutine(HackCoroutine());
+    }
+    public void UntangleStart()
+    {
+        StartCoroutine(UntangleCoroutine());
     }
 
-    public IEnumerator NormalHackCoroutine()
+    public IEnumerator HackCoroutine()
     {
         if (gameCanvas == null)
             Debug.Log("FAIL");
 
         Debug.Log("Hack Start Button Pressed");
-        // SceneManager.LoadScene(normalHackGameSceneName, LoadSceneMode.Single);
         settingsPanel.SetActive(false);
         navigationPanel.SetActive(false);
         hackPanel.SetActive(true);
@@ -50,7 +61,23 @@ public class ButtonManager : MonoBehaviour
         //wait one second
 
     }
+    public IEnumerator UntangleCoroutine()
+    {
+        if (gameCanvas == null)
+            Debug.Log("FAIL");
 
+        Debug.Log("Hack Start Button Pressed");
+        settingsPanel.SetActive(false);
+        navigationPanel.SetActive(false);
+        hackPanel.SetActive(true);
+        // questionPanel.SetActive(true);
+        uuperGUI.SetActive(true);
+        yield return gameCanvas.ChangePaddingWithAnimation(_gameWindow, true);
+        gameCanvas.gameWindow.StartMinigame(MinigameType.UNTANGLE);
+
+        //wait one second
+
+    }
     public void TimeAmountSlider()
     {
         Game.Instance.defaultPuzzleTime = (int)timeSlider.value;
@@ -70,10 +97,6 @@ public class ButtonManager : MonoBehaviour
     public void backToSettings()
     {
         StopAllCoroutines();
-        _gameWindow.questionTextFieldObject.SetActive(true);
-        _gameWindow.streakText.text = "Streak: 0";
-        _gameWindow.questionTextField.text = " ";
-        _gameWindow.questionInputField.text = " ";
         
         _gameWindow.stopGameCoroutines();
 
@@ -105,10 +128,7 @@ public class ButtonManager : MonoBehaviour
         _gameWindow.Retry();
     }
 
-    public void StartUntangle()
-    {
-        
-    }
+
 
 
 }

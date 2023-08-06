@@ -441,7 +441,6 @@ GameObject:
   - component: {fileID: 59309943}
   - component: {fileID: 59309942}
   - component: {fileID: 59309941}
-  - component: {fileID: 59309940}
   - component: {fileID: 59309939}
   m_Layer: 5
   m_Name: HackPanel
@@ -463,38 +462,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCanvas: {fileID: 527667866}
-  _miniGame: {fileID: 0}
   questionInputField: {fileID: 1453794927}
   questionTextFieldObject: {fileID: 1125262282}
   questionTextField: {fileID: 1125262284}
   streakText: {fileID: 865543629}
   loadingbarTimer: {fileID: 946642366}
---- !u!114 &59309940
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 59309938}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Padding:
-    m_Left: 10
-    m_Right: 10
-    m_Top: 10
-    m_Bottom: 10
-  m_ChildAlignment: 4
-  m_Spacing: 10
-  m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 1
-  m_ChildControlHeight: 1
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 1
-  m_ReverseArrangement: 0
 --- !u!114 &59309941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4288,7 +4260,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1938583428}
         m_TargetAssemblyTypeName: ButtonManager, Assembly-CSharp
-        m_MethodName: NormalHackStart
+        m_MethodName: UntangleStart
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

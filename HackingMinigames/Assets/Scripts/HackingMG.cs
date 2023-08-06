@@ -11,10 +11,10 @@ public class HackingMG : MiniGame
     private int _tileAmount = Game.Instance.defaultTileAmount;
     private List<int> _orderList;
 
-    public override void  Initialize(WindowSize hackWindowDimensions, GameWindow window)
+    public override void  Initialize(WindowSize hackWindowDimensions, GameWindow currentWindow)
     {
         _minigameType = MinigameType.HACK;
-        _gameWindow = window;
+        _gameWindow = currentWindow;
         _cardDeck = new List<Card>(_tileAmount);
         _cardFactory = new CardFactory();
         _hackWindowDimensions = hackWindowDimensions;
@@ -29,6 +29,10 @@ public class HackingMG : MiniGame
     }    
     public override void EndMinigame()
     {
+        _gameWindow.questionTextFieldObject.SetActive(true);
+        _gameWindow.streakText.text = "Streak: 0";
+        _gameWindow.questionTextField.text = " ";
+        _gameWindow.questionInputField.text = " ";
         _cardDeck.ForEach(card =>
         {
             card.StopAllCoroutines();

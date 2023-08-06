@@ -11,11 +11,12 @@ public class GameWindow : MonoBehaviour
     [SerializeField]GameCanvas gameCanvas;
     public WindowSize _windowSize;
     private MiniGame _miniGame;
+    private MinigameType _minigameType;
     [SerializeField]public TMP_InputField questionInputField;
     [SerializeField]public GameObject questionTextFieldObject;
     [SerializeField]public TMP_Text questionTextField;
     [SerializeField]public TMP_Text streakText;
-    [SerializeField] public Image loadingbarTimer;
+    [SerializeField]public Image loadingbarTimer;
     
 
     // Start is called before the first frame update
@@ -38,9 +39,12 @@ public class GameWindow : MonoBehaviour
         switch (minigameType)
         {
             case MinigameType.HACK:
+                minigameType = MinigameType.HACK;
                 _miniGame = this.AddComponent<HackingMG>();
                 break;
             case MinigameType.UNTANGLE:
+                minigameType = MinigameType.UNTANGLE;
+                _miniGame = this.AddComponent<UntangleMG>();
                 break;
             default:
                 Debug.Log("NOT IMPLEMENTED");

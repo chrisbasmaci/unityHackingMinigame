@@ -27,13 +27,13 @@ public class Edge : MonoBehaviour
         // _verticePair = (lVert, rVert);
     }
 
-    public void Initialize(GameWindow gameWindow, Vertice leftVertice, Vertice rightVertice)
+    public void Initialize(MgPanel mgPanel, Vertice leftVertice, Vertice rightVertice)
     {
 
         _collider = gameObject.AddComponent<PolygonCollider2D>();
         _verticePair = (leftVertice, rightVertice);
         _lineRenderer = gameObject.AddComponent<LineRenderer>();
-        transform.SetParent(gameWindow.transform);
+        transform.SetParent(mgPanel.transform);
         transform.position = new Vector3(0f,0f,0f);
         
         _lineRenderer.startWidth = leftVertice.GetEdgeThickness();

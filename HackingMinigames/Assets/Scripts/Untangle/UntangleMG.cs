@@ -42,7 +42,7 @@ public class UntangleMG : MiniGame
         
         
         _upperUIPrefab = Game.Instance.upperHackPrefab;
-        var tmp = (BUIuntangle)_gameWindow.BUIPanel;
+        var tmp = (BUIuntangle)mgPanel.BUIPanel;
         tmp.InitializeLeftButton(showSolution);
         tmp.InitializeRightButton(RetryMinigame);
         
@@ -189,7 +189,7 @@ public class UntangleMG : MiniGame
         var vertice = tmpObject.AddComponent<Vertice>();
 
         
-        vertice.Initialize(_gameWindow,ref polygon, solvedVertex, unsolvedVertex, verticeScale);
+        vertice.Initialize(mgPanel,ref polygon, solvedVertex, unsolvedVertex, verticeScale);
  
         
         vertice._rect.position =
@@ -212,7 +212,7 @@ public class UntangleMG : MiniGame
         // {
         //     _freeVertices.Remove(rightVertice);
         // }
-        edge.Initialize(_gameWindow, leftVertice, rightVertice);
+        edge.Initialize(mgPanel, leftVertice, rightVertice);
 
         leftVertice.addEdge(edge, ref verticeConnectionMap);
         rightVertice.addEdge(edge, ref verticeConnectionMap);

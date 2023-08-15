@@ -31,7 +31,7 @@ public class HackingMG : MiniGame
     public override void EndMinigame()
     {
         _bottomUI.questionTextFieldObject.SetActive(true);
-        _gameWindow.streakText.text = "Streak: 0";
+        mgPanel.streakText.text = "Streak: 0";
         _bottomUI.questionTextField.text = " ";
         _bottomUI.questionInputField.text = " ";
         _cardDeck.ForEach(card =>
@@ -47,7 +47,7 @@ public class HackingMG : MiniGame
         StopAllCoroutines();
 
         _bottomUI.questionTextFieldObject.SetActive(true);
-        _gameWindow.streakText.text = "Streak: 0";
+        mgPanel.streakText.text = "Streak: 0";
         _bottomUI.questionTextField.text = "retry";
         _bottomUI.questionInputField.text = "";
         // questionTextFieldObject.SetActive(false);
@@ -78,7 +78,7 @@ public class HackingMG : MiniGame
             .Select(i => {
                 var tmpObject = new GameObject("Card"+i);
                 var card = tmpObject.AddComponent<Card>();
-                card.Initialize(cardDimensions[i], _gameWindow, _orderList[i]);
+                card.Initialize(cardDimensions[i], mgPanel, _orderList[i]);
                 return card;
             }));
 
@@ -235,7 +235,7 @@ public class HackingMG : MiniGame
 
                 _bottomUI.questionTextFieldObject.SetActive(true);
                 Debug.Log("Game success");
-                _gameWindow.streakText.text = "Streak: "+ (++currentStreak);
+                mgPanel.streakText.text = "Streak: "+ (++currentStreak);
                 _cardDeck.ForEach(card => card.backSprite =Game.Instance.cardOrderSheet[10]);
                 yield return flipCards();
                 _puzzleTimer.reset_timer();

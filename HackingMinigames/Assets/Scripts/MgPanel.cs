@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,16 +7,16 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameWindow : MonoBehaviour
+public class MgPanel : MonoBehaviour
 {
     [SerializeField]GameCanvas gameCanvas;
-    public WindowSize _windowSize;
-    public MiniGame _miniGame;
-    private MinigameType _minigameType;
-    [SerializeField]public TMP_Text streakText;
-    [SerializeField]public Image loadingbarTimer;
-    public UIPanel UUIpanel;
-    public UIPanel BUIPanel;
+    [NonSerialized]public WindowSize _windowSize;
+    [NonSerialized]public MiniGame _miniGame;
+    [NonSerialized]private MinigameType _minigameType;
+    [NonSerialized]public TMP_Text streakText;
+    [NonSerialized]public Image loadingbarTimer;
+    [NonSerialized]public UIPanel UUIpanel;
+    [NonSerialized]public UIPanel BUIPanel;
 
 
     // Start is called before the first frame update

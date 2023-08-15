@@ -27,7 +27,7 @@ public class GameCanvas : MonoBehaviour
     [FormerlySerializedAs("layoutGroupRect")] public RectTransform canvasRect;
     [FormerlySerializedAs("layoutGroupRect")] public RectTransform hackRect;
     [FormerlySerializedAs("horizontalLayout")] public HorizontalLayoutGroup canvasHorizontalLayout;
-    [SerializeField] public GameWindow gameWindow;
+    [FormerlySerializedAs("gameWindow")] [SerializeField] public MgPanel mgPanel;
     private float _paddingPercentage = 0.1f;
     private float _targetPaddingPercentage = 0.025f;
     private float _animationDuration = 0.3f;
@@ -49,7 +49,7 @@ public class GameCanvas : MonoBehaviour
         // gameWindow.Initialize(_canvasWindowSize);
     }
 
-    public IEnumerator ChangePaddingWithAnimation(GameWindow gameWindow, bool gameStart = false)
+    public IEnumerator ChangePaddingWithAnimation(MgPanel mgPanel, bool gameStart = false)
     {
         float elapsedTime = 0f;
         float startPadding = _paddingPercentage;
@@ -70,7 +70,7 @@ public class GameCanvas : MonoBehaviour
         if (gameStart)
         {
             // _hackWindowSize = SetupWindow2(0f);
-            gameWindow.Initialize(this, _hackWindowSize);
+            mgPanel.Initialize(this, _hackWindowSize);
         }
 
 

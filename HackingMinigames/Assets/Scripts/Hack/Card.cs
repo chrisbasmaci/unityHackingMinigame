@@ -22,7 +22,7 @@ public class Card: MonoBehaviour
     
     public WindowSize _cardDimensions;
     // private GameObject gameObject;
-    private GameWindow _gameWindow;
+    private MgPanel _mgPanel;
     public SpriteRenderer _cardRenderer;
     public int cardOrder;
     public Animator cardAnimator;
@@ -48,14 +48,14 @@ public class Card: MonoBehaviour
     {
         return facedUp;
     }
-    public void Initialize(WindowSize cardDimensions, GameWindow window, int order)
+    public void Initialize(WindowSize cardDimensions, MgPanel window, int order)
     {
         cardOrder = order;
         Debug.Log("Card added left pos: " + cardDimensions.LeftBorder + "len:"+cardDimensions.Height);
-        _gameWindow = window;
+        _mgPanel = window;
         _cardDimensions = cardDimensions;
         _cardRenderer = gameObject.AddComponent<SpriteRenderer>();
-        gameObject.transform.SetParent(_gameWindow.transform, false);
+        gameObject.transform.SetParent(_mgPanel.transform, false);
         
         InitCollider();
         InitPosition();

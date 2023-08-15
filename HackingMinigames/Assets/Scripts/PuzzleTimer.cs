@@ -20,7 +20,7 @@ public class PuzzleTimer : MonoBehaviour
     public void Initialize(MiniGame miniGame)
     {
         _miniGame = miniGame;
-        _loadingbarTimer = miniGame._gameWindow.loadingbarTimer;
+        _loadingbarTimer = miniGame.mgPanel.loadingbarTimer;
         reset_timer();
     }
 

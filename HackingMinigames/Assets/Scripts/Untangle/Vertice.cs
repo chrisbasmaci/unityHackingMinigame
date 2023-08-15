@@ -21,7 +21,7 @@ public class Vertice : MonoBehaviour
     private Vector2 _difference = Vector2.zero;
     private BoxCollider2D _collider;
     private SpriteRenderer _renderer;
-    private GameWindow _gameWindow;
+    private MgPanel _mgPanel;
     public RectTransform _rect;
     private float _verticeScale;
 
@@ -41,7 +41,7 @@ public class Vertice : MonoBehaviour
     {
         return _verticeScale/600;
     }
-    public void Initialize(GameWindow gameWindow,ref Polygon polygon, Vertex solvedVertex, Vertex unsolvedVertex, float verticeScale)
+    public void Initialize(MgPanel mgPanel,ref Polygon polygon, Vertex solvedVertex, Vertex unsolvedVertex, float verticeScale)
     {
         _graph = polygon;
         allowedEdges = 4;
@@ -53,8 +53,8 @@ public class Vertice : MonoBehaviour
         _renderer = gameObject.AddComponent<SpriteRenderer>();
         _rect = gameObject.AddComponent<RectTransform>();
         _renderer.sprite = Game.Instance.shapeSheet[0];
-        _gameWindow = gameWindow;
-        transform.SetParent(_gameWindow.transform);
+        _mgPanel = mgPanel;
+        transform.SetParent(_mgPanel.transform);
         _rect.transform.localPosition =
             new Vector3((float)unsolvedVertex.X, (float)unsolvedVertex.Y, -2);      
         _solvedVertex = solvedVertex;
@@ -103,11 +103,11 @@ public class Vertice : MonoBehaviour
     {
         var newPos = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - _difference;
         ///TODO FIX windowsize struct
-        var panelRectTransform = _gameWindow.GetComponent<RectTransform>();
-        var leftBorderWorldPosition = panelRectTransform.TransformPoint(_gameWindow._windowSize.LeftBorder,0f,0f).x;
-        var rightBorderWorldPosition = panelRectTransform.TransformPoint(_gameWindow._windowSize.RightBorder,0f,0f).x;
-        var bottomBorderWorldPosition = panelRectTransform.TransformPoint(0f,_gameWindow._windowSize.BottomBorder,0f).y;
-        var topBorderWorldPosition = panelRectTransform.TransformPoint(0f,_gameWindow._windowSize.TopBorder,0f).y;
+        var panelRectTransform = _mgPanel.GetComponent<RectTransform>();
+        var leftBorderWorldPosition = panelRectTransform.TransformPoint(_mgPanel._windowSize.LeftBorder,0f,0f).x;
+        var rightBorderWorldPosition = panelRectTransform.TransformPoint(_mgPanel._windowSize.RightBorder,0f,0f).x;
+        var bottomBorderWorldPosition = panelRectTransform.TransformPoint(0f,_mgPanel._windowSize.BottomBorder,0f).y;
+        var topBorderWorldPosition = panelRectTransform.TransformPoint(0f,_mgPanel._windowSize.TopBorder,0f).y;
 
         float minX = (leftBorderWorldPosition);
         float maxX = rightBorderWorldPosition;

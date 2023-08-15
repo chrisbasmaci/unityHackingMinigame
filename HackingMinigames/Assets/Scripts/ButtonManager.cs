@@ -17,14 +17,14 @@ public class ButtonManager : MonoBehaviour
     [SerializeField] private string normalHackGameSceneName;
     [SerializeField] private GameObject settingsPanel;
     [SerializeField] private GameObject navigationPanel;
-    [SerializeField] private GameObject hackPanel;
+    [SerializeField] private GameObject hackPanelGobj;
     [SerializeField] private GameObject questionPanel;
     [SerializeField] private GameObject uuperGUI;
 
     [FormerlySerializedAs("relativeCanvasProportions")] [SerializeField]
     private GameCanvas gameCanvas;
 
-    [SerializeField] private GameWindow _gameWindow;
+    [FormerlySerializedAs("_gameWindow")] [SerializeField] private MgPanel mgPanel;
     [SerializeField] Slider tileSlider;
     [SerializeField] Slider timeSlider;
 
@@ -77,11 +77,11 @@ public class ButtonManager : MonoBehaviour
         Debug.Log("Hack Start Button Pressed");
         settingsPanel.SetActive(false);
         navigationPanel.SetActive(false);
-        hackPanel.SetActive(true);
+        hackPanelGobj.SetActive(true);
         questionPanel.SetActive(true);
         uuperGUI.SetActive(true);
-        yield return gameCanvas.ChangePaddingWithAnimation(_gameWindow, true);
-        gameCanvas.gameWindow.StartMinigame(MinigameType.HACK);
+        yield return gameCanvas.ChangePaddingWithAnimation(mgPanel, true);
+        gameCanvas.mgPanel.StartMinigame(MinigameType.HACK);
 
         //wait one second
 
@@ -94,12 +94,12 @@ public class ButtonManager : MonoBehaviour
         Debug.Log("Hack Start Button Pressed");
         settingsPanel.SetActive(false);
         navigationPanel.SetActive(false);
-        hackPanel.SetActive(true);
+        hackPanelGobj.SetActive(true);
         // questionPanel.SetActive(true);
         uuperGUI.SetActive(true);
         questionPanel.SetActive(true);
-        yield return gameCanvas.ChangePaddingWithAnimation(_gameWindow, true);
-        gameCanvas.gameWindow.StartMinigame(MinigameType.UNTANGLE);
+        yield return gameCanvas.ChangePaddingWithAnimation(mgPanel, true);
+        gameCanvas.mgPanel.StartMinigame(MinigameType.UNTANGLE);
 
         //wait one second
 
@@ -126,15 +126,15 @@ public class ButtonManager : MonoBehaviour
 
         StopAllCoroutines();
         
-        _gameWindow.stopGameCoroutines();
+        mgPanel.stopGameCoroutines();
 
-        hackPanel.SetActive(false);
+        hackPanelGobj.SetActive(false);
         questionPanel.SetActive(false);
         uuperGUI.SetActive(false);
 
         settingsPanel.SetActive(true);
         navigationPanel.SetActive(true);
-        StartCoroutine(gameCanvas.ChangePaddingWithAnimation(_gameWindow));
+        StartCoroutine(gameCanvas.ChangePaddingWithAnimation(mgPanel));
 
     }
 
@@ -152,8 +152,8 @@ public class ButtonManager : MonoBehaviour
 
     public void RetryPuzzle()
     {
-        _gameWindow.stopGameCoroutines();
-        _gameWindow.Retry();
+        mgPanel.stopGameCoroutines();
+        mgPanel.Retry();
     }
 
 

@@ -11,7 +11,7 @@ public abstract class MiniGame : MonoBehaviour
 {
 
     protected WindowSize _hackWindowDimensions;
-    public GameWindow _gameWindow;
+    [FormerlySerializedAs("_gameWindow")] public MgPanel mgPanel;
     public PuzzleTimer _puzzleTimer;
     protected int currentStreak = 0;
     protected MinigameType _minigameType;
@@ -21,9 +21,9 @@ public abstract class MiniGame : MonoBehaviour
 
     //initialization
 
-    public void Initialize(WindowSize hackWindowDimensions, GameWindow window)
+    public void Initialize(WindowSize hackWindowDimensions, MgPanel window)
     {
-        _gameWindow = window;
+        mgPanel = window;
         _hackWindowDimensions = hackWindowDimensions;
 
 

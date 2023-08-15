@@ -7,6 +7,9 @@ using UnityEngine.SceneManagement;
 using System.Threading;
 using UnityEngine.Serialization;
 
+/// <summary>
+/// TODO MAKE THIS A SINGLETON
+/// </summary>
 public class ButtonManager : MonoBehaviour
 {
     // Add an identifier for each button
@@ -26,6 +29,28 @@ public class ButtonManager : MonoBehaviour
     [SerializeField] Slider timeSlider;
 
     //Toggles
+    private static ButtonManager _instance;
+
+    private ButtonManager() { } // Private constructor to prevent instantiation from outside
+
+    public static ButtonManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindObjectOfType<ButtonManager>(); // Find the existing instance in the scene
+                if (_instance == null)
+                {
+                    GameObject singletonObject = new GameObject();
+                    _instance = singletonObject.AddComponent<ButtonManager>();
+                    singletonObject.name = "ButtonManager (Singleton)";
+                }
+            }
+
+            return _instance;
+        }
+    }
 
     public void SwitchToCardHackScene()
     {
@@ -72,6 +97,7 @@ public class ButtonManager : MonoBehaviour
         hackPanel.SetActive(true);
         // questionPanel.SetActive(true);
         uuperGUI.SetActive(true);
+        questionPanel.SetActive(true);
         yield return gameCanvas.ChangePaddingWithAnimation(_gameWindow, true);
         gameCanvas.gameWindow.StartMinigame(MinigameType.UNTANGLE);
 
@@ -96,6 +122,8 @@ public class ButtonManager : MonoBehaviour
 
     public void backToSettings()
     {
+        Debug.Log("go back Pressed");
+
         StopAllCoroutines();
         
         _gameWindow.stopGameCoroutines();

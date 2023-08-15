@@ -35,6 +35,9 @@ public class GameCanvas : MonoBehaviour
     private WindowSize _hackWindowSize;
     public WindowSize HackWindowSize { get => _hackWindowSize; private set => _hackWindowSize = value; }
     private WindowSize _settingWindowSize;
+    [SerializeField] public GameObject upperGUI;
+    [SerializeField] public GameObject bottomGUI;
+
     private void Start()
     {
         //startingPadding
@@ -66,8 +69,8 @@ public class GameCanvas : MonoBehaviour
         _paddingPercentage = tmp;
         if (gameStart)
         {
-            _hackWindowSize = SetupWindow2(0f);
-            gameWindow.Initialize(_hackWindowSize);
+            // _hackWindowSize = SetupWindow2(0f);
+            gameWindow.Initialize(this, _hackWindowSize);
         }
 
 
@@ -104,7 +107,7 @@ public class GameCanvas : MonoBehaviour
         return tmpWindow;
     }
     
-    private WindowSize SetupWindow2(float paddingPercentage)
+    public WindowSize SetupWindow2(float paddingPercentage)
     {
         Rect canvasRectValue = hackRect.rect;
         float width, height, leftBorder, rightBorder, topBorder, bottomBorder;
@@ -118,6 +121,10 @@ public class GameCanvas : MonoBehaviour
         Debug.Log("width: "+width + "height: "+height + "leftBorder: "+leftBorder + "rightBorder: "+rightBorder + "topBorder: "+topBorder + "bottomBorder: "+bottomBorder);
         WindowSize tmpWindow = new WindowSize(width, height, leftBorder, rightBorder, topBorder, bottomBorder);
         return tmpWindow;
+    }
+
+    public void InitPanels()
+    {
     }
     
 }

@@ -38,6 +38,12 @@ public class Game : MonoBehaviour
     [SerializeField] public Sprite[] shapeSheet;
     [SerializeField] public Sprite[] shapeTextSheet;
     [SerializeField] public Sprite[] colorTextSheet;
+    
+    
+    //UI PREFABS
+    [SerializeField] public GameObject upperHackPrefab;
+    [SerializeField] public GameObject upperUntanglePrefab;
+    [SerializeField] public GameObject bottomUntanglePrefab;
     // Public property to access the singleton instance
     
     //Toggles

@@ -307,32 +307,14 @@ GameObject:
   - component: {fileID: 59309943}
   - component: {fileID: 59309942}
   - component: {fileID: 59309941}
-  - component: {fileID: 59309939}
+  - component: {fileID: 59309944}
   m_Layer: 5
-  m_Name: HackPanel
+  m_Name: MgPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!114 &59309939
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 59309938}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fb76c503b8649c84bd597ef30ff6208, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameCanvas: {fileID: 527667866}
-  _miniGame: {fileID: 0}
-  streakText: {fileID: 0}
-  loadingbarTimer: {fileID: 0}
-  UUIpanel: {fileID: 0}
-  BUIPanel: {fileID: 0}
 --- !u!114 &59309941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -390,6 +372,19 @@ RectTransform:
   m_AnchoredPosition: {x: 433.3333, y: -200}
   m_SizeDelta: {x: 846.6666, y: 190}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &59309944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 59309938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8e323cb0d9c715048c12c081a234c01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameCanvas: {fileID: 527667866}
 --- !u!1 &110296955
 GameObject:
   m_ObjectHideFlags: 0
@@ -1464,7 +1459,7 @@ MonoBehaviour:
   canvasRect: {fileID: 527667871}
   hackRect: {fileID: 59309943}
   canvasHorizontalLayout: {fileID: 527667867}
-  gameWindow: {fileID: 59309939}
+  mgPanel: {fileID: 59309944}
   upperGUI: {fileID: 716509694}
   bottomGUI: {fileID: 1792230628}
 --- !u!114 &527667867
@@ -4262,11 +4257,11 @@ MonoBehaviour:
   normalHackGameSceneName: NormalHackGameScene
   settingsPanel: {fileID: 1866196027}
   navigationPanel: {fileID: 685228089}
-  hackPanel: {fileID: 59309938}
+  hackPanelGobj: {fileID: 59309938}
   questionPanel: {fileID: 1792230628}
   uuperGUI: {fileID: 716509694}
   gameCanvas: {fileID: 527667866}
-  _gameWindow: {fileID: 59309939}
+  mgPanel: {fileID: 59309944}
   tileSlider: {fileID: 192860955}
   timeSlider: {fileID: 490252164}
 --- !u!4 &1938583429

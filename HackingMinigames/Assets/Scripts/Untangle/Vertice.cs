@@ -104,10 +104,10 @@ public class Vertice : MonoBehaviour
         var newPos = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - _difference;
         ///TODO FIX windowsize struct
         var panelRectTransform = _mgPanel.GetComponent<RectTransform>();
-        var leftBorderWorldPosition = panelRectTransform.TransformPoint(_mgPanel._windowSize.LeftBorder,0f,0f).x;
-        var rightBorderWorldPosition = panelRectTransform.TransformPoint(_mgPanel._windowSize.RightBorder,0f,0f).x;
-        var bottomBorderWorldPosition = panelRectTransform.TransformPoint(0f,_mgPanel._windowSize.BottomBorder,0f).y;
-        var topBorderWorldPosition = panelRectTransform.TransformPoint(0f,_mgPanel._windowSize.TopBorder,0f).y;
+        var leftBorderWorldPosition = panelRectTransform.TransformPoint(_mgPanel.panelBounds.LeftBorder,0f,0f).x;
+        var rightBorderWorldPosition = panelRectTransform.TransformPoint(_mgPanel.panelBounds.RightBorder,0f,0f).x;
+        var bottomBorderWorldPosition = panelRectTransform.TransformPoint(0f,_mgPanel.panelBounds.BottomBorder,0f).y;
+        var topBorderWorldPosition = panelRectTransform.TransformPoint(0f,_mgPanel.panelBounds.TopBorder,0f).y;
 
         float minX = (leftBorderWorldPosition);
         float maxX = rightBorderWorldPosition;

@@ -10,7 +10,8 @@ using UnityEngine.UI;
 public class MgPanel : MonoBehaviour
 {
     [SerializeField]GameCanvas gameCanvas;
-    [NonSerialized]public WindowSize _windowSize;
+    [NonSerialized] private Rect _panelRect;
+    [NonSerialized]public WindowSize panelBounds;
     [NonSerialized]public MiniGame _miniGame;
     [NonSerialized]private MinigameType _minigameType;
     [NonSerialized]public TMP_Text streakText;
@@ -19,27 +20,22 @@ public class MgPanel : MonoBehaviour
     [NonSerialized]public UIPanel BUIPanel;
 
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        _windowSize = gameCanvas.HackWindowSize;
-    }
 
-    public void Initialize(GameCanvas canvas, WindowSize windowSize)
+    public void Initialize(GameCanvas canvas)
     {
         gameCanvas = canvas;
-        _windowSize = windowSize;
-        //questionInputField.Select();
+        _panelRect = gameObject.GetComponent<RectTransform>().rect;
     }
     public void StartMinigame(MinigameType minigameType)
     {
         switch (minigameType)
-        {
+        { 
             case MinigameType.HACK:
                 minigameType = MinigameType.HACK;
                 _miniGame = this.AddComponent<HackingMG>();
                 UUIpanel = Instantiate(Game.Instance.upperHackPrefab, gameCanvas.upperGUI.transform).GetComponent<UUIuntangle>();
                 BUIPanel = Instantiate(Game.Instance.bottomUntanglePrefab, gameCanvas.bottomGUI.transform).GetComponent<BUIhack>();
+                panelBounds = gameCanvas.CalculateWsWithPadding(_panelRect, 0);
                 UUIpanel.Initialize();
                 BUIPanel.Initialize();
                 break;
@@ -49,15 +45,16 @@ public class MgPanel : MonoBehaviour
                 _miniGame = this.AddComponent<UntangleMG>();
                 UUIpanel = Instantiate(Game.Instance.upperUntanglePrefab, gameCanvas.upperGUI.transform).GetComponent<UUIuntangle>();
                 BUIPanel = Instantiate(Game.Instance.bottomUntanglePrefab, gameCanvas.bottomGUI.transform).GetComponent<BUIuntangle>();
+                panelBounds = gameCanvas.CalculateWsWithPadding(_panelRect, 0.05f);
                 UUIpanel.Initialize();
                 BUIPanel.Initialize();
                 break;
             default:
+                panelBounds = gameCanvas.CalculateWsWithPadding(_panelRect, 0);
                 Debug.Log("NOT IMPLEMENTED");
                 break;
         }
-        _windowSize = gameCanvas.SetupWindow2(0f);
-        _miniGame.Initialize(_windowSize, this);
+        _miniGame.Initialize(panelBounds, this);
         // gameCanvas.InitPanels();
         _miniGame.StartMinigame();
         //questionInputField.Select();

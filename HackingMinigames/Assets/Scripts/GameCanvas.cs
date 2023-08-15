@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,29 +25,19 @@ public struct WindowSize
 }
 public class GameCanvas : MonoBehaviour
 {
-    [FormerlySerializedAs("layoutGroupRect")] public RectTransform canvasRect;
-    [FormerlySerializedAs("layoutGroupRect")] public RectTransform hackRect;
-    [FormerlySerializedAs("horizontalLayout")] public HorizontalLayoutGroup canvasHorizontalLayout;
-    [FormerlySerializedAs("gameWindow")] [SerializeField] public MgPanel mgPanel;
-    private float _paddingPercentage = 0.1f;
-    private float _targetPaddingPercentage = 0.025f;
-    private float _animationDuration = 0.3f;
-    public WindowSize _canvasWindowSize;
-    private WindowSize _hackWindowSize;
-    public WindowSize HackWindowSize { get => _hackWindowSize; private set => _hackWindowSize = value; }
-    private WindowSize _settingWindowSize;
+    public RectTransform canvasRect;
+    public HorizontalLayoutGroup canvasHorizontalLayout;
+    [SerializeField] public MgPanel mgPanel;
+    [NonSerialized] private float _paddingPercentage = 0.1f;
+    [NonSerialized] private float _targetPaddingPercentage = 0.025f;
+    [NonSerialized] private float _animationDuration = 0.3f;
+    [NonSerialized] private WindowSize _hackWindowSize;
     [SerializeField] public GameObject upperGUI;
     [SerializeField] public GameObject bottomGUI;
 
     private void Start()
     {
-        //startingPadding
         SetPadding(_paddingPercentage);
-        //---------------------------------------------
-        _canvasWindowSize = SetupWindow(0f);
-        _settingWindowSize = SetupWindow(_paddingPercentage);
-   
-        // gameWindow.Initialize(_canvasWindowSize);
     }
 
     public IEnumerator ChangePaddingWithAnimation(MgPanel mgPanel, bool gameStart = false)
@@ -70,7 +61,7 @@ public class GameCanvas : MonoBehaviour
         if (gameStart)
         {
             // _hackWindowSize = SetupWindow2(0f);
-            mgPanel.Initialize(this, _hackWindowSize);
+            mgPanel.Initialize(this);
         }
 
 
@@ -89,35 +80,17 @@ public class GameCanvas : MonoBehaviour
         LayoutRebuilder.MarkLayoutForRebuild(canvasRect as RectTransform);
 
     }
-
-    private WindowSize SetupWindow(float paddingPercentage)
-    {
-        Rect canvasRectValue = canvasRect.rect;
-
-        float width, height, leftBorder, rightBorder, topBorder, bottomBorder;
-        width = canvasRectValue.width - (paddingPercentage * canvasRectValue.width *2);
-        height = canvasRectValue.height - (paddingPercentage * canvasRectValue.height*2);
-        leftBorder = canvasRectValue.xMin + (paddingPercentage * canvasRectValue.width);
-        rightBorder = canvasRectValue.xMax - (paddingPercentage * canvasRectValue.width);
-        topBorder = canvasRectValue.yMax - (paddingPercentage * canvasRectValue.height);
-        bottomBorder = canvasRectValue.yMin + (paddingPercentage * canvasRectValue.height);
-        
-        Debug.Log("width: "+width + "height: "+height + "leftBorder: "+leftBorder + "rightBorder: "+rightBorder + "topBorder: "+topBorder + "bottomBorder: "+bottomBorder);
-        WindowSize tmpWindow = new WindowSize(width, height, leftBorder, rightBorder, topBorder, bottomBorder);
-        return tmpWindow;
-    }
     
-    public WindowSize SetupWindow2(float paddingPercentage)
+    
+    public WindowSize CalculateWsWithPadding(Rect panelRect, float paddingPercentage)
     {
-        Rect canvasRectValue = hackRect.rect;
         float width, height, leftBorder, rightBorder, topBorder, bottomBorder;
-        Debug.Log("Scale:" + hackRect.transform.localScale);
-        width = canvasRectValue.width;
-        height = canvasRectValue.height - (paddingPercentage * canvasRectValue.height*2);
-        leftBorder = canvasRectValue.xMin ;
-        rightBorder = canvasRectValue.xMax - (paddingPercentage * canvasRectValue.width);
-        topBorder = canvasRectValue.yMax - (paddingPercentage * canvasRectValue.height);
-        bottomBorder = canvasRectValue.yMin + (paddingPercentage * canvasRectValue.height);
+        width = panelRect.width -(paddingPercentage * panelRect.width);
+        height = panelRect.height - (paddingPercentage * panelRect.height*2);
+        leftBorder = panelRect.xMin +(paddingPercentage * panelRect.width)/2;
+        rightBorder = panelRect.xMax - (paddingPercentage * panelRect.width)/2;
+        topBorder = panelRect.yMax - (paddingPercentage * panelRect.height);
+        bottomBorder = panelRect.yMin + (paddingPercentage * panelRect.height);
         Debug.Log("width: "+width + "height: "+height + "leftBorder: "+leftBorder + "rightBorder: "+rightBorder + "topBorder: "+topBorder + "bottomBorder: "+bottomBorder);
         WindowSize tmpWindow = new WindowSize(width, height, leftBorder, rightBorder, topBorder, bottomBorder);
         return tmpWindow;

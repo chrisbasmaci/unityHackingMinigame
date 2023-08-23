@@ -25,17 +25,19 @@ public class UntangleMG : MiniGame
     private List<Edge> _edgeList;
     private int _verticeTotal =10;
     private float verticeScale = 60;
+    private float _panelHeight = 200;
     List<(List<Vertice> connections, Vertice vertex)> verticeConnectionMap;
 
     protected override void InitializeDerivative(WindowSize hackWindowDimensions)
     {
 
-        ///TODO merge main minigame inits
+        ///TODO gamewindow should be accessible throug the panel
 
         _upperUIPrefab = Game.Instance.upperHackPrefab;
-        var tmp = (BUIuntangle)mgPanel.BUIPanel;
+        var tmp = (BUIuntangle)mgPanel.gameWindow.BUIPanel;
         tmp.InitializeLeftButton(showSolution);
         tmp.InitializeRightButton(RetryMinigame);
+        _minigameType = MinigameType.UNTANGLE;
     }
     
 
@@ -57,7 +59,8 @@ public class UntangleMG : MiniGame
         polygon = new Polygon(_verticeTotal);
         _vertices.ForEach(vertice =>vertice.destr());
         _edgeList.ForEach(edge => Destroy(edge.gameObject));
-        
+        Destroy(this);
+
 
     }
 
@@ -69,7 +72,9 @@ public class UntangleMG : MiniGame
 
     public override void RetryMinigame()
     {
-        EndMinigame();
+        StopAllCoroutines();
+        _vertices.ForEach(vertice =>vertice.destr());
+        _edgeList.ForEach(edge => Destroy(edge.gameObject));
         StartMinigame();
     }
     //===========
@@ -86,7 +91,7 @@ public class UntangleMG : MiniGame
         var mesh = polygon.Triangulate(options);
         mesh.Edges.ToList().ForEach(edge =>
         {
-            Debug.Log("p0: "+edge.P0 +"P1:" +edge.P1);
+            // Debug.Log("p0: "+edge.P0 +"P1:" +edge.P1);
             var leftVertex = _vertices.Find(vertex => vertex.verticeNo == edge.P0 + 1);
             var rightVertex = _vertices.Find(vertex => vertex.verticeNo == edge.P1 + 1);
             InstantiateEdge((leftVertex, rightVertex));
@@ -157,5 +162,10 @@ public class UntangleMG : MiniGame
 
         _edgeList.Add(edge);
     }
-    
+
+    protected override void SetupPanels()
+    {
+        // Debug.Log("Available availableHeight: "+availableHeight);
+
+    }
 }

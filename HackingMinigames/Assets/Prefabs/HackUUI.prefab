@@ -545,8 +545,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6570518123100387855}
   - component: {fileID: 8361491253219825297}
+  - component: {fileID: -7099969713890334292}
   m_Layer: 5
-  m_Name: HackUpper
+  m_Name: HackUUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -600,6 +601,21 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &-7099969713890334292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5710736252010185880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d2d05e8eb88daae8bbd059adb4b31fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftButton: {fileID: 6689322725972064533}
+  rightButton: {fileID: 3295532911930745334}
+  streakText: {fileID: 1251276142944978639}
 --- !u!1 &6097961552240980333
 GameObject:
   m_ObjectHideFlags: 0

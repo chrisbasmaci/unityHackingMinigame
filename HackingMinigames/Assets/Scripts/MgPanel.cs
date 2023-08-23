@@ -9,66 +9,37 @@ using UnityEngine.UI;
 
 public class MgPanel : MonoBehaviour
 {
-    [SerializeField]GameCanvas gameCanvas;
-    [NonSerialized] private Rect _panelRect;
+    // [SerializeField]GameCanvas gameCanvas;
+    [SerializeField]public GameWindow gameWindow;
+    [NonSerialized] private RectTransform _panelRect;
     [NonSerialized]public WindowSize panelBounds;
     [NonSerialized]public MiniGame _miniGame;
     [NonSerialized]private MinigameType _minigameType;
-    [NonSerialized]public TMP_Text streakText;
-    [NonSerialized]public Image loadingbarTimer;
-    [NonSerialized]public UIPanel UUIpanel;
-    [NonSerialized]public UIPanel BUIPanel;
+    // [NonSerialized]public UIPanel UUIpanel;
+    // [NonSerialized]public UIPanel BUIPanel;
+    private float _panelHeight = 200f;
 
 
 
-    public void Initialize(GameCanvas canvas)
+    public void Initialize( WindowSize bounds)
     {
-        gameCanvas = canvas;
-        _panelRect = gameObject.GetComponent<RectTransform>().rect;
+        panelBounds = bounds;
+        _miniGame = GetComponent<MiniGame>();
     }
-    public void StartMinigame(MinigameType minigameType)
-    {
-        switch (minigameType)
-        { 
-            case MinigameType.HACK:
-                minigameType = MinigameType.HACK;
-                _miniGame = this.AddComponent<HackingMG>();
-                UUIpanel = Instantiate(Game.Instance.upperHackPrefab, gameCanvas.upperGUI.transform).GetComponent<UUIuntangle>();
-                BUIPanel = Instantiate(Game.Instance.bottomUntanglePrefab, gameCanvas.bottomGUI.transform).GetComponent<BUIhack>();
-                panelBounds = gameCanvas.CalculateWsWithPadding(_panelRect, 0);
-                UUIpanel.Initialize();
-                BUIPanel.Initialize();
-                break;
-            case MinigameType.UNTANGLE:
-                Debug.Log("Untangle Started");
-                minigameType = MinigameType.UNTANGLE;
-                _miniGame = this.AddComponent<UntangleMG>();
-                UUIpanel = Instantiate(Game.Instance.upperUntanglePrefab, gameCanvas.upperGUI.transform).GetComponent<UUIuntangle>();
-                BUIPanel = Instantiate(Game.Instance.bottomUntanglePrefab, gameCanvas.bottomGUI.transform).GetComponent<BUIuntangle>();
-                panelBounds = gameCanvas.CalculateWsWithPadding(_panelRect, 0.05f);
-                UUIpanel.Initialize();
-                BUIPanel.Initialize();
-                break;
-            default:
-                panelBounds = gameCanvas.CalculateWsWithPadding(_panelRect, 0);
-                Debug.Log("NOT IMPLEMENTED");
-                break;
-        }
-        _miniGame.Initialize(panelBounds, this);
-        // gameCanvas.InitPanels();
-        _miniGame.StartMinigame();
-        //questionInputField.Select();
-
-    }
-
     public void Retry()
     {
         _miniGame.RetryMinigame();
     }
     public void stopGameCoroutines()
     {
+        ///TODO INSTANT HERE
+        Destroy(gameWindow.UUIpanel.gameObject);
+        Destroy(gameWindow.BUIPanel.gameObject);
+        ///TODO END HERE
+        Debug.Log("tyoe"+ _miniGame._minigameType);
         _miniGame.EndMinigame();
         StopAllCoroutines();
     }
-
+ 
+    
 }

@@ -11,6 +11,7 @@ public class HackingMG : MiniGame
     private int _tileAmount = Game.Instance.defaultTileAmount;
     private List<int> _orderList;
     private BUIhack _bottomUI;
+    private UUIhack _upperUI;
 
     protected override void  InitializeDerivative(WindowSize hackWindowDimensions)
     {
@@ -20,7 +21,9 @@ public class HackingMG : MiniGame
         _hackWindowDimensions = hackWindowDimensions;
         // fillCardDeck();
         _puzzleTimer = this.AddComponent<PuzzleTimer>();
-        _puzzleTimer.Initialize(this);
+        // _bottomUI = (BUIhack)mgPanel.BUIPanel;
+        // _upperUI = (UUIhack)mgPanel.UUIpanel;
+        _puzzleTimer.Initialize(this,ref _bottomUI.loadingbarTimer);
         _upperUIPrefab = Game.Instance.upperHackPrefab;
     }
 
@@ -31,7 +34,7 @@ public class HackingMG : MiniGame
     public override void EndMinigame()
     {
         _bottomUI.questionTextFieldObject.SetActive(true);
-        mgPanel.streakText.text = "Streak: 0";
+        _upperUI.streakText.text = "Streak: 0";
         _bottomUI.questionTextField.text = " ";
         _bottomUI.questionInputField.text = " ";
         _cardDeck.ForEach(card =>
@@ -47,7 +50,7 @@ public class HackingMG : MiniGame
         StopAllCoroutines();
 
         _bottomUI.questionTextFieldObject.SetActive(true);
-        mgPanel.streakText.text = "Streak: 0";
+        _upperUI.streakText.text = "Streak: 0";
         _bottomUI.questionTextField.text = "retry";
         _bottomUI.questionInputField.text = "";
         // questionTextFieldObject.SetActive(false);
@@ -235,7 +238,7 @@ public class HackingMG : MiniGame
 
                 _bottomUI.questionTextFieldObject.SetActive(true);
                 Debug.Log("Game success");
-                mgPanel.streakText.text = "Streak: "+ (++currentStreak);
+                _upperUI.streakText.text = "Streak: "+ (++currentStreak);
                 _cardDeck.ForEach(card => card.backSprite =Game.Instance.cardOrderSheet[10]);
                 yield return flipCards();
                 _puzzleTimer.reset_timer();
@@ -248,6 +251,19 @@ public class HackingMG : MiniGame
         yield return flipCards();
         _bottomUI.questionTextFieldObject.SetActive(true);
         yield return null;
+    }
+    protected override void SetupPanels()
+    {
+        // var availableHeight = _hackWindowDimensions.Height -60- _panelHeight;
+        // Debug.Log("Available availableHeight: "+availableHeight);
+        //
+        // mgPanel.UUIpanel.Initialize(gameCanvas.upperGUI,availableHeight/2);
+        // mgPanel.BUIPanel.Initialize(gameCanvas.bottomGUI, availableHeight/2);
+        //
+        // _panelRect.sizeDelta = new Vector2(gameCanvas.gameWindowSize.Width, _panelHeight);
+        // yield return null;
+        // Debug.Log("Available Height: "+gameCanvas.gameWindowSize.Height);
+
     }
 
     

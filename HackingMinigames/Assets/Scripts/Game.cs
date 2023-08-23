@@ -43,6 +43,7 @@ public class Game : MonoBehaviour
     //UI PREFABS
     [SerializeField] public GameObject upperHackPrefab;
     [SerializeField] public GameObject upperUntanglePrefab;
+    [SerializeField] public GameObject bottomHackPrefab;
     [SerializeField] public GameObject bottomUntanglePrefab;
     // Public property to access the singleton instance
     

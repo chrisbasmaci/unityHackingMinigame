@@ -12,8 +12,8 @@ public class BUIhack :UIPanel
     [SerializeField]public TMP_InputField questionInputField;
     [SerializeField]public GameObject questionTextFieldObject;
     [SerializeField]public TMP_Text questionTextField;
-    public override void Initialize()
-    {
+    [SerializeField]public Image loadingbarTimer;
+    public override void Initialize(GameObject gameCanvas, float height){
         // questionInputField.onValueChanged.AddListener(UpdateSavedText);
         // questionTextField.text = " ";
         // Debug.Log("BUTTON");

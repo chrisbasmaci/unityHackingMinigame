@@ -11,19 +11,19 @@ public abstract class MiniGame : MonoBehaviour
 {
 
     protected WindowSize _hackWindowDimensions;
-    [FormerlySerializedAs("_gameWindow")] public MgPanel mgPanel;
+    public MgPanel mgPanel;
     public PuzzleTimer _puzzleTimer;
     protected int currentStreak = 0;
-    protected MinigameType _minigameType;
+    public MinigameType _minigameType;
     //Prefabs
     public GameObject _upperUIPrefab;
     //Panels
 
     //initialization
 
-    public void Initialize(WindowSize hackWindowDimensions, MgPanel window)
+    public void Initialize(WindowSize hackWindowDimensions, MgPanel panel)
     {
-        mgPanel = window;
+        mgPanel = panel;
         _hackWindowDimensions = hackWindowDimensions;
 
 
@@ -34,5 +34,6 @@ public abstract class MiniGame : MonoBehaviour
     public abstract void StartMinigame();
     public abstract void EndMinigame();
     public abstract void RetryMinigame();
+    protected abstract void SetupPanels();
 }
 

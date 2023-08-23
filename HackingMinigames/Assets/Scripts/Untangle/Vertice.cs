@@ -9,28 +9,23 @@ using TriangleNet.Geometry;
 
 public class Vertice : MonoBehaviour
 {
-    private Polygon _graph;
+    
+    private MgPanel _mgPanel;
+
     private Vertex _solvedVertex;
     private Vertex _unsolvedVertex;
+    public List<Vertice> connectedVertices;
     private List<Edge> _edges;
-    public int allowedEdges;
     public int weight;
-    private bool _isMerged;
     private static int _verticeTotal;
     public int verticeNo;
     private Vector2 _difference = Vector2.zero;
-    private BoxCollider2D _collider;
-    private SpriteRenderer _renderer;
-    private MgPanel _mgPanel;
-    public RectTransform _rect;
     private float _verticeScale;
 
-    public List<Vertice> connectedVertices;
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
+    private BoxCollider2D _collider;
+    private SpriteRenderer _renderer;
+    public RectTransform _rect;
+    
 
     public List<Edge> Edges()
     {
@@ -43,8 +38,6 @@ public class Vertice : MonoBehaviour
     }
     public void Initialize(MgPanel mgPanel,ref Polygon polygon, Vertex solvedVertex, Vertex unsolvedVertex, float verticeScale)
     {
-        _graph = polygon;
-        allowedEdges = 4;
         connectedVertices = new List<Vertice>();
         verticeNo = ++_verticeTotal;
         _edges = new List<Edge>();
@@ -61,9 +54,12 @@ public class Vertice : MonoBehaviour
         _unsolvedVertex = unsolvedVertex;
         _verticeScale = verticeScale;
         _rect.transform.localScale = new Vector3(verticeScale, verticeScale, 1);
+        _rect = gameObject.GetComponent<RectTransform>();
+
         polygon.Add(_solvedVertex);
         
         Debug.Log("verticeNo Init:" +verticeNo );
+        Debug.Log("verticePos:" + _rect.transform.localPosition );
         // _rect.transform.localScale = new Vector3(30, 30, 1);
         Debug.Log("vertice size: bounds "+ _renderer.sprite.bounds.size);
 
@@ -71,13 +67,6 @@ public class Vertice : MonoBehaviour
 
     }
     
-    
-
-    public bool IsEdgesFull()
-    {
-        Debug.Log(_edges.Count);
-        return _edges.Count == allowedEdges;
-    }
 
     public void addEdge(Edge edge, ref List<(List<Vertice> connections, Vertice vertex)> verticeConnectionMap)
     {
@@ -88,11 +77,6 @@ public class Vertice : MonoBehaviour
         UpdateVertexConnectionMap(ref verticeConnectionMap, oldConnections, connectedVertices);
     }
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void OnMouseDown()
     {
         // Debug.Log("pressed");
@@ -113,13 +97,13 @@ public class Vertice : MonoBehaviour
         float maxX = rightBorderWorldPosition;
         float minY = bottomBorderWorldPosition;
         float maxY = topBorderWorldPosition;
+        Debug.Log("panelRectTransform: "+panelRectTransform.rect.width);
 
-        // Clamp the new position within the bounds
         newPos.x = Mathf.Clamp(newPos.x, minX, maxX);
         newPos.y = Mathf.Clamp(newPos.y, minY, maxY);
-        // Debug.Log("minx: "+ minX +"_rect.position: "+_rect.localPosition.x+"leftBorderWorldPosition" +leftBorderWorldPosition);
 
         _rect.position = new Vector3(newPos.x,newPos.y, -2);
+        Debug.Log(_rect.position);
       
         stretchAllEdges();
     }
@@ -153,30 +137,12 @@ public class Vertice : MonoBehaviour
         Debug.Assert(false);
         return null;
     }
-
-
-    public bool IsMerged()
-    {
-        return _isMerged;
-    }
+    
 
     public void UpdateVertexConnectionMap
         (ref List<(List<Vertice> connections, Vertice vertex)> verticeConnectionMap, List<Vertice> oldConnections,List<Vertice> newConnections)
     {
         
-        // if (verticeConnectionMap.ContainsKey(oldConnections)) {
-        //     if (--verticeConnectionMap[oldConnections].== 0)
-        //     {
-        //         verticeConnectionMap.Remove(oldConnections);
-        //     }
-        // }
-        
-        // if (verticeConnectionMap.ContainsKey(newConnections)) {
-        //     verticeConnectionMap[newConnections]++;
-        // }
-        // else {
-        //     verticeConnectionMap.Add(newConnections, 1);
-        // }
         Debug.Log("cc: "+oldConnections.Count);
         var pairToRemove = (oldConnections, this);
         verticeConnectionMap.Remove(pairToRemove);
@@ -186,16 +152,13 @@ public class Vertice : MonoBehaviour
         verticeConnectionMap.Add((newConnections, this));
     }
 
-    public void OnDestroy()
-    {
-
-    }
-
     public void destr()
     {
-        Debug.Log("verticeNO: destr" + _verticeTotal);
+        Debug.Log("vertissceNO: destr" + _verticeTotal);
         _verticeTotal--;
+
         Destroy(gameObject);
+        
     }
     
     public IEnumerator MoveCoroutine()
@@ -211,8 +174,8 @@ public class Vertice : MonoBehaviour
             _rect.transform.localPosition = Vector3.Lerp(startingPosition, new Vector3((float)_solvedVertex.X,(float)_solvedVertex.Y, startingPosition.z), t);
             stretchAllEdges();
             yield return null;
+
         }
     }
-    
     
 }

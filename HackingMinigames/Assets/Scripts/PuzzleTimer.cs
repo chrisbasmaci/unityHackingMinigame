@@ -17,10 +17,10 @@ public class PuzzleTimer : MonoBehaviour
     [FormerlySerializedAs("puzzleStarted")] public bool introEnded ;
     private Image _loadingbarTimer;
 
-    public void Initialize(MiniGame miniGame)
+    public void Initialize(MiniGame miniGame, ref Image loadingBarTimer)
     {
         _miniGame = miniGame;
-        _loadingbarTimer = miniGame.mgPanel.loadingbarTimer;
+        _loadingbarTimer = loadingBarTimer;
         reset_timer();
     }
 

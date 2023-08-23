@@ -9,12 +9,12 @@ using TriangleNet.Geometry;
 public class CardFactory
 {
     //TODO FIX SCALE CORRECTLY
-    private float ratio = 1.4f /2;
+    private float ratio = 1.4f;
     public const float CardWidth = 6000f;
     public const float CardHeight = 600f;
     // public const float CardEdgeLen = 1000f;
     public const float CardMiddleSpacing = 10f;
-    public const float CardSidePadding = 10f;
+    public const float CardSidePadding = 20f;
     
     private float currentSidePadding = CardSidePadding;
     private float currentWidth = CardWidth;

@@ -52,25 +52,20 @@ public class ButtonManager : MonoBehaviour
         }
     }
 
-    public void SwitchToCardHackScene()
-    {
+    public void SwitchToCardHackScene(){
         SceneManager.LoadScene("NormalHackScene", LoadSceneMode.Single);
     }    
-    public void SwitchToUntantleScene()
-    {
+    public void SwitchToUntangleScene(){
         SceneManager.LoadScene("untangleScene", LoadSceneMode.Single);
     }
-    public void CardHackStart()
-    {
+    public void CardHackStart(){
         StartCoroutine(HackCoroutine());
     }
-    public void UntangleStart()
-    {
+    public void UntangleStart(){
         StartCoroutine(UntangleCoroutine());
     }
 
-    public IEnumerator HackCoroutine()
-    {
+    public IEnumerator HackCoroutine(){
         if (gameCanvas == null)
             Debug.Log("FAIL");
 
@@ -80,78 +75,67 @@ public class ButtonManager : MonoBehaviour
         hackPanelGobj.SetActive(true);
         questionPanel.SetActive(true);
         uuperGUI.SetActive(true);
-        yield return gameCanvas.ChangePaddingWithAnimation(mgPanel, true);
-        gameCanvas.mgPanel.StartMinigame(MinigameType.HACK);
+        yield return gameCanvas.ChangePaddingWithAnimation(mgPanel);
+        // yield return gameCanvas.mgPanel.StartMinigame(MinigameType.HACK);
 
         //wait one second
 
     }
-    public IEnumerator UntangleCoroutine()
-    {
+    public IEnumerator UntangleCoroutine(){
         if (gameCanvas == null)
             Debug.Log("FAIL");
-
-        Debug.Log("Hack Start Button Pressed");
+        
+        Debug.Log("Untangle Button Pressed");
         settingsPanel.SetActive(false);
         navigationPanel.SetActive(false);
         hackPanelGobj.SetActive(true);
         // questionPanel.SetActive(true);
         uuperGUI.SetActive(true);
         questionPanel.SetActive(true);
-        yield return gameCanvas.ChangePaddingWithAnimation(mgPanel, true);
-        gameCanvas.mgPanel.StartMinigame(MinigameType.UNTANGLE);
+        yield return gameCanvas.ChangePaddingWithAnimation(mgPanel);
+        yield return gameCanvas.gameWindow.StartMinigame(MinigameType.UNTANGLE);
 
         //wait one second
-
     }
-    public void TimeAmountSlider()
-    {
+    public void TimeAmountSlider(){
         Game.Instance.defaultPuzzleTime = (int)timeSlider.value;
     }
 
-    public void TileAmountSlider()
-    {
+    public void TileAmountSlider(){
         Game.Instance.defaultTileAmount = (int)tileSlider.value;
     }
 
-    public void mainMenu()
-    {
+    public void mainMenu(){
         Debug.Log("Normal Hack Button Pressed");
         SceneManager.LoadScene("SelectionScene", LoadSceneMode.Single);
     }
 
-    public void backToSettings()
-    {
-        Debug.Log("go back Pressed");
+    private int i =1;
+    public void backToSettings(){
+        Debug.Log("go back Pressed" + i++);
 
         StopAllCoroutines();
         
-        mgPanel.stopGameCoroutines();
-
+        gameCanvas.gameWindow.MinigamePanel.stopGameCoroutines();
         hackPanelGobj.SetActive(false);
-        questionPanel.SetActive(false);
-        uuperGUI.SetActive(false);
-
         settingsPanel.SetActive(true);
         navigationPanel.SetActive(true);
-        StartCoroutine(gameCanvas.ChangePaddingWithAnimation(mgPanel));
+        StartCoroutine(gameCanvas.gameWindow.InitPanels(250f,0f,100f));
+        StartCoroutine(gameCanvas.ChangePaddingWithAnimation());
 
     }
 
-    public void OnInvertToggleValueChanged(bool isOn)
-    {
+    public void OnInvertToggleValueChanged(bool isOn){
         Debug.Log("Invert Toggle " + " isOn: " + isOn);
         Game.Instance.invertToggle = isOn;
     }
 
-    public void OnQuestionFirstToggleValueChanged(bool isOn)
-    {
+    public void OnQuestionFirstToggleValueChanged(bool isOn){
         Debug.Log("Invert Toggle " + " isOn: " + isOn);
         Game.Instance.questionFirstToggle = isOn;
     }
 
-    public void RetryPuzzle()
-    {
+    public void RetryPuzzle(){
         mgPanel.stopGameCoroutines();
         mgPanel.Retry();
     }

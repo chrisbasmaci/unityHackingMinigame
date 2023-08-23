@@ -55,8 +55,8 @@ public class Edge : MonoBehaviour
     // Update is called once per frame
     public void stretchEdge()
     {
-        Vector3 startPoint = _verticePair.leftVertice.transform.position;
-        Vector3 endPoint = _verticePair.rightVertice.transform.position;
+        Vector3 startPoint = _verticePair.leftVertice._rect.transform.position;
+        Vector3 endPoint = _verticePair.rightVertice._rect.transform.position;
 
         startPoint.z = 0;
         endPoint.z = 0;

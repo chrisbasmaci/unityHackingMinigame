@@ -13,13 +13,12 @@ public class BUIhack :UIPanel
     [SerializeField]public GameObject questionTextFieldObject;
     [SerializeField]public TMP_Text questionTextField;
     [SerializeField]public Image loadingbarTimer;
-    public override void Initialize(GameObject gameCanvas, float height){
-        // questionInputField.onValueChanged.AddListener(UpdateSavedText);
-        // questionTextField.text = " ";
-        // Debug.Log("BUTTON");
-        // // leftButton.onClick = new Button.ButtonClickedEvent();
-        // leftButton.onClick.AddListener(ButtonManager.Instance.backToSettings);
-        // rightButton.onClick.AddListener(aaa);
+    private GameObject _bottomPanel;
+
+    public override void Initialize(GameObject bottomPanel, float height){
+        _bottomPanel = bottomPanel;
+        var rectTransform = _bottomPanel.GetComponent<RectTransform>();
+        rectTransform.sizeDelta = new Vector2(rectTransform.rect.width, height);
     }
 
     private void aaa()

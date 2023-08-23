@@ -10,9 +10,9 @@ public class BUIuntangle :UIPanel
     [SerializeField]public TMP_Text movesText;
     private GameObject _bottomPanel;
     [SerializeField]private GameObject _buttonsGOBJ;
-    public override void Initialize(GameObject gameCanvas, float height)
+    public override void Initialize(GameObject bottomPanel, float height)
     {
-        _bottomPanel = gameCanvas;
+        _bottomPanel = bottomPanel;
         var rectTransform = _bottomPanel.GetComponent<RectTransform>();
         rectTransform.sizeDelta = new Vector2(rectTransform.rect.width, height);
         // var rectTransform2 = _buttonsGOBJ.GetComponent<RectTransform>();

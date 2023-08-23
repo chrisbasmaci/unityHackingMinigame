@@ -27,6 +27,7 @@ public class ButtonManager : MonoBehaviour
     [FormerlySerializedAs("_gameWindow")] [SerializeField] private MgPanel mgPanel;
     [SerializeField] Slider tileSlider;
     [SerializeField] Slider timeSlider;
+    private MinigameType _selectedMinigame= MinigameType.HACK;
 
     //Toggles
     private static ButtonManager _instance;
@@ -52,10 +53,13 @@ public class ButtonManager : MonoBehaviour
         }
     }
 
-    public void SwitchToCardHackScene(){
-        SceneManager.LoadScene("NormalHackScene", LoadSceneMode.Single);
+    public void SwitchToCardHackScene()
+    {
+        _selectedMinigame = MinigameType.HACK;
+        SceneManager.LoadScene("untangleScene", LoadSceneMode.Single);
     }    
     public void SwitchToUntangleScene(){
+        _selectedMinigame = MinigameType.UNTANGLE;
         SceneManager.LoadScene("untangleScene", LoadSceneMode.Single);
     }
     public void CardHackStart(){
@@ -66,25 +70,19 @@ public class ButtonManager : MonoBehaviour
     }
 
     public IEnumerator HackCoroutine(){
-        if (gameCanvas == null)
-            Debug.Log("FAIL");
-
         Debug.Log("Hack Start Button Pressed");
         settingsPanel.SetActive(false);
         navigationPanel.SetActive(false);
         hackPanelGobj.SetActive(true);
-        questionPanel.SetActive(true);
+        // questionPanel.SetActive(true);
         uuperGUI.SetActive(true);
+        questionPanel.SetActive(true);
         yield return gameCanvas.ChangePaddingWithAnimation(mgPanel);
-        // yield return gameCanvas.mgPanel.StartMinigame(MinigameType.HACK);
-
+        yield return gameCanvas.gameWindow.StartMinigame(MinigameType.HACK);
         //wait one second
 
     }
     public IEnumerator UntangleCoroutine(){
-        if (gameCanvas == null)
-            Debug.Log("FAIL");
-        
         Debug.Log("Untangle Button Pressed");
         settingsPanel.SetActive(false);
         navigationPanel.SetActive(false);
@@ -93,7 +91,7 @@ public class ButtonManager : MonoBehaviour
         uuperGUI.SetActive(true);
         questionPanel.SetActive(true);
         yield return gameCanvas.ChangePaddingWithAnimation(mgPanel);
-        yield return gameCanvas.gameWindow.StartMinigame(MinigameType.UNTANGLE);
+        yield return gameCanvas.gameWindow.StartMinigame(_selectedMinigame);
 
         //wait one second
     }

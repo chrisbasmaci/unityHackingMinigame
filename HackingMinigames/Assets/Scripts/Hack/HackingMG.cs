@@ -15,6 +15,8 @@ public class HackingMG : MiniGame
 
     protected override void  InitializeDerivative(WindowSize hackWindowDimensions)
     {
+        _bottomUI = (BUIhack)mgPanel.gameWindow.BUIPanel;
+        _upperUI = (UUIhack)mgPanel.gameWindow.UUIpanel;
         _minigameType = MinigameType.HACK;
         _cardDeck = new List<Card>(_tileAmount);
         _cardFactory = new CardFactory();
@@ -43,6 +45,8 @@ public class HackingMG : MiniGame
             Destroy(card.gameObject);
         });
         StopAllCoroutines();
+        Destroy(_puzzleTimer);
+        Destroy(this);
     }
 
     public override void RetryMinigame()

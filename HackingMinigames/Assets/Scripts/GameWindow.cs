@@ -58,7 +58,7 @@ public class GameWindow : MonoBehaviour
                     .GetComponent<UUIhack>();
                 BUIPanel = Instantiate(Game.Instance.bottomHackPrefab, _gameCanvas.bottomGUI.transform)
                     .GetComponent<BUIhack>();
-                yield return InitPanels(100f, 100f, 100f);
+                yield return InitPanels(100f, 340f, 100f);
                 panelBounds = _gameCanvas.CalculateWsWithPadding(_mgPanelRectTransform.rect, 0);
                 break;
             case MinigameType.UNTANGLE:

@@ -26,6 +26,7 @@ public class Game : MonoBehaviour
     public  int defaultIntroTime = 3;
     public  int defaultPuzzleTime = 10;
     //set in unity
+    public MinigameType currentMg;
     [SerializeField] public int defaultTileAmount = 4;
     [SerializeField] public Sprite cardBack;
     [SerializeField] public Sprite cardFace;

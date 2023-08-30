@@ -28,6 +28,7 @@ public abstract class MiniGame : MonoBehaviour
 
 
         InitializeDerivative(hackWindowDimensions);
+        InitBottomUI();
     }
     protected abstract void InitializeDerivative(WindowSize hackWindowDimensions);
     
@@ -35,5 +36,6 @@ public abstract class MiniGame : MonoBehaviour
     public abstract void EndMinigame();
     public abstract void RetryMinigame();
     protected abstract void SetupPanels();
+    protected abstract void InitBottomUI();
 }
 

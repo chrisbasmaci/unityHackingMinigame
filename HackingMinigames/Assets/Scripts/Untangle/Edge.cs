@@ -1,11 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
-using System.Linq;
-using Unity.VisualScripting;
-using UnityEditor.SceneManagement;
-using UnityEngine.Assertions;
+
 
 public class Edge : MonoBehaviour
 {
@@ -27,7 +23,7 @@ public class Edge : MonoBehaviour
         
         _lineRenderer.startWidth = verticePair.leftVertice.GetEdgeThickness();
         _lineRenderer.endWidth = verticePair.rightVertice.GetEdgeThickness();
-        _lineRenderer.material = new Material(Shader.Find("Legacy Shaders/Particles/Alpha Blended Premultiply"));
+        _lineRenderer.material = new Material(Shader.Find("UI/Default"));
         SetLineColor(Color.green);
 
         var rigidbdy = gameObject.AddComponent<Rigidbody2D>();

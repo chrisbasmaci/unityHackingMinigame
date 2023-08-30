@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class BUIuntangle :UIPanel
 {
-    [SerializeField]public  Button leftButton;
-    [SerializeField]private Button rightButton;
+    [SerializeField]private  Button _leftButton;
+    [SerializeField]private Button _rightButton;
     [SerializeField]public TMP_Text movesText;
     private GameObject _bottomPanel;
     [SerializeField]private GameObject _buttonsGOBJ;
@@ -25,17 +25,12 @@ public class BUIuntangle :UIPanel
     
     public void InitializeLeftButton(UnityAction call)
     {
-        leftButton.onClick.AddListener(call);
+        _leftButton.onClick.AddListener(call);
     }    
     
     public void InitializeRightButton(UnityAction call)
     {
-        rightButton.onClick.AddListener(call);
+        _rightButton.onClick.AddListener(call);
     }
-
-    private void aaa()
-    {
-        Debug.Log("AAAAA");
-
-    }
+    
 }

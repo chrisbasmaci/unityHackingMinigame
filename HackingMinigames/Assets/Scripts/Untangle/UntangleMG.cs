@@ -2,19 +2,10 @@ using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
-using System;
 using TriangleNet.Geometry;
-using UnityEngine.Assertions;
-using UnityEngine.UIElements;
 using TriangleNet;
-using System.Collections.Generic;
-using TriangleNet.Geometry;
 using TriangleNet.Meshing;
-using TriangleNet.Geometry;
 using Random = System.Random;
-using System;
-using TMPro;
 using Vertex = TriangleNet.Geometry.Vertex;
 
 public class UntangleMG : MiniGame
@@ -25,7 +16,7 @@ public class UntangleMG : MiniGame
     private List<Edge> _edgeList;
     private int _verticeTotal =10;
     private float verticeScale = 60;
-    private float _panelHeight = 200;
+    private BUIuntangle _bottomUI;
     List<(List<Vertice> connections, Vertice vertex)> verticeConnectionMap;
 
     protected override void InitializeDerivative(WindowSize hackWindowDimensions)
@@ -34,12 +25,16 @@ public class UntangleMG : MiniGame
         ///TODO gamewindow should be accessible throug the panel
 
         _upperUIPrefab = Game.Instance.upperHackPrefab;
-        var tmp = (BUIuntangle)mgPanel.gameWindow.BUIPanel;
-        tmp.InitializeLeftButton(showSolution);
-        tmp.InitializeRightButton(RetryMinigame);
+
         _minigameType = MinigameType.UNTANGLE;
     }
-    
+
+    protected override void InitBottomUI()
+    {
+        _bottomUI = (BUIuntangle)mgPanel.gameWindow.BUIPanel;
+        _bottomUI.InitializeLeftButton(showSolution);
+        _bottomUI.InitializeRightButton(RetryMinigame);
+    }
 
     public override void StartMinigame()
     {
@@ -120,8 +115,6 @@ public class UntangleMG : MiniGame
     // }    
     private void PlaceVerticesCircleToLatin(int points, int radius)
     {
-        (float xCoord, float yCoord) centerVertice = (0, 0);
-        
         var dots = Generate.GetLatinSpreadPoints(_verticeTotal, ref verticeScale, _hackWindowDimensions);
         var startingDots = Generate.CirclePoints(radius, new Point(0,0), _verticeTotal);
         

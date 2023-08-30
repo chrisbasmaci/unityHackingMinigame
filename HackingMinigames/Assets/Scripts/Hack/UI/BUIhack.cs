@@ -9,6 +9,8 @@ using UnityEngine.Events;
 public class BUIhack :UIPanel
 {
 
+    [SerializeField]private  Button _leftButton;
+    [SerializeField]private Button _rightButton;
     [SerializeField]public TMP_InputField questionInputField;
     [SerializeField]public GameObject questionTextFieldObject;
     [SerializeField]public TMP_Text questionTextField;
@@ -21,11 +23,7 @@ public class BUIhack :UIPanel
         rectTransform.sizeDelta = new Vector2(rectTransform.rect.width, height);
     }
 
-    private void aaa()
-    {
-        Debug.Log("AAAAA");
 
-    }
     public string SetQuestion(int tileAmount,List<Card> cardDeck)
     {
         questionInputField.Select();
@@ -53,10 +51,15 @@ public class BUIhack :UIPanel
         } 
         return false;
     } 
-    private void UpdateSavedText(string newText)
+    public void InitializeLeftButton(UnityAction call)
     {
-        questionInputField.text = newText;
-        // Debug.Log(questionInputField.text);
+        _leftButton.onClick.AddListener(call);
+    }    
+    
+    public void InitializeRightButton(UnityAction call)
+    {
+        _rightButton.onClick.AddListener(call);
     }
+
 
 }

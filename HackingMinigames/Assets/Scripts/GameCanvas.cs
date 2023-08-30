@@ -31,7 +31,7 @@ public class GameCanvas : MonoBehaviour
     [SerializeField] public GameWindow gameWindow;
     [NonSerialized] private float _paddingPercentage = 0.1f;
     [NonSerialized] private float _targetPaddingPercentage = 0.025f;
-    [NonSerialized] private float _animationDuration =3f;
+    [NonSerialized] private float _animationDuration =0.3f;
     [NonSerialized] public WindowSize gameWindowSize;
     [NonSerialized] public WindowSize settingWindowSize;
     [SerializeField] public GameObject upperGUI;

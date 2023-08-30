@@ -814,7 +814,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa502f4115694278a91db0e1ea10987e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftButton: {fileID: 6178847893641949153}
-  rightButton: {fileID: 8608248784460082541}
+  _leftButton: {fileID: 6178847893641949153}
+  _rightButton: {fileID: 8608248784460082541}
   movesText: {fileID: 0}
   _buttonsGOBJ: {fileID: 5757187664719795030}

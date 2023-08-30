@@ -62,6 +62,12 @@ public class HackingMG : MiniGame
         _puzzleTimer.reset_timer();
         StartMinigame();
     }
+    protected override void InitBottomUI()
+    {
+        _bottomUI = (BUIhack)mgPanel.gameWindow.BUIPanel;
+        // _bottomUI.InitializeLeftButton(showSolution);
+        _bottomUI.InitializeRightButton(RetryMinigame);
+    }
     private void continueHacks()
     {
         //wait 1 second
@@ -113,7 +119,6 @@ public class HackingMG : MiniGame
     public IEnumerator flipCards(bool isCardReveal = false)
     {
 
-        int flippedCount = 0;
         foreach (var card in _cardDeck)
         {
             if (!card.isFlippable())

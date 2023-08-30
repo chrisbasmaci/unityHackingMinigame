@@ -27,7 +27,7 @@ public class ButtonManager : MonoBehaviour
     [FormerlySerializedAs("_gameWindow")] [SerializeField] private MgPanel mgPanel;
     [SerializeField] Slider tileSlider;
     [SerializeField] Slider timeSlider;
-    private MinigameType _selectedMinigame= MinigameType.HACK;
+    private MinigameType _selectedMinigame;
 
     //Toggles
     private static ButtonManager _instance;
@@ -53,16 +53,15 @@ public class ButtonManager : MonoBehaviour
         }
     }
 
-    public void SwitchToCardHackScene()
-    {
-        _selectedMinigame = MinigameType.HACK;
-        SceneManager.LoadScene("untangleScene", LoadSceneMode.Single);
-    }    
+
     public void SwitchToUntangleScene(){
         _selectedMinigame = MinigameType.UNTANGLE;
         SceneManager.LoadScene("untangleScene", LoadSceneMode.Single);
+        
     }
     public void CardHackStart(){
+        _selectedMinigame = MinigameType.UNTANGLE;
+
         StartCoroutine(HackCoroutine());
     }
     public void UntangleStart(){
@@ -78,7 +77,7 @@ public class ButtonManager : MonoBehaviour
         uuperGUI.SetActive(true);
         questionPanel.SetActive(true);
         yield return gameCanvas.ChangePaddingWithAnimation(mgPanel);
-        yield return gameCanvas.gameWindow.StartMinigame(MinigameType.HACK);
+        yield return gameCanvas.gameWindow.StartMinigame(_selectedMinigame);
         //wait one second
 
     }
@@ -91,7 +90,7 @@ public class ButtonManager : MonoBehaviour
         uuperGUI.SetActive(true);
         questionPanel.SetActive(true);
         yield return gameCanvas.ChangePaddingWithAnimation(mgPanel);
-        yield return gameCanvas.gameWindow.StartMinigame(_selectedMinigame);
+        yield return gameCanvas.gameWindow.StartMinigame(Game.Instance.currentMg);
 
         //wait one second
     }

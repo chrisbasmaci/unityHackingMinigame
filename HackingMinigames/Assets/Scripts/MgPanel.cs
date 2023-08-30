@@ -15,9 +15,6 @@ public class MgPanel : MonoBehaviour
     [NonSerialized]public WindowSize panelBounds;
     [NonSerialized]public MiniGame _miniGame;
     [NonSerialized]private MinigameType _minigameType;
-    // [NonSerialized]public UIPanel UUIpanel;
-    // [NonSerialized]public UIPanel BUIPanel;
-    private float _panelHeight = 200f;
 
 
 

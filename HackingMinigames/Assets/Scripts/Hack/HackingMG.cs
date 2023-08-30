@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ public class HackingMG : MiniGame
     private List<int> _orderList;
     private BUIhack _bottomUI;
     private UUIhack _upperUI;
+    
 
     protected override void  InitializeDerivative(WindowSize hackWindowDimensions)
     {

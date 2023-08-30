@@ -7,7 +7,6 @@ using UnityEngine.UI;
 
 public class GameWindow : MonoBehaviour
 {
-
     [SerializeField]private GameCanvas _gameCanvas;
     
     [SerializeField] public GameObject upperContainer;
@@ -45,18 +44,27 @@ public class GameWindow : MonoBehaviour
 
         _upperContainerLayout.flexibleHeight = 100;
         _bottomContainerLayout.flexibleHeight = 1;
+        ShowSettings();
 
     }
 
     public void ShowSettings()
     {
+        Debug.Log("showing settings");
         hackPanelGobj.SetActive(false);
-        settingsPanel.SetActive(true);
+        if (Game.Instance.currentSettingsPrefab)
+        {
+            settingsPanel = Instantiate(Game.Instance.currentSettingsPrefab, upperContainer.transform);
+            settingsPanel.SetActive(true);
+        }
         navigationPanel.SetActive(true);
     }
     public void ShowGame()
     {
-        settingsPanel.SetActive(false);
+        if (settingsPanel)
+        {
+            settingsPanel.SetActive(false);
+        }
         navigationPanel.SetActive(false);
         hackPanelGobj.SetActive(true);
     }

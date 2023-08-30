@@ -13,15 +13,11 @@ using UnityEngine.Serialization;
 public class ButtonManager : MonoBehaviour
 {
     // Add an identifier for each button
-    [SerializeField] private string normalHackSceneName;
-    [SerializeField] private string normalHackGameSceneName;
-
     [FormerlySerializedAs("relativeCanvasProportions")] [SerializeField]
     private GameCanvas gameCanvas;
 
     [FormerlySerializedAs("_gameWindow")] [SerializeField] private MgPanel mgPanel;
-    [SerializeField] Slider tileSlider;
-    [SerializeField] Slider timeSlider;
+
 
     //Toggles
     private static ButtonManager _instance;
@@ -61,13 +57,6 @@ public class ButtonManager : MonoBehaviour
         yield return gameCanvas.gameWindow.StartMinigame(Game.Instance.currentMg);
 
         //wait one second
-    }
-    public void TimeAmountSlider(){
-        Game.Instance.defaultPuzzleTime = (int)timeSlider.value;
-    }
-
-    public void TileAmountSlider(){
-        Game.Instance.defaultTileAmount = (int)tileSlider.value;
     }
 
     public void mainMenu(){

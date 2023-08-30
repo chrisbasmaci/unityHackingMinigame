@@ -24,6 +24,7 @@ public class Game : MonoBehaviour
 
     private static Game instance;
     [NonSerialized]public MinigameType currentMg;
+    [NonSerialized]public GameObject currentSettingsPrefab;
     [NonSerialized]private GameWindow _currentGameWindow;
 
 

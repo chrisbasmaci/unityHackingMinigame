@@ -75,7 +75,8 @@ public class UntangleMG : MiniGame
     //===========
     private void InstantiateVertices()
     {
-        PlaceVerticesCircleToLatin(_verticeTotal, (int)_hackWindowDimensions.Height / 2);
+        int radius = (_hackWindowDimensions.Height< _hackWindowDimensions.Width)? (int)_hackWindowDimensions.Height / 2: (int)_hackWindowDimensions.Width / 2 ;
+        PlaceVerticesCircleToLatin(_verticeTotal, radius);
     }
 
 

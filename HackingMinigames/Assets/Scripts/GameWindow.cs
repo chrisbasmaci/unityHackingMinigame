@@ -2,18 +2,31 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public class GameWindow : MonoBehaviour
 {
 
     [SerializeField]private GameCanvas _gameCanvas;
-    [SerializeField]private GameObject _topPanel;
-    [SerializeField]private GameObject _gamePanel;
-    [SerializeField]private GameObject _bottomPanel;
+    
+    [SerializeField] public GameObject upperContainer;
+    [SerializeField] private GameObject _gamePanel;
+    [SerializeField] public GameObject bottomContainer;
+
+    
+    [NonSerialized]private LayoutElement _upperContainerLayout;
+    [NonSerialized]private LayoutElement _gamePanelLayout;
+    [NonSerialized]private LayoutElement _bottomContainerLayout;
     
     [NonSerialized]public UIPanel UUIpanel;
     [NonSerialized]public UIPanel BUIPanel;
     [NonSerialized]public MgPanel MinigamePanel;
+    
+    [SerializeField] private GameObject settingsPanel;
+    [SerializeField] private GameObject navigationPanel;
+    [SerializeField] private GameObject hackPanelGobj;
+
 
     private RectTransform _mgPanelRectTransform;
     [NonSerialized] public WindowSize gameWindowSize;
@@ -24,20 +37,40 @@ public class GameWindow : MonoBehaviour
         MinigamePanel = _gamePanel.GetComponent<MgPanel>();
         _mgPanelRectTransform = MinigamePanel.GetComponent<RectTransform>();
         gameWindowSize = _gameCanvas.GetGameWindowSize();
+        Game.Instance.CurrentGameWindow = this;
+
+        _upperContainerLayout = upperContainer.GetComponent<LayoutElement>();
+        _gamePanelLayout = _gamePanel.GetComponent<LayoutElement>();
+        _bottomContainerLayout = bottomContainer.GetComponent<LayoutElement>();
+
+        _upperContainerLayout.flexibleHeight = 100;
+        _bottomContainerLayout.flexibleHeight = 1;
 
     }
 
-    public IEnumerator InitPanels(float topHeight,float mgPanelHeight, float bottomHeight)
+    public void ShowSettings()
     {
-        _mgPanelRectTransform = MinigamePanel.GetComponent<RectTransform>();
-        // UUIpanel = Instantiate(Game.Instance.upperHackPrefab, _gameCanvas.upperGUI.transform).GetComponent<UUIhack>();
-        // BUIPanel = Instantiate(Game.Instance.bottomHackPrefab, _gameCanvas.bottomGUI.transform).GetComponent<BUIhack>();
-        _mgPanelRectTransform.sizeDelta = new Vector2(_gameCanvas.gameWindowSize.Width, mgPanelHeight);
+        hackPanelGobj.SetActive(false);
+        settingsPanel.SetActive(true);
+        navigationPanel.SetActive(true);
+    }
+    public void ShowGame()
+    {
+        settingsPanel.SetActive(false);
+        navigationPanel.SetActive(false);
+        hackPanelGobj.SetActive(true);
+    }
+    public IEnumerator InitPanels(int topWeight,int mgPanelWeight, int bottomWeight)
+    {
 
-        UUIpanel.Initialize(_topPanel,topHeight);
-        BUIPanel.Initialize(_bottomPanel, bottomHeight);
+        UUIpanel.Initialize(upperContainer);
+        BUIPanel.Initialize(bottomContainer);
         _mgPanelRectTransform = MinigamePanel.GetComponent<RectTransform>();
-
+        
+        
+        _upperContainerLayout.flexibleHeight = topWeight;
+        _gamePanelLayout.flexibleHeight = mgPanelWeight;
+        _bottomContainerLayout.flexibleHeight = bottomWeight;
         yield return null;
     }
     
@@ -54,22 +87,22 @@ public class GameWindow : MonoBehaviour
             case MinigameType.HACK:
                 minigameType = MinigameType.HACK;
                 miniGame = MinigamePanel.gameObject.AddComponent<HackingMG>();
-                UUIpanel = Instantiate(Game.Instance.upperHackPrefab, _gameCanvas.upperGUI.transform)
+                UUIpanel = Instantiate(Game.Instance.upperHackPrefab, upperContainer.transform)
                     .GetComponent<UUIhack>();
-                BUIPanel = Instantiate(Game.Instance.bottomHackPrefab, _gameCanvas.bottomGUI.transform)
+                BUIPanel = Instantiate(Game.Instance.bottomHackPrefab, bottomContainer.transform)
                     .GetComponent<BUIhack>();
-                yield return InitPanels(100f, 340f, 100f);
+                yield return InitPanels(1, 10, 1);
                 panelBounds = _gameCanvas.CalculateWsWithPadding(_mgPanelRectTransform.rect, 0);
                 break;
             case MinigameType.UNTANGLE:
                 Debug.Log("Untangle Started");
                 minigameType = MinigameType.UNTANGLE;
                 miniGame = MinigamePanel.gameObject.AddComponent<UntangleMG>();
-                UUIpanel = Instantiate(Game.Instance.upperUntanglePrefab, _gameCanvas.upperGUI.transform, false)
+                UUIpanel = Instantiate(Game.Instance.upperUntanglePrefab, upperContainer.transform, false)
                     .GetComponent<UUIuntangle>();
-                BUIPanel = Instantiate(Game.Instance.bottomUntanglePrefab, _gameCanvas.bottomGUI.transform, false)
+                BUIPanel = Instantiate(Game.Instance.bottomUntanglePrefab, bottomContainer.transform, false)
                     .GetComponent<BUIuntangle>();
-                yield return InitPanels(100f, 300f, 100f);
+                yield return InitPanels(1, 10, 1);
                 panelBounds = _gameCanvas.CalculateWsWithPadding(_mgPanelRectTransform.rect, 0f);
                 break;
             default:

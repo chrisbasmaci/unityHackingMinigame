@@ -15,11 +15,6 @@ public class ButtonManager : MonoBehaviour
     // Add an identifier for each button
     [SerializeField] private string normalHackSceneName;
     [SerializeField] private string normalHackGameSceneName;
-    [SerializeField] private GameObject settingsPanel;
-    [SerializeField] private GameObject navigationPanel;
-    [SerializeField] private GameObject hackPanelGobj;
-    [SerializeField] private GameObject questionPanel;
-    [SerializeField] private GameObject uuperGUI;
 
     [FormerlySerializedAs("relativeCanvasProportions")] [SerializeField]
     private GameCanvas gameCanvas;
@@ -27,7 +22,6 @@ public class ButtonManager : MonoBehaviour
     [FormerlySerializedAs("_gameWindow")] [SerializeField] private MgPanel mgPanel;
     [SerializeField] Slider tileSlider;
     [SerializeField] Slider timeSlider;
-    private MinigameType _selectedMinigame;
 
     //Toggles
     private static ButtonManager _instance;
@@ -53,42 +47,16 @@ public class ButtonManager : MonoBehaviour
         }
     }
 
-
-    public void SwitchToUntangleScene(){
-        _selectedMinigame = MinigameType.UNTANGLE;
-        SceneManager.LoadScene("untangleScene", LoadSceneMode.Single);
-        
-    }
+    
     public void CardHackStart(){
-        _selectedMinigame = MinigameType.UNTANGLE;
-
-        StartCoroutine(HackCoroutine());
+        StartCoroutine(MinigameCoroutine());
     }
-    public void UntangleStart(){
-        StartCoroutine(UntangleCoroutine());
+    public void MinigameStart(){
+        StartCoroutine(MinigameCoroutine());
     }
-
-    public IEnumerator HackCoroutine(){
-        Debug.Log("Hack Start Button Pressed");
-        settingsPanel.SetActive(false);
-        navigationPanel.SetActive(false);
-        hackPanelGobj.SetActive(true);
-        // questionPanel.SetActive(true);
-        uuperGUI.SetActive(true);
-        questionPanel.SetActive(true);
-        yield return gameCanvas.ChangePaddingWithAnimation(mgPanel);
-        yield return gameCanvas.gameWindow.StartMinigame(_selectedMinigame);
-        //wait one second
-
-    }
-    public IEnumerator UntangleCoroutine(){
+    public IEnumerator MinigameCoroutine(){
         Debug.Log("Untangle Button Pressed");
-        settingsPanel.SetActive(false);
-        navigationPanel.SetActive(false);
-        hackPanelGobj.SetActive(true);
-        // questionPanel.SetActive(true);
-        uuperGUI.SetActive(true);
-        questionPanel.SetActive(true);
+        gameCanvas.gameWindow.ShowGame();
         yield return gameCanvas.ChangePaddingWithAnimation(mgPanel);
         yield return gameCanvas.gameWindow.StartMinigame(Game.Instance.currentMg);
 
@@ -114,10 +82,13 @@ public class ButtonManager : MonoBehaviour
         StopAllCoroutines();
         
         gameCanvas.gameWindow.MinigamePanel.stopGameCoroutines();
-        hackPanelGobj.SetActive(false);
-        settingsPanel.SetActive(true);
-        navigationPanel.SetActive(true);
-        StartCoroutine(gameCanvas.gameWindow.InitPanels(250f,0f,100f));
+        gameCanvas.gameWindow.ShowSettings();
+        var upperLE = gameCanvas.gameWindow.upperContainer.gameObject.GetComponent<LayoutElement>();
+        var lowerLE = gameCanvas.gameWindow.bottomContainer.gameObject.GetComponent<LayoutElement>();
+        upperLE.flexibleHeight = 100;
+        lowerLE.flexibleHeight = 1;
+
+        // StartCoroutine(gameCanvas.gameWindow.InitPanels(250f,0f,100f));
         StartCoroutine(gameCanvas.ChangePaddingWithAnimation());
 
     }

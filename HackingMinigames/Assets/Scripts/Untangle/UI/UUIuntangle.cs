@@ -11,11 +11,9 @@
         [SerializeField]public TMP_Text movesText;
         private GameObject _upperPanel;
 
-        public override void Initialize(GameObject gameCanvas, float height){
+        public override void Initialize(GameObject gameCanvas){
             Debug.Log("BUTTON");
             _upperPanel = gameCanvas;
-            var rectTransform = _upperPanel.GetComponent<RectTransform>();
-            rectTransform.sizeDelta = new Vector2(rectTransform.rect.width, height);
             leftButton.onClick.AddListener(ButtonManager.Instance.backToSettings);
             Debug.Log("added listener");
             rightButton.onClick.AddListener(aaa);

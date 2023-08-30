@@ -371,7 +371,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 846.6666, y: 100}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &59309944
 MonoBehaviour:
@@ -596,8 +596,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 102.5, y: 0}
-  m_SizeDelta: {x: 205, y: 0}
+  m_AnchoredPosition: {x: 169.23822, y: 0}
+  m_SizeDelta: {x: 338.47644, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &115634850
 MonoBehaviour:
@@ -816,9 +816,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameCanvas: {fileID: 527667866}
-  _topPanel: {fileID: 716509694}
+  upperContainer: {fileID: 716509694}
   _gamePanel: {fileID: 59309938}
-  _bottomPanel: {fileID: 1792230628}
+  bottomContainer: {fileID: 1792230628}
+  settingsPanel: {fileID: 1866196027}
+  navigationPanel: {fileID: 685228089}
+  hackPanelGobj: {fileID: 59309938}
 --- !u!1 &203498048
 GameObject:
   m_ObjectHideFlags: 0
@@ -1527,7 +1530,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultIntroTime: 3
   defaultPuzzleTime: 10
-  currentMg: 0
   defaultTileAmount: 4
   cardBack: {fileID: 21300000, guid: 12e9e4cca6963a94fa1e5126c1626e58, type: 3}
   cardFace: {fileID: 21300000, guid: 17f05ed5f545ce7469705f8a28769fbb, type: 3}
@@ -1717,8 +1719,7 @@ MonoBehaviour:
   canvasRect: {fileID: 527667871}
   canvasHorizontalLayout: {fileID: 527667867}
   gameWindow: {fileID: 135157123}
-  upperGUI: {fileID: 716509694}
-  bottomGUI: {fileID: 1792230628}
+  upperGUI: {fileID: 0}
 --- !u!114 &527667867
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2071,8 +2072,8 @@ MonoBehaviour:
   m_Padding:
     m_Left: 50
     m_Right: 50
-    m_Top: 30
-    m_Bottom: 30
+    m_Top: 20
+    m_Bottom: 20
   m_ChildAlignment: 4
   m_Spacing: 170
   m_ChildForceExpandWidth: 1
@@ -2139,8 +2140,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 290, y: 0}
-  m_SizeDelta: {x: 580, y: 0}
+  m_AnchoredPosition: {x: 423.47644, y: 0}
+  m_SizeDelta: {x: 846.9529, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &685228094
 MonoBehaviour:
@@ -2170,7 +2171,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_IgnoreLayout: 0
   m_MinWidth: -1
-  m_MinHeight: 100
+  m_MinHeight: 80
   m_PreferredWidth: -1
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
@@ -3552,7 +3553,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1938583428}
         m_TargetAssemblyTypeName: ButtonManager, Assembly-CSharp
-        m_MethodName: UntangleStart
+        m_MethodName: MinigameStart
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4184,7 +4185,7 @@ MonoBehaviour:
   m_MinWidth: -1
   m_MinHeight: -1
   m_PreferredWidth: -1
-  m_PreferredHeight: 100
+  m_PreferredHeight: 50
   m_FlexibleWidth: -1
   m_FlexibleHeight: 1
   m_LayoutPriority: 1
@@ -4696,11 +4697,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   normalHackSceneName: NormalHackScene
   normalHackGameSceneName: NormalHackGameScene
-  settingsPanel: {fileID: 1866196027}
-  navigationPanel: {fileID: 685228089}
-  hackPanelGobj: {fileID: 59309938}
-  questionPanel: {fileID: 1792230628}
-  uuperGUI: {fileID: 716509694}
   gameCanvas: {fileID: 527667866}
   mgPanel: {fileID: 59309944}
   tileSlider: {fileID: 1450931192}
@@ -4759,8 +4755,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 357.5, y: 0}
-  m_SizeDelta: {x: 205, y: 0}
+  m_AnchoredPosition: {x: 557.71466, y: 0}
+  m_SizeDelta: {x: 338.47644, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1971174119
 MonoBehaviour:

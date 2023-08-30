@@ -35,7 +35,7 @@ public class GameCanvas : MonoBehaviour
     [NonSerialized] public WindowSize gameWindowSize;
     [NonSerialized] public WindowSize settingWindowSize;
     [SerializeField] public GameObject upperGUI;
-    [SerializeField] public GameObject bottomGUI;
+
     
 
     private void Start()

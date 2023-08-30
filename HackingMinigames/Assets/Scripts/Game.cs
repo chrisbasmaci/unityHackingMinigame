@@ -23,10 +23,13 @@ public class Game : MonoBehaviour
     // public static string arr;
 
     private static Game instance;
+    [NonSerialized]public MinigameType currentMg;
+    [NonSerialized]private GameWindow _currentGameWindow;
+
+
     public  int defaultIntroTime = 3;
     public  int defaultPuzzleTime = 10;
     //set in unity
-    public MinigameType currentMg;
     [SerializeField] public int defaultTileAmount = 4;
     [SerializeField] public Sprite cardBack;
     [SerializeField] public Sprite cardFace;
@@ -85,6 +88,19 @@ public class Game : MonoBehaviour
 
         // Don't destroy the singleton object when loading new scenes
         DontDestroyOnLoad(gameObject);
+    }
+    public GameWindow CurrentGameWindow
+    {
+        get{
+            if (_currentGameWindow) {
+                return _currentGameWindow;
+            }
+            Debug.Assert(false, "_currentGameWindow is null. No game is in process.");
+            throw new InvalidOperationException("_currentGameWindow is null");
+        }
+        set{
+        _currentGameWindow = value;
+        }
     }
 
 }

@@ -17,10 +17,8 @@ public class BUIhack :UIPanel
     [SerializeField]public Image loadingbarTimer;
     private GameObject _bottomPanel;
 
-    public override void Initialize(GameObject bottomPanel, float height){
+    public override void Initialize(GameObject bottomPanel){
         _bottomPanel = bottomPanel;
-        var rectTransform = _bottomPanel.GetComponent<RectTransform>();
-        rectTransform.sizeDelta = new Vector2(rectTransform.rect.width, height);
     }
 
 

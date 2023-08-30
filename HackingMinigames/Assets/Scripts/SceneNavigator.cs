@@ -8,6 +8,7 @@ public class SceneNavigator: MonoBehaviour
     {
         Game.Instance.currentMg = MinigameType.UNTANGLE;
         SceneManager.LoadScene("untanglescene");
+        // Game.Instance.CurrentGameWindow.
     }
     public void Hack()
     {

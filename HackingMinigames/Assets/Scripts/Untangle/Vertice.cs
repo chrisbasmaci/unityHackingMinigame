@@ -39,6 +39,7 @@ public class Vertice : MonoBehaviour
     public void Initialize(MgPanel mgPanel,ref Polygon polygon, Vertex solvedVertex, Vertex unsolvedVertex, float verticeScale)
     {
         connectedVertices = new List<Vertice>();
+        Debug.Log("vertissceNO: added" + _verticeTotal);
         verticeNo = ++_verticeTotal;
         _edges = new List<Edge>();
         _collider =gameObject.AddComponent<BoxCollider2D>();
@@ -154,6 +155,7 @@ public class Vertice : MonoBehaviour
 
     public void destr()
     {
+        StopAllCoroutines();
         Debug.Log("vertissceNO: destr" + _verticeTotal);
         _verticeTotal--;
 

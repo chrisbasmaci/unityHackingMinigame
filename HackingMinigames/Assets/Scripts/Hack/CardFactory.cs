@@ -14,7 +14,7 @@ public class CardFactory
     public const float CardHeight = 600f;
     // public const float CardEdgeLen = 1000f;
     public const float CardMiddleSpacing = 10f;
-    public const float CardSidePadding = 20f;
+    public const float CardSidePadding = 50f;
     
     private float currentSidePadding = CardSidePadding;
     private float currentWidth = CardWidth;

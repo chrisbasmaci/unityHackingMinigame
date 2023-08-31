@@ -52,9 +52,9 @@ public class GameCanvas : MonoBehaviour
         return CalculateWsWithPadding(canvasRect.rect, _targetPaddingPercentage);
     }
 
-    public IEnumerator ChangePaddingWithAnimation(MgPanel mgPanel = null)
-    {
-                Debug.Log("current height: "+settingWindowSize.Height);
+    public IEnumerator ChangePaddingWithAnimation()
+    { 
+        Debug.Log("current height: "+settingWindowSize.Height);
 
         float elapsedTime = 0f;
         float startPadding = _paddingPercentage;
@@ -90,7 +90,7 @@ public class GameCanvas : MonoBehaviour
     }
     
     
-    public WindowSize CalculateWsWithPadding(Rect panelRect, float paddingPercentage)
+    public static WindowSize CalculateWsWithPadding(Rect panelRect, float paddingPercentage)
     {
         float width, height, leftBorder, rightBorder, topBorder, bottomBorder;
         width = panelRect.width -(paddingPercentage * panelRect.width*2);

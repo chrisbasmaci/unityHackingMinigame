@@ -10,32 +10,50 @@ public enum MinigameType {HACK =0, UNTANGLE}
 public abstract class MiniGame : MonoBehaviour
 {
 
-    protected WindowSize _hackWindowDimensions;
     public MgPanel mgPanel;
     public PuzzleTimer _puzzleTimer;
     protected int currentStreak = 0;
-    public MinigameType _minigameType;
-    //Prefabs
-    public GameObject _upperUIPrefab;
-    //Panels
+
 
     //initialization
 
-    public void Initialize(WindowSize hackWindowDimensions, MgPanel panel)
+    public IEnumerator Initialize(MgPanel panel)
     {
         mgPanel = panel;
-        _hackWindowDimensions = hackWindowDimensions;
+        SetupPanels();
+        InitializeDerivative();
+        yield return mgPanel.gameWindow.InitPanels();
 
-
-        InitializeDerivative(hackWindowDimensions);
-        InitBottomUI();
     }
-    protected abstract void InitializeDerivative(WindowSize hackWindowDimensions);
-    
-    public abstract void StartMinigame();
+    protected abstract void InitializeDerivative();
+    private void ReadyUpGamePanel()
+    {
+        var mgPanelRectTransform = mgPanel.gameObject.GetComponent<RectTransform>();
+        mgPanel.panelBounds = GameCanvas.CalculateWsWithPadding(mgPanelRectTransform.rect, 0);
+
+    }
+
+
+    public IEnumerator StartMinigame()
+    {
+        ReadyUpGamePanel();
+        yield return null;
+        mgPanel.gameWindow.UUIpanel.gameObject.SetActive(true);
+        mgPanel.gameWindow.BUIPanel.gameObject.SetActive(true);
+        ChildStartMinigame();
+    }
+    public abstract void ChildStartMinigame();
     public abstract void EndMinigame();
     public abstract void RetryMinigame();
-    protected abstract void SetupPanels();
+
+    protected void SetupPanels()
+    {
+        Debug.Log("inside setup");
+
+        InitUpperUI();
+        InitBottomUI();
+    }
     protected abstract void InitBottomUI();
+    protected abstract void InitUpperUI();
 }
 

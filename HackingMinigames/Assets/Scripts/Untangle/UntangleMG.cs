@@ -14,29 +14,39 @@ public class UntangleMG : MiniGame
     
     private List<Vertice> _vertices;
     private List<Edge> _edgeList;
-    private int _verticeTotal =10;
+    private int _verticeTotal;
     private float verticeScale = 60;
     private BUIuntangle _bottomUI;
     List<(List<Vertice> connections, Vertice vertex)> verticeConnectionMap;
 
-    protected override void InitializeDerivative(WindowSize hackWindowDimensions)
+    protected override void InitializeDerivative()
     {
+        Debug.Log("vertot: "+_verticeTotal);
 
-        ///TODO gamewindow should be accessible throug the panel
-
-        _upperUIPrefab = Game.Instance.upperHackPrefab;
-
-        _minigameType = MinigameType.UNTANGLE;
+        _verticeTotal = 10;
+        polygon = new Polygon(_verticeTotal);
+        _edgeList = new List<Edge>();
+        _vertices = new List<Vertice>();
+        verticeConnectionMap = new List<(List<Vertice> connections, Vertice vertex)>();
+        polygon = new Polygon(_verticeTotal);
     }
 
     protected override void InitBottomUI()
     {
+        
+        mgPanel.gameWindow.BUIPanel = Instantiate(Game.Instance.bottomUntanglePrefab, mgPanel.gameWindow.bottomContainer.transform)
+            .GetComponent<BUIuntangle>();
         _bottomUI = (BUIuntangle)mgPanel.gameWindow.BUIPanel;
         _bottomUI.InitializeLeftButton(showSolution);
         _bottomUI.InitializeRightButton(RetryMinigame);
+    }    
+    protected override void InitUpperUI()
+    {
+        mgPanel.gameWindow.UUIpanel = Instantiate(Game.Instance.upperUntanglePrefab, mgPanel.gameWindow.upperContainer.transform)
+            .GetComponent<UUIuntangle>();
     }
 
-    public override void StartMinigame()
+    public override void ChildStartMinigame()
     {
         polygon = new Polygon(_verticeTotal);
         _edgeList = new List<Edge>();
@@ -54,9 +64,6 @@ public class UntangleMG : MiniGame
         polygon = new Polygon(_verticeTotal);
         _vertices.ForEach(vertice =>vertice.destr());
         _edgeList.ForEach(edge => Destroy(edge.gameObject));
-        Destroy(this);
-
-
     }
 
     public void showSolution()
@@ -70,12 +77,12 @@ public class UntangleMG : MiniGame
         StopAllCoroutines();
         _vertices.ForEach(vertice =>vertice.destr());
         _edgeList.ForEach(edge => Destroy(edge.gameObject));
-        StartMinigame();
+        ChildStartMinigame();
     }
     //===========
     private void InstantiateVertices()
     {
-        int radius = (_hackWindowDimensions.Height< _hackWindowDimensions.Width)? (int)_hackWindowDimensions.Height / 2: (int)_hackWindowDimensions.Width / 2 ;
+        int radius = (mgPanel.panelBounds.Height< mgPanel.panelBounds.Width)? (int)mgPanel.panelBounds.Height / 2: (int)mgPanel.panelBounds.Width / 2 ;
         PlaceVerticesCircleToLatin(_verticeTotal, radius);
     }
 
@@ -95,30 +102,12 @@ public class UntangleMG : MiniGame
     }
     
     
-    // private void PlaceVerticesCircular(int points, int radius)
-    // {
-    //     (float xCoord, float yCoord) centerVertice = (0, 0);
-    //
-    //     // Calculate the angle between each vertex in degrees
-    //     double slice = 2 * Math.PI / points;
-    //
-    //
-    //     for (int i = 0; i < points; i++)
-    //     {
-    //         
-    //         double angleInRadians = slice * i;
-    //
-    //         float xCoord = (float)(centerVertice.xCoord + radius * Math.Cos(angleInRadians));
-    //         float yCoord = (float)(centerVertice.yCoord + radius * Math.Sin(angleInRadians));
-    //         InstantiateVertice((xCoord, yCoord));
-    //     }
-    //
-    // }    
     private void PlaceVerticesCircleToLatin(int points, int radius)
     {
-        var dots = Generate.GetLatinSpreadPoints(_verticeTotal, ref verticeScale, _hackWindowDimensions);
+        var dots = Generate.GetLatinSpreadPoints(_verticeTotal, ref verticeScale, mgPanel.panelBounds);
         var startingDots = Generate.CirclePoints(radius, new Point(0,0), _verticeTotal);
         
+        Debug.Log("points: " + points);
         for (int i = 0; i < points; i++)
         {
             var random = new Random();
@@ -142,6 +131,7 @@ public class UntangleMG : MiniGame
             new Vector3(vertice._rect.position.x, vertice._rect.position.y, -2);
         
         tmpObject.name = "Vertice["+vertice.verticeNo+"]";
+        Debug.Log("VX: "+tmpObject.name);
         _vertices.Add(vertice);
     }
 
@@ -156,10 +146,5 @@ public class UntangleMG : MiniGame
 
         _edgeList.Add(edge);
     }
-
-    protected override void SetupPanels()
-    {
-        // Debug.Log("Available availableHeight: "+availableHeight);
-
-    }
+    
 }

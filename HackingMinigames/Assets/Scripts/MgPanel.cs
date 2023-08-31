@@ -18,24 +18,38 @@ public class MgPanel : MonoBehaviour
 
 
 
-    public void Initialize( WindowSize bounds)
-    {
-        panelBounds = bounds;
-        _miniGame = GetComponent<MiniGame>();
-    }
-    public void Retry()
-    {
-        _miniGame.RetryMinigame();
-    }
+
+
     public void stopGameCoroutines()
     {
-        ///TODO INSTANT HERE
-        Destroy(gameWindow.UUIpanel.gameObject);
-        Destroy(gameWindow.BUIPanel.gameObject);
-        ///TODO END HERE
-        Debug.Log("tyoe"+ _miniGame._minigameType);
+        // Destroy(gameWindow.UUIpanel.gameObject);
+        // Destroy(gameWindow.BUIPanel.gameObject);
+        
         _miniGame.EndMinigame();
         StopAllCoroutines();
+    }
+
+    public IEnumerator AddMinigameScript()
+    {
+        switch (Game.Instance.currentMg)
+        {
+            case MinigameType.HACK:
+                _miniGame = gameObject.AddComponent<HackingMG>();
+
+                break;
+            case MinigameType.UNTANGLE:
+                _miniGame = gameObject.AddComponent<UntangleMG>();
+                break;
+            default:
+                _miniGame = gameObject.AddComponent<HackingMG>();
+                break;
+        }
+        yield return _miniGame.Initialize(this);
+    }
+
+    public void StartMinigame()
+    {
+        StartCoroutine(_miniGame.StartMinigame());
     }
  
     

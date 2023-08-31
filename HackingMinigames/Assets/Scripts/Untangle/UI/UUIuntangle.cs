@@ -13,10 +13,9 @@
 
         public override void Initialize(GameObject gameCanvas){
             Debug.Log("BUTTON");
-            _upperPanel = gameCanvas;
-            leftButton.onClick.AddListener(ButtonManager.Instance.backToSettings);
+            _upperPanel = gameCanvas;            
             Debug.Log("added listener");
-            rightButton.onClick.AddListener(aaa);
+            leftButton.onClick.AddListener(ButtonManager.Instance.backToSettings);
         }
 
         private void aaa(){

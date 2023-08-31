@@ -16,7 +16,6 @@ public class ButtonManager : MonoBehaviour
     [FormerlySerializedAs("relativeCanvasProportions")] [SerializeField]
     private GameCanvas gameCanvas;
 
-    [FormerlySerializedAs("_gameWindow")] [SerializeField] private MgPanel mgPanel;
 
 
     //Toggles
@@ -42,21 +41,15 @@ public class ButtonManager : MonoBehaviour
             return _instance;
         }
     }
-
     
-    public void CardHackStart(){
-        StartCoroutine(MinigameCoroutine());
-    }
     public void MinigameStart(){
         StartCoroutine(MinigameCoroutine());
     }
     public IEnumerator MinigameCoroutine(){
         Debug.Log("Untangle Button Pressed");
         gameCanvas.gameWindow.ShowGame();
-        yield return gameCanvas.ChangePaddingWithAnimation(mgPanel);
-        yield return gameCanvas.gameWindow.StartMinigame(Game.Instance.currentMg);
-
-        //wait one second
+        yield return gameCanvas.ChangePaddingWithAnimation();
+        yield return gameCanvas.gameWindow.StartMinigame();
     }
 
     public void mainMenu(){
@@ -64,10 +57,7 @@ public class ButtonManager : MonoBehaviour
         SceneManager.LoadScene("SelectionScene", LoadSceneMode.Single);
     }
 
-    private int i =1;
     public void backToSettings(){
-        Debug.Log("go back Pressed" + i++);
-
         StopAllCoroutines();
         
         gameCanvas.gameWindow.MinigamePanel.stopGameCoroutines();
@@ -77,7 +67,6 @@ public class ButtonManager : MonoBehaviour
         upperLE.flexibleHeight = 100;
         lowerLE.flexibleHeight = 1;
 
-        // StartCoroutine(gameCanvas.gameWindow.InitPanels(250f,0f,100f));
         StartCoroutine(gameCanvas.ChangePaddingWithAnimation());
 
     }
@@ -91,11 +80,7 @@ public class ButtonManager : MonoBehaviour
         Debug.Log("Invert Toggle " + " isOn: " + isOn);
         Game.Instance.questionFirstToggle = isOn;
     }
-
-    public void RetryPuzzle(){
-        mgPanel.stopGameCoroutines();
-        mgPanel.Retry();
-    }
+    
 
 
 

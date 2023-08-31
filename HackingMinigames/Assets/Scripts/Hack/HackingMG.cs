@@ -15,23 +15,17 @@ public class HackingMG : MiniGame
     private UUIhack _upperUI;
     
 
-    protected override void  InitializeDerivative(WindowSize hackWindowDimensions)
+    protected override void  InitializeDerivative()
     {
-        _bottomUI = (BUIhack)mgPanel.gameWindow.BUIPanel;
-        _upperUI = (UUIhack)mgPanel.gameWindow.UUIpanel;
-        _minigameType = MinigameType.HACK;
         _cardDeck = new List<Card>(_tileAmount);
         _cardFactory = new CardFactory();
-        _hackWindowDimensions = hackWindowDimensions;
-        // fillCardDeck();
+        
         _puzzleTimer = this.AddComponent<PuzzleTimer>();
-        // _bottomUI = (BUIhack)mgPanel.BUIPanel;
-        // _upperUI = (UUIhack)mgPanel.UUIpanel;
+        
         _puzzleTimer.Initialize(this,ref _bottomUI.loadingbarTimer);
-        _upperUIPrefab = Game.Instance.upperHackPrefab;
     }
 
-    public override void StartMinigame()
+    public override void ChildStartMinigame()
     {
         ToggleCards(true, true);
     }    
@@ -44,11 +38,11 @@ public class HackingMG : MiniGame
         _cardDeck.ForEach(card =>
         {
             card.StopAllCoroutines();
-            Destroy(card.gameObject);
         });
+        CleanDeck();
         StopAllCoroutines();
-        Destroy(_puzzleTimer);
-        Destroy(this);
+        // Destroy(_puzzleTimer);
+        // Destroy(this);
     }
 
     public override void RetryMinigame()
@@ -62,17 +56,26 @@ public class HackingMG : MiniGame
         // questionTextFieldObject.SetActive(false);
 
         _puzzleTimer.reset_timer();
-        StartMinigame();
+        ToggleCards(true, false);
+
     }
     protected override void InitBottomUI()
     {
+        mgPanel.gameWindow.BUIPanel = Instantiate(Game.Instance.bottomHackPrefab, mgPanel.gameWindow.bottomContainer.transform)
+            .GetComponent<BUIhack>();
         _bottomUI = (BUIhack)mgPanel.gameWindow.BUIPanel;
-        // _bottomUI.InitializeLeftButton(showSolution);
         _bottomUI.InitializeRightButton(RetryMinigame);
     }
+
+    protected override void InitUpperUI()
+    {
+        mgPanel.gameWindow.UUIpanel = Instantiate(Game.Instance.upperHackPrefab, mgPanel.gameWindow.upperContainer.transform)
+            .GetComponent<UUIhack>();
+        _upperUI = (UUIhack)mgPanel.gameWindow.UUIpanel;
+    }
+
     private void continueHacks()
     {
-        //wait 1 second
         ToggleCards(true);
     }
     
@@ -84,9 +87,8 @@ public class HackingMG : MiniGame
     private void FillCardDeckRoutine()
     {
         Debug.Log("FillCardDeckRoutine");
-        _cardDeck.ForEach(card => Destroy(card.gameObject));
-        _cardDeck = new List<Card>(_tileAmount);
-        var cardDimensions = _cardFactory.getAllCardDimensions(_tileAmount, _hackWindowDimensions);
+        CleanDeck();
+        var cardDimensions = _cardFactory.getAllCardDimensions(_tileAmount, mgPanel.panelBounds);
         Debug.Log("got all dimensions");
         _orderList = RandomFactory.GetOrderList(_tileAmount);
         _cardDeck.AddRange(Enumerable.Range(0, _tileAmount)
@@ -98,16 +100,17 @@ public class HackingMG : MiniGame
             }));
 
     }
+    private void CleanDeck()
+    {
+        _cardDeck.ForEach(card => Destroy(card.gameObject));
+        _cardDeck = new List<Card>(_tileAmount);
+    }
     
     public void ToggleCards(bool toggle, bool isStart  =false)
     {
         //TODO THIS WAIT IS ANIMATION DUROATION FIX need to only happen at start
         fillCardDeck();
-        // if (isStart)
-        // {
-        //     yield return new WaitForSeconds(0.3f);
-        //
-        // }
+
 
         _cardDeck.ForEach(card =>
         { 
@@ -263,19 +266,7 @@ public class HackingMG : MiniGame
         _bottomUI.questionTextFieldObject.SetActive(true);
         yield return null;
     }
-    protected override void SetupPanels()
-    {
-        // var availableHeight = _hackWindowDimensions.Height -60- _panelHeight;
-        // Debug.Log("Available availableHeight: "+availableHeight);
-        //
-        // mgPanel.UUIpanel.Initialize(gameCanvas.upperGUI,availableHeight/2);
-        // mgPanel.BUIPanel.Initialize(gameCanvas.bottomGUI, availableHeight/2);
-        //
-        // _panelRect.sizeDelta = new Vector2(gameCanvas.gameWindowSize.Width, _panelHeight);
-        // yield return null;
-        // Debug.Log("Available Height: "+gameCanvas.gameWindowSize.Height);
 
-    }
 
     
 

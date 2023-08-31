@@ -351,7 +351,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c89efab6b3b8c53a8389d804f29aed8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settingsPrefab: {fileID: 0}
   _gameCanvas: {fileID: 527667866}
   upperContainer: {fileID: 716509694}
   _gamePanel: {fileID: 59309938}
@@ -1745,7 +1744,7 @@ MonoBehaviour:
   m_MinWidth: -1
   m_MinHeight: -1
   m_PreferredWidth: -1
-  m_PreferredHeight: 50
+  m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: 1
   m_LayoutPriority: 1
@@ -1912,12 +1911,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db127e94804dd8e4d8b4c16587563c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  normalHackSceneName: NormalHackScene
-  normalHackGameSceneName: NormalHackGameScene
   gameCanvas: {fileID: 527667866}
-  mgPanel: {fileID: 59309944}
-  tileSlider: {fileID: 0}
-  timeSlider: {fileID: 0}
 --- !u!4 &1938583429
 Transform:
   m_ObjectHideFlags: 0

@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: Retry
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -371,7 +371,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: Solution
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -573,7 +573,7 @@ GameObject:
   - component: {fileID: 3053642755232607545}
   - component: {fileID: 6202862586816265907}
   m_Layer: 0
-  m_Name: Buttons
+  m_Name: ShowSolution
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -859,9 +859,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _leftButton: {fileID: 6178847893641949153}
   _rightButton: {fileID: 8608248784460082541}
-  movesText: {fileID: 0}
   loadingbarTimer: {fileID: 3230585745004421507}
-  _buttonsGOBJ: {fileID: 5757187664719795030}
 --- !u!114 &2068079703760248653
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -15,7 +15,6 @@ public abstract class MiniGame : MonoBehaviour
     public PuzzleTimer _puzzleTimer;
     protected int currentStreak = 0;
 
-    public HighscoreBoardPanel highscoreBoardPanel;
     //initialization
 
     public IEnumerator Initialize(MgPanel panel)
@@ -68,7 +67,10 @@ public abstract class MiniGame : MonoBehaviour
     protected void SetupPanels()
     {
         Debug.Log("inside setup");
-
+        mgPanel.gameWindow.highscoreBoardPanel = 
+            Instantiate(Game.Instance.highscoreBoardPrefab, mgPanel.gameWindow.upperContainer.transform).
+            GetComponent<HighscoreBoardPanel>();
+            
         InitUpperUI();
         InitBottomUI();
     }

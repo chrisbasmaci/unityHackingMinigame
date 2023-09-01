@@ -41,6 +41,7 @@ public class UntangleSettings : MgSettings
         //defaults for this puzzle
         _defaultIntroTimer = 0;
         _defaultPuzzleTimer = 60;
+        BestMoves = new Dictionary<int, int>();
     }
 
     public void UpdateRecords(float currentTime, int verticeTotal, int currentMoves)
@@ -55,9 +56,13 @@ public class UntangleSettings : MgSettings
 }
 public class HackSettings : MgSettings
 {
-    public HackSettings(int introTimer, int puzzleTimer)
+    public int defaultCardTotal;
+    public int currentCardTotal;
+    public HackSettings(int introTimer, int puzzleTimer, int cardTotal)
         : base(introTimer, puzzleTimer)
     {
+        defaultCardTotal = 4;
+        currentCardTotal = cardTotal;
         _defaultIntroTimer = 3;
         _defaultPuzzleTimer = 10;
     }

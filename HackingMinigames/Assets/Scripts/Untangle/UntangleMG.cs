@@ -24,6 +24,11 @@ public class UntangleMG : MiniGame
 
     protected override void InitializeDerivative()
     {
+        if (mgPanel.gameWindow.highscoreBoardPanel)
+        {
+            mgPanel.gameWindow.highscoreBoardPanel.ResetUI();
+
+        }
         //TODO GET THE NUMBERS from the sliders
         if (Settings == null) {
             _internalSettings = new UntangleSettings(0,60);
@@ -124,6 +129,10 @@ public class UntangleMG : MiniGame
         +"and in" +moveTotal +"Moves");
         PauseMinigame();
         _internalSettings.UpdateRecords(_puzzleTimer.puzzleTimeLeft,_verticeTotal, moveTotal);
+        if (mgPanel.gameWindow.highscoreBoardPanel)
+        {
+            mgPanel.gameWindow.highscoreBoardPanel.UpdateHighscore("Minimum Moves", _internalSettings.BestMoves[_verticeTotal]);
+        }
     }
     //===========
     private void InstantiateVertices()

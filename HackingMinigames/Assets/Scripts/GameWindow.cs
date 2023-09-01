@@ -52,7 +52,10 @@ public class GameWindow : MonoBehaviour
     {
         Debug.Log("showing settings");
         hackPanelGobj.SetActive(false);
-        
+        if (highscoreBoardPanel) {
+            highscoreBoardPanel.gameObject.SetActive(false);
+        }
+
         UUIpanel.gameObject.SetActive(false);
         BUIPanel.gameObject.SetActive(false);
         if (Game.Instance.currentSettingsPrefab)
@@ -67,9 +70,12 @@ public class GameWindow : MonoBehaviour
     }
     public void ShowGame()
     {
-        if (settingsPanel)
-        {
+        if (settingsPanel) {
             settingsPanel.SetActive(false);
+        }
+
+        if (highscoreBoardPanel) {
+            highscoreBoardPanel.gameObject.SetActive(true);
         }
         navigationPanel.SetActive(false);
         hackPanelGobj.SetActive(true);

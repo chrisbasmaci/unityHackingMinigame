@@ -5,13 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Unity.VisualScripting;
+using UnityEditor;
+
 public class HackingMG : MiniGame
 {
     private HackSettings _internalSettings;
 
     private List<Card> _cardDeck;
     private CardFactory _cardFactory;
-    private int _tileAmount = Game.Instance.defaultTileAmount;
     private List<int> _orderList;
     private BUIhack _bottomUI;
     private UUIhack _upperUI;
@@ -19,19 +20,18 @@ public class HackingMG : MiniGame
 
     protected override void  InitializeDerivative()
     {
-
-        if (Settings == null) {
-            _internalSettings = new HackSettings(3,10);
-            Settings = _internalSettings;
-        }
-        _cardDeck = new List<Card>(_tileAmount);
         _cardFactory = new CardFactory();
-        _puzzleTimer.Initialize(ref _bottomUI.loadingbarTimer, Settings);
     }
 
 
     public override void ChildStartMinigame()
     {
+
+        _internalSettings = new HackSettings(3,10, Game.Instance.defaultTileAmount);
+        Settings = _internalSettings;
+        _puzzleTimer.Initialize(ref _bottomUI.loadingbarTimer, Settings);
+    
+        _cardDeck = new List<Card>(_internalSettings.currentCardTotal);
         ToggleCards(true, true);
     }    
     public override void EndMinigame()
@@ -93,10 +93,10 @@ public class HackingMG : MiniGame
     {
         Debug.Log("FillCardDeckRoutine");
         CleanDeck();
-        var cardDimensions = _cardFactory.getAllCardDimensions(_tileAmount, mgPanel.panelBounds);
+        var cardDimensions = _cardFactory.getAllCardDimensions(_internalSettings.currentCardTotal, mgPanel.panelBounds);
         Debug.Log("got all dimensions");
-        _orderList = RandomFactory.GetOrderList(_tileAmount);
-        _cardDeck.AddRange(Enumerable.Range(0, _tileAmount)
+        _orderList = RandomFactory.GetOrderList(_internalSettings.currentCardTotal);
+        _cardDeck.AddRange(Enumerable.Range(0, _internalSettings.currentCardTotal)
             .Select(i => {
                 var tmpObject = new GameObject("Card"+i);
                 var card = tmpObject.AddComponent<Card>();
@@ -108,7 +108,7 @@ public class HackingMG : MiniGame
     private void CleanDeck()
     {
         _cardDeck.ForEach(card => Destroy(card.gameObject));
-        _cardDeck = new List<Card>(_tileAmount);
+        _cardDeck = new List<Card>(_internalSettings.currentCardTotal);
     }
     
     public void ToggleCards(bool toggle, bool isStart  =false)
@@ -227,7 +227,7 @@ public class HackingMG : MiniGame
 
         if (!questionFirst)
         { 
-            question = _bottomUI.SetQuestion(_tileAmount, _cardDeck);
+            question = _bottomUI.SetQuestion(_internalSettings.currentCardTotal, _cardDeck);
         }
         StartCoroutine(StartGameTimer(question));
 

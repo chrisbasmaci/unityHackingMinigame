@@ -860,6 +860,7 @@ MonoBehaviour:
   _leftButton: {fileID: 6178847893641949153}
   _rightButton: {fileID: 8608248784460082541}
   movesText: {fileID: 0}
+  loadingbarTimer: {fileID: 3230585745004421507}
   _buttonsGOBJ: {fileID: 5757187664719795030}
 --- !u!114 &2068079703760248653
 MonoBehaviour:

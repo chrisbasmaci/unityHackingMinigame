@@ -7,12 +7,9 @@ public class BUIuntangle :UIPanel
 {
     [SerializeField]private  Button _leftButton;
     [SerializeField]private Button _rightButton;
-    [SerializeField]public TMP_Text movesText;
-    private GameObject _bottomPanel;
-    [SerializeField]private GameObject _buttonsGOBJ;
+    [SerializeField]public Image loadingbarTimer;
     public override void Initialize(GameObject bottomPanel)
     {
-        _bottomPanel = bottomPanel;
     }
 
     

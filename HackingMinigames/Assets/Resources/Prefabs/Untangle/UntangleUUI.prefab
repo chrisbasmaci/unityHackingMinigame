@@ -628,7 +628,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftButton: {fileID: 6689322725972064533}
   rightButton: {fileID: 3295532911930745334}
-  movesText: {fileID: 0}
+  movesText: {fileID: 4903390775469020159}
 --- !u!114 &3286354969181819754
 MonoBehaviour:
   m_ObjectHideFlags: 0

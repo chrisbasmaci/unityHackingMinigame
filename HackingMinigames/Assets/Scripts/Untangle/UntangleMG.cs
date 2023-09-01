@@ -11,12 +11,13 @@ using Vertex = TriangleNet.Geometry.Vertex;
 public class UntangleMG : MiniGame
 {
     private Polygon polygon;
-    
+    public int moveTotal = 0;
     private List<Vertice> _vertices;
     private List<Edge> _edgeList;
     private int _verticeTotal;
     private float verticeScale = 60;
     private BUIuntangle _bottomUI;
+    private UUIuntangle _upperUI;
     List<(List<Vertice> connections, Vertice vertex)> verticeConnectionMap;
 
     protected override void InitializeDerivative()
@@ -29,6 +30,8 @@ public class UntangleMG : MiniGame
         _vertices = new List<Vertice>();
         verticeConnectionMap = new List<(List<Vertice> connections, Vertice vertex)>();
         polygon = new Polygon(_verticeTotal);
+        _puzzleTimer.Initialize(ref _bottomUI.loadingbarTimer);
+
     }
 
     protected override void InitBottomUI()
@@ -44,6 +47,8 @@ public class UntangleMG : MiniGame
     {
         mgPanel.gameWindow.UUIpanel = Instantiate(Game.Instance.upperUntanglePrefab, mgPanel.gameWindow.upperContainer.transform)
             .GetComponent<UUIuntangle>();
+        _upperUI = (UUIuntangle)mgPanel.gameWindow.UUIpanel;
+        _upperUI.UpdateMoves(10);
     }
 
     public override void ChildStartMinigame()
@@ -56,14 +61,23 @@ public class UntangleMG : MiniGame
 
         InstantiateVertices();
         InstantiateEdges();
+
+        _puzzleTimer.startPuzzleTimer();
+        
     }
 
     public override void EndMinigame()
     {
+        _puzzleTimer.reset_timer();
         StopAllCoroutines();
         polygon = new Polygon(_verticeTotal);
         _vertices.ForEach(vertice =>vertice.destr());
         _edgeList.ForEach(edge => Destroy(edge.gameObject));
+    }
+
+    public void UpdateMoves(int movesCount)
+    {
+        _upperUI.UpdateMoves(movesCount);
     }
 
     public void showSolution()
@@ -74,6 +88,7 @@ public class UntangleMG : MiniGame
 
     public override void RetryMinigame()
     {
+        _puzzleTimer.reset_timer();
         StopAllCoroutines();
         _vertices.ForEach(vertice =>vertice.destr());
         _edgeList.ForEach(edge => Destroy(edge.gameObject));

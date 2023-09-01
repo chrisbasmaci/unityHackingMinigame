@@ -21,6 +21,7 @@ public abstract class MiniGame : MonoBehaviour
     {
         mgPanel = panel;
         SetupPanels();
+        _puzzleTimer = this.AddComponent<PuzzleTimer>();
         InitializeDerivative();
         yield return mgPanel.gameWindow.InitPanels();
 
@@ -32,6 +33,8 @@ public abstract class MiniGame : MonoBehaviour
         mgPanel.panelBounds = GameCanvas.CalculateWsWithPadding(mgPanelRectTransform.rect, 0);
 
     }
+
+
 
 
     public IEnumerator StartMinigame()

@@ -26,19 +26,13 @@ public class GameWindow : MonoBehaviour
     [SerializeField] private GameObject navigationPanel;
     [SerializeField] private GameObject hackPanelGobj;
 
-
-    private RectTransform _mgPanelRectTransform;
-    [NonSerialized] public WindowSize gameWindowSize;
-    [NonSerialized] public MiniGame miniGame;
+    
 
 
     private void Start()
     {
         MinigamePanel = _gamePanel.GetComponent<MgPanel>();
-
-
-        _mgPanelRectTransform = MinigamePanel.GetComponent<RectTransform>();
-        gameWindowSize = _gameCanvas.GetGameWindowSize();
+        
         Game.Instance.CurrentGameWindow = this;
 
         _upperContainerLayout = upperContainer.GetComponent<LayoutElement>();
@@ -87,7 +81,6 @@ public class GameWindow : MonoBehaviour
         var uuiLayoutElement = UUIpanel.GetComponent<LayoutElement>();
         var buiLayoutElement = BUIPanel.GetComponent<LayoutElement>();
         
-        _mgPanelRectTransform = MinigamePanel.GetComponent<RectTransform>();
         
         _upperContainerLayout.preferredHeight = uuiLayoutElement.preferredHeight;
         _gamePanelLayout.flexibleHeight = 10000;

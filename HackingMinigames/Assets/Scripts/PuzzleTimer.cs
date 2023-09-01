@@ -13,13 +13,11 @@ public class PuzzleTimer : MonoBehaviour
     public float puzzleTimeLeft;   
     private bool isEnabled;
     private bool puzzleStarted;
-    private MiniGame _miniGame;
     [FormerlySerializedAs("puzzleStarted")] public bool introEnded ;
     private Image _loadingbarTimer;
 
-    public void Initialize(MiniGame miniGame, ref Image loadingBarTimer)
+    public void Initialize(ref Image loadingBarTimer)
     {
-        _miniGame = miniGame;
         _loadingbarTimer = loadingBarTimer;
         reset_timer();
     }
@@ -33,10 +31,16 @@ public class PuzzleTimer : MonoBehaviour
         isEnabled = false;
         introEnded = false;
         puzzleStarted = false;
-        _loadingbarTimer.fillAmount = 0;
+
+        if (_loadingbarTimer) {
+            _loadingbarTimer.fillAmount = 0;
+        }
+        else {
+            Debug.Log("No timer image(timer uninitialized)");
+        }
 
     }
-    public void startTimer(){
+    public void startIntroTimer(){
         reset_timer();
         isEnabled = true;
     }
@@ -44,7 +48,10 @@ public class PuzzleTimer : MonoBehaviour
     {
         return introEnded;
     }
-    public void startPuzzleTimer(){
+    public void startPuzzleTimer()
+    {
+        isEnabled = true;
+        introEnded = true;
         puzzleStarted = true;
     }
     public bool IsGameOver()
@@ -65,7 +72,10 @@ public class PuzzleTimer : MonoBehaviour
                 }
             }
             else if(puzzleStarted){
-                _loadingbarTimer.fillAmount = 1 - puzzleTimeLeft/ Game.Instance.defaultPuzzleTime;
+                if (_loadingbarTimer) {
+                    _loadingbarTimer.fillAmount = 1 - puzzleTimeLeft/ Game.Instance.defaultPuzzleTime;
+
+                }
                 puzzleTimeLeft -= Time.deltaTime;
                 if(puzzleTimeLeft < 0){
                     isEnabled = false;

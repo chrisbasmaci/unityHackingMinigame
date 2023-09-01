@@ -19,10 +19,7 @@ public class HackingMG : MiniGame
     {
         _cardDeck = new List<Card>(_tileAmount);
         _cardFactory = new CardFactory();
-        
-        _puzzleTimer = this.AddComponent<PuzzleTimer>();
-        
-        _puzzleTimer.Initialize(this,ref _bottomUI.loadingbarTimer);
+        _puzzleTimer.Initialize(ref _bottomUI.loadingbarTimer);
     }
 
     public override void ChildStartMinigame()
@@ -146,13 +143,6 @@ public class HackingMG : MiniGame
     
     private void disableCurtain(Card card)
     {
-        // Wait until the animation finishes playing
-        // while (card  && !card.cardAnimator.GetCurrentAnimatorStateInfo(0).IsName("pullFinished"))
-        // {
-        //     yield return null;
-        // }
-
-        // Check if the card reference is still valid
         if (card)
         {
             card.cardCover.SetActive(false);
@@ -217,7 +207,7 @@ public class HackingMG : MiniGame
         //     question = _gameWindow.SetQuestion(_tileAmount, _cardDeck);
         // }
 
-        _puzzleTimer.startTimer();
+        _puzzleTimer.startIntroTimer();
 
         while (!_puzzleTimer.introFinished())
         {

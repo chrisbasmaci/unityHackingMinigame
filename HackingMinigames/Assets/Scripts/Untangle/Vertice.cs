@@ -82,10 +82,13 @@ public class Vertice : MonoBehaviour
     {
         // Debug.Log("pressed");
         _difference = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - (Vector2)transform.position;
+        var mg= (UntangleMG)_mgPanel._miniGame;
+        mg.UpdateMoves(++mg.moveTotal);
     }
     
     private void OnMouseDrag()
     {
+
         var newPos = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - _difference;
         ///TODO FIX windowsize struct
         var panelRectTransform = _mgPanel.GetComponent<RectTransform>();
@@ -108,7 +111,7 @@ public class Vertice : MonoBehaviour
       
         stretchAllEdges();
     }
-
+    
     private void stretchAllEdges()
     {
         if (_edges.Count != 0)

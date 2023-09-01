@@ -17,10 +17,9 @@
             Debug.Log("added listener");
             leftButton.onClick.AddListener(ButtonManager.Instance.backToSettings);
         }
-
-        private void aaa(){
-            Debug.Log("AAAAA");
-            Debug.Log("vvvv");
-
+        
+        public void UpdateMoves(int moveCount)
+        {
+            movesText.text = "Moves: " + moveCount;
         }
     }

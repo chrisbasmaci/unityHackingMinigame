@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Unity.VisualScripting;
 public class HackingMG : MiniGame
 {
+    private HackSettings _internalSettings;
+
     private List<Card> _cardDeck;
     private CardFactory _cardFactory;
     private int _tileAmount = Game.Instance.defaultTileAmount;
@@ -17,10 +19,16 @@ public class HackingMG : MiniGame
 
     protected override void  InitializeDerivative()
     {
+
+        if (Settings == null) {
+            _internalSettings = new HackSettings(3,10);
+            Settings = _internalSettings;
+        }
         _cardDeck = new List<Card>(_tileAmount);
         _cardFactory = new CardFactory();
-        _puzzleTimer.Initialize(ref _bottomUI.loadingbarTimer);
+        _puzzleTimer.Initialize(ref _bottomUI.loadingbarTimer, Settings);
     }
+
 
     public override void ChildStartMinigame()
     {

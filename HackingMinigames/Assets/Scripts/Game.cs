@@ -50,6 +50,8 @@ public class Game : MonoBehaviour
     [SerializeField] public GameObject upperUntanglePrefab;
     [SerializeField] public GameObject bottomHackPrefab;
     [SerializeField] public GameObject bottomUntanglePrefab;
+
+    [SerializeField] public GameObject highscoreBoardPrefab;
     // Public property to access the singleton instance
     
     //Toggles

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,14 +7,16 @@ using UnityEngine;
 public class Edge : MonoBehaviour
 {
     public (Vertice leftVertice, Vertice rightVertice) _verticePair;
-    private LineRenderer _lineRenderer;
+    public LineRenderer _lineRenderer;
     private PolygonCollider2D _collider;
     private int _tangleCount;
+    private MgPanel _mgPanel;
+    public bool _isTangled;
 
     // Start is called before the first frame update
     public void Initialize(MgPanel mgPanel,(Vertice leftVertice, Vertice rightVertice)verticePair)
     {
-
+        _mgPanel = mgPanel;
         _verticePair = verticePair;
 
         _collider = gameObject.AddComponent<PolygonCollider2D>();
@@ -25,6 +28,7 @@ public class Edge : MonoBehaviour
         _lineRenderer.endWidth = verticePair.rightVertice.GetEdgeThickness();
         _lineRenderer.material = new Material(Shader.Find("UI/Default"));
         SetLineColor(Color.green);
+        
 
         var rigidbdy = gameObject.AddComponent<Rigidbody2D>();
         rigidbdy.bodyType = RigidbodyType2D.Dynamic;
@@ -38,6 +42,7 @@ public class Edge : MonoBehaviour
 
     public void SetLineColor(Color color)
     {
+        _isTangled = color == Color.red;
         float alpha = 1.0f;
         Gradient gradient = new Gradient();
         gradient.SetKeys(
@@ -65,7 +70,7 @@ public class Edge : MonoBehaviour
         // CheckIfTangled();
         // _verticePair.rightVertice.Edges().ForEach(edge=> edge.CheckIfTangled());
         // _verticePair.leftVertice.Edges().ForEach(edge=> edge.CheckIfTangled());
-
+        
 
     }
     public Vertice OtherVertice(Vertice vertice){
@@ -83,29 +88,45 @@ public class Edge : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D overlappingCollider)
     {
         // CheckIfTangled();
-        
-        if (!_verticePair.leftVertice.Edges().Find(edge => edge.gameObject.name == overlappingCollider.gameObject.name)
-                                &&!_verticePair.rightVertice.Edges().Find(edge => edge.gameObject.name == overlappingCollider.gameObject.name))
+
+        // Store references to the edges for readability and performance
+        var leftEdges = _verticePair.leftVertice.Edges();
+        var rightEdges = _verticePair.rightVertice.Edges();
+        var overlappingObjectName = overlappingCollider.gameObject.name;
+
+        if (!leftEdges.Exists(edge => edge.gameObject.name == overlappingObjectName)
+            && !rightEdges.Exists(edge => edge.gameObject.name == overlappingObjectName))
         {
             SetLineColor(Color.red);
             _tangleCount++;
+            var mg = _mgPanel?._miniGame as UntangleMG;
+            mg?.TangledEdges.Add(this);
         }
     }
 
     private void OnCollisionExit2D(Collision2D overlappingCollider)
     {
-        if (!_verticePair.leftVertice.Edges().Find(edge => edge.gameObject.name == overlappingCollider.gameObject.name)
-            &&!_verticePair.rightVertice.Edges().Find(edge => edge.gameObject.name == overlappingCollider.gameObject.name))
+        // Store references to the edges for readability and performance
+        var leftEdges = _verticePair.leftVertice.Edges();
+        var rightEdges = _verticePair.rightVertice.Edges();
+        var overlappingObjectName = overlappingCollider.gameObject.name;
+
+        if (!leftEdges.Exists(edge => edge.gameObject.name == overlappingObjectName)
+            && !rightEdges.Exists(edge => edge.gameObject.name == overlappingObjectName))
         {
             _tangleCount--;
             if (_tangleCount == 0)
             {
+                Debug.Log(gameObject.name + " has no more tangles");
                 SetLineColor(Color.green);
-
+                var mg = _mgPanel?._miniGame as UntangleMG;
+                mg?.TangledEdges.Remove(this);
             }
         }
     }
-    
+
+
+
     private void UpdateColliderPos()
     {
         var l = _verticePair.leftVertice.transform.position;

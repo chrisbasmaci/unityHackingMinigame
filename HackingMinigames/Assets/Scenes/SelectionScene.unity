@@ -564,7 +564,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultIntroTime: 3
   defaultPuzzleTime: 10
-  currentMg: 0
   defaultTileAmount: 4
   cardBack: {fileID: 21300000, guid: 12e9e4cca6963a94fa1e5126c1626e58, type: 3}
   cardFace: {fileID: 21300000, guid: 17f05ed5f545ce7469705f8a28769fbb, type: 3}
@@ -604,6 +603,7 @@ MonoBehaviour:
   upperUntanglePrefab: {fileID: 5710736252010185880, guid: 2c0e65ed9f509c9168d3b6853528de64, type: 3}
   bottomHackPrefab: {fileID: 9163261624999878219, guid: 353d39d17cc9a6c3ca452f32bfb2aca1, type: 3}
   bottomUntanglePrefab: {fileID: 9163261624999878219, guid: f5f3c049bf54caa17b5802a84e8a5fae, type: 3}
+  highscoreBoardPrefab: {fileID: 5710736252010185880, guid: 73c8e209825e8b67c8bf212a77c45ff7, type: 3}
   invertToggle: 0
   questionFirstToggle: 0
 --- !u!4 &1209281210

@@ -9,12 +9,13 @@ using UnityEngine.Serialization;
 public enum MinigameType {HACK =0, UNTANGLE}
 public abstract class MiniGame : MonoBehaviour
 {
-
+    public bool isPaused =false;
     public MgPanel mgPanel;
+    public MgSettings Settings;
     public PuzzleTimer _puzzleTimer;
     protected int currentStreak = 0;
 
-
+    public HighscoreBoardPanel highscoreBoardPanel;
     //initialization
 
     public IEnumerator Initialize(MgPanel panel)
@@ -39,11 +40,26 @@ public abstract class MiniGame : MonoBehaviour
 
     public IEnumerator StartMinigame()
     {
+        isPaused = false;
         ReadyUpGamePanel();
         yield return null;
         mgPanel.gameWindow.UUIpanel.gameObject.SetActive(true);
         mgPanel.gameWindow.BUIPanel.gameObject.SetActive(true);
         ChildStartMinigame();
+    }
+
+    public virtual void PauseMinigame()
+    {
+        isPaused = true;
+
+        _puzzleTimer.PauseTimer();
+    }
+
+    public virtual void ResumeMinigame()
+    {
+        isPaused = false;
+        _puzzleTimer.ResumeTimer();
+
     }
     public abstract void ChildStartMinigame();
     public abstract void EndMinigame();

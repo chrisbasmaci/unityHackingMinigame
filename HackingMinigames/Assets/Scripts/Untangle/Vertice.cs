@@ -80,14 +80,20 @@ public class Vertice : MonoBehaviour
     // Update is called once per frame
     private void OnMouseDown()
     {
+        if (_mgPanel._miniGame.isPaused)
+        {
+            return;
+        }
         // Debug.Log("pressed");
         _difference = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - (Vector2)transform.position;
-        var mg= (UntangleMG)_mgPanel._miniGame;
-        mg.UpdateMoves(++mg.moveTotal);
     }
     
     private void OnMouseDrag()
     {
+        if (_mgPanel._miniGame.isPaused)
+        {
+            return;
+        }
 
         var newPos = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - _difference;
         ///TODO FIX windowsize struct
@@ -101,13 +107,13 @@ public class Vertice : MonoBehaviour
         float maxX = rightBorderWorldPosition;
         float minY = bottomBorderWorldPosition;
         float maxY = topBorderWorldPosition;
-        Debug.Log("panelRectTransform: "+panelRectTransform.rect.width);
+        // Debug.Log("panelRectTransform: "+panelRectTransform.rect.width);
 
         newPos.x = Mathf.Clamp(newPos.x, minX, maxX);
         newPos.y = Mathf.Clamp(newPos.y, minY, maxY);
 
         _rect.position = new Vector3(newPos.x,newPos.y, -2);
-        Debug.Log(_rect.position);
+        // Debug.Log(_rect.position);
       
         stretchAllEdges();
     }
@@ -165,7 +171,17 @@ public class Vertice : MonoBehaviour
         Destroy(gameObject);
         
     }
+    private void OnMouseUp()
+    {
+        if (_mgPanel._miniGame.isPaused)
+        {
+            return;
+        }
+        var mg = _mgPanel?._miniGame as UntangleMG;
+        mg.UpdateMoves(++mg.moveTotal);
+        mg?.CheckIfSolved();
     
+    }
     public IEnumerator MoveCoroutine()
     {
         Vector3 startingPosition = _rect.transform.localPosition;
@@ -181,6 +197,8 @@ public class Vertice : MonoBehaviour
             yield return null;
 
         }
+        //TODO MAYBE MOVE FOR CLEARER SOLUTION NOT URGENT
+        _edges.ForEach(edge => edge.SetLineColor(Color.green));
     }
     
 }

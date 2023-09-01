@@ -21,6 +21,7 @@ public class GameWindow : MonoBehaviour
     [NonSerialized]public UIPanel UUIpanel;
     [NonSerialized]public UIPanel BUIPanel;
     [NonSerialized]public MgPanel MinigamePanel;
+    [NonSerialized]public HighscoreBoardPanel highscoreBoardPanel;
     
     [SerializeField] private GameObject settingsPanel;
     [SerializeField] private GameObject navigationPanel;

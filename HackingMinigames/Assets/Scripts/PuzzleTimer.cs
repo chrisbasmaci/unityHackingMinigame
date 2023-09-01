@@ -7,8 +7,9 @@ using UnityEngine.UI;
 
 public class PuzzleTimer : MonoBehaviour
 {
-    private int _introTime = Game.Instance.defaultIntroTime;
-    private int _puzzleTime = Game.Instance.defaultPuzzleTime;
+    private MgSettings _settings;
+    private int _introTime;
+    private int _puzzleTime;
     public float introTimeLeft;
     public float puzzleTimeLeft;   
     private bool isEnabled;
@@ -16,16 +17,19 @@ public class PuzzleTimer : MonoBehaviour
     [FormerlySerializedAs("puzzleStarted")] public bool introEnded ;
     private Image _loadingbarTimer;
 
-    public void Initialize(ref Image loadingBarTimer)
+    public void Initialize(ref Image loadingBarTimer, MgSettings settings)
     {
+        _settings = settings;
+        _introTime = _settings.DefaultIntroTimer;
+        _puzzleTime = _settings.DefaultPuzzleTimer;
         _loadingbarTimer = loadingBarTimer;
         reset_timer();
     }
 
     public void reset_timer()
     {
-        _introTime = Game.Instance.defaultIntroTime;
-        _puzzleTime = Game.Instance.defaultPuzzleTime;
+        _introTime = _settings.CurrentIntroTimer;
+        _puzzleTime = _settings.CurrentPuzzleTimer;
         introTimeLeft = _introTime; 
         puzzleTimeLeft = _puzzleTime;
         isEnabled = false;
@@ -58,6 +62,14 @@ public class PuzzleTimer : MonoBehaviour
     {
         return !isEnabled;
     }
+
+    public void PauseTimer() {
+        isEnabled = false;
+    }
+
+    public void ResumeTimer() {
+        isEnabled = true;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -73,7 +85,7 @@ public class PuzzleTimer : MonoBehaviour
             }
             else if(puzzleStarted){
                 if (_loadingbarTimer) {
-                    _loadingbarTimer.fillAmount = 1 - puzzleTimeLeft/ Game.Instance.defaultPuzzleTime;
+                    _loadingbarTimer.fillAmount = 1 - puzzleTimeLeft/ _puzzleTime;
 
                 }
                 puzzleTimeLeft -= Time.deltaTime;

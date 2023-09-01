@@ -10,6 +10,7 @@ using Vertex = TriangleNet.Geometry.Vertex;
 
 public class UntangleMG : MiniGame
 {
+    private UntangleSettings _internalSettings;
     private Polygon polygon;
     public int moveTotal = 0;
     private List<Vertice> _vertices;
@@ -19,18 +20,26 @@ public class UntangleMG : MiniGame
     private BUIuntangle _bottomUI;
     private UUIuntangle _upperUI;
     List<(List<Vertice> connections, Vertice vertex)> verticeConnectionMap;
+    public HashSet<Edge> TangledEdges;
 
     protected override void InitializeDerivative()
     {
+        //TODO GET THE NUMBERS from the sliders
+        if (Settings == null) {
+            _internalSettings = new UntangleSettings(0,60);
+            Settings = _internalSettings;
+        }
+        Debug.Log("Best Time: "+_internalSettings.BestTime);
         Debug.Log("vertot: "+_verticeTotal);
+        TangledEdges = new HashSet<Edge>();
 
-        _verticeTotal = 10;
+        _verticeTotal = 5;
         polygon = new Polygon(_verticeTotal);
         _edgeList = new List<Edge>();
         _vertices = new List<Vertice>();
         verticeConnectionMap = new List<(List<Vertice> connections, Vertice vertex)>();
         polygon = new Polygon(_verticeTotal);
-        _puzzleTimer.Initialize(ref _bottomUI.loadingbarTimer);
+        _puzzleTimer.Initialize(ref _bottomUI.loadingbarTimer, _internalSettings);
 
     }
 
@@ -51,17 +60,29 @@ public class UntangleMG : MiniGame
         _upperUI.UpdateMoves(10);
     }
 
+    public void CheckIfSolved()
+    {
+        Debug.Log("CHECK SOLVED");
+        if (!_edgeList.Find(edge => edge._isTangled))
+        {
+            PuzzleSolved();
+        }
+    }
     public override void ChildStartMinigame()
     {
+        _upperUI.ResetUI();
+        moveTotal = 0;
+        TangledEdges = new HashSet<Edge>();
         polygon = new Polygon(_verticeTotal);
         _edgeList = new List<Edge>();
         _vertices = new List<Vertice>();
         verticeConnectionMap = new List<(List<Vertice> connections, Vertice vertex)>();
         polygon = new Polygon(_verticeTotal);
 
+        PauseMinigame();
         InstantiateVertices();
         InstantiateEdges();
-
+        ResumeMinigame();
         _puzzleTimer.startPuzzleTimer();
         
     }
@@ -82,17 +103,27 @@ public class UntangleMG : MiniGame
 
     public void showSolution()
     {
+        PauseMinigame();
         _vertices.ForEach(vertice => StartCoroutine(vertice.MoveCoroutine()));
 
     }
 
     public override void RetryMinigame()
     {
+        isPaused = false;
         _puzzleTimer.reset_timer();
         StopAllCoroutines();
         _vertices.ForEach(vertice =>vertice.destr());
         _edgeList.ForEach(edge => Destroy(edge.gameObject));
         ChildStartMinigame();
+    }
+
+    public void PuzzleSolved()
+    {
+        Debug.Log("Puzzle Solved with " +_puzzleTimer.puzzleTimeLeft + "seconds left"
+        +"and in" +moveTotal +"Moves");
+        PauseMinigame();
+        _internalSettings.UpdateRecords(_puzzleTimer.puzzleTimeLeft,_verticeTotal, moveTotal);
     }
     //===========
     private void InstantiateVertices()

@@ -17,6 +17,12 @@
             Debug.Log("added listener");
             leftButton.onClick.AddListener(ButtonManager.Instance.backToSettings);
         }
+
+        public void ResetUI()
+        {
+            movesText.text = "Moves: " + 0;
+
+        }
         
         public void UpdateMoves(int moveCount)
         {

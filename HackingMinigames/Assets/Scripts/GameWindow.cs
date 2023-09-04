@@ -1,17 +1,19 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Dynamic;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class GameWindow : MonoBehaviour
 {
-    [SerializeField]private GameCanvas _gameCanvas;
-    
+    [NonSerialized]public MinigameType currentMg;
+    [NonSerialized] private GameCanvas gameCanvas;
     [SerializeField] public GameObject upperContainer;
     [SerializeField] private GameObject _gamePanel;
     [SerializeField] public GameObject bottomContainer;
+    [SerializeField] public GameObject highscoreBoardPanel;
 
     
     [NonSerialized]private LayoutElement _upperContainerLayout;
@@ -21,20 +23,21 @@ public class GameWindow : MonoBehaviour
     [NonSerialized]public UIPanel UUIpanel;
     [NonSerialized]public UIPanel BUIPanel;
     [NonSerialized]public MgPanel MinigamePanel;
-    [NonSerialized]public HighscoreBoardPanel highscoreBoardPanel;
+    [NonSerialized]public HighscoreBoardPanel highscoreBoard;
     
     [SerializeField] private GameObject settingsPanel;
     [SerializeField] private GameObject navigationPanel;
     [SerializeField] private GameObject hackPanelGobj;
 
     
+    
 
-
-    private void Start()
+    public void Initialize(MinigameType mgType)
     {
+        gameCanvas = GetComponentInParent<GameCanvas>();
+        highscoreBoard = highscoreBoardPanel.GetComponent<HighscoreBoardPanel>();
         MinigamePanel = _gamePanel.GetComponent<MgPanel>();
-        
-        Game.Instance.CurrentGameWindow = this;
+        currentMg = mgType;
 
         _upperContainerLayout = upperContainer.GetComponent<LayoutElement>();
         _gamePanelLayout = _gamePanel.GetComponent<LayoutElement>();
@@ -42,27 +45,26 @@ public class GameWindow : MonoBehaviour
 
         _upperContainerLayout.flexibleHeight = 100;
         _bottomContainerLayout.flexibleHeight = 1;
+        
         StartCoroutine(MinigamePanel.AddMinigameScript());
         ShowSettings();
-
-
     }
 
     public void ShowSettings()
     {
         Debug.Log("showing settings");
         hackPanelGobj.SetActive(false);
-        if (highscoreBoardPanel) {
-            highscoreBoardPanel.gameObject.SetActive(false);
-        }
+        highscoreBoardPanel.SetActive(false);
+
 
         UUIpanel.gameObject.SetActive(false);
         BUIPanel.gameObject.SetActive(false);
-        if (Game.Instance.currentSettingsPrefab)
+        if (MinigamePanel.currentSettingsPrefab)
         {
             if (!settingsPanel)
             {
-                settingsPanel = Instantiate(Game.Instance.currentSettingsPrefab, upperContainer.transform);
+                settingsPanel = Instantiate(MinigamePanel.currentSettingsPrefab, upperContainer.transform);
+                settingsPanel.GetComponent<UIPanel>().Initialize(this);
             }
             settingsPanel.SetActive(true);
         }
@@ -73,18 +75,16 @@ public class GameWindow : MonoBehaviour
         if (settingsPanel) {
             settingsPanel.SetActive(false);
         }
-
-        if (highscoreBoardPanel) {
-            highscoreBoardPanel.gameObject.SetActive(true);
-        }
+        highscoreBoardPanel.SetActive(true);
+        
         navigationPanel.SetActive(false);
         hackPanelGobj.SetActive(true);
     }
     public IEnumerator InitPanels()
     {
 
-        UUIpanel.Initialize(upperContainer);
-        BUIPanel.Initialize(bottomContainer);
+        UUIpanel.Initialize(this);
+        BUIPanel.Initialize(this);
         var uuiLayoutElement = UUIpanel.GetComponent<LayoutElement>();
         var buiLayoutElement = BUIPanel.GetComponent<LayoutElement>();
         
@@ -97,11 +97,38 @@ public class GameWindow : MonoBehaviour
     
 
     // Update is called once per frame
+    public void GameStartButton()
+    {
+        StartCoroutine(StartMinigame());
+    }
     public IEnumerator StartMinigame()
     {
+        ShowGame();
+        yield return gameCanvas.ChangePaddingWithAnimation();
+        Debug.Log("aboutta start minigame");
         MinigamePanel.StartMinigame();
         yield return null;
+    }
+    //Buttons
 
-        // miniGame.StartMinigame();
+    public void MainMenuButton(){
+        Debug.Log("Normal Hack Button Pressed");
+        Game.Instance.gameCanvas.SetActive(false);
+        Game.Instance.selectionCanvas.SetActive(true);
+        Destroy(gameObject);
+
+    }
+
+    public void SettingsButton()
+    {
+        MinigamePanel?._miniGame.EndMinigame();
+        ShowSettings();
+        StartCoroutine(SettingsCoroutine());
+    }
+
+    public IEnumerator SettingsCoroutine()
+    {
+        yield return gameCanvas.ChangePaddingWithAnimation();
+
     }
 }

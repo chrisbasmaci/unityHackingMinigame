@@ -42,20 +42,9 @@ public class ButtonManager : MonoBehaviour
         }
     }
     
-    public void MinigameStart(){
-        StartCoroutine(MinigameCoroutine());
-    }
-    public IEnumerator MinigameCoroutine(){
-        Debug.Log("Untangle Button Pressed");
-        gameCanvas.gameWindow.ShowGame();
-        yield return gameCanvas.ChangePaddingWithAnimation();
-        yield return gameCanvas.gameWindow.StartMinigame();
-    }
+    
 
-    public void mainMenu(){
-        Debug.Log("Normal Hack Button Pressed");
-        SceneManager.LoadScene("SelectionScene", LoadSceneMode.Single);
-    }
+
 
     public void backToSettings(){
         StopAllCoroutines();

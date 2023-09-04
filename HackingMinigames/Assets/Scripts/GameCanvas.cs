@@ -32,16 +32,13 @@ public class GameCanvas : MonoBehaviour
     [NonSerialized] private float _paddingPercentage = 0.1f;
     [NonSerialized] private float _targetPaddingPercentage = 0.025f;
     [NonSerialized] private float _animationDuration =0.3f;
-    [NonSerialized] public WindowSize gameWindowSize;
     [NonSerialized] public WindowSize settingWindowSize;
-    [SerializeField] public GameObject upperGUI;
 
     
 
     private void Start()
     {
         canvasRect = GetComponent<RectTransform>();
-        gameWindowSize = CalculateWsWithPadding(canvasRect.rect, _targetPaddingPercentage);
         settingWindowSize = CalculateWsWithPadding(canvasRect.rect, _paddingPercentage);
         Debug.Log("current height: "+settingWindowSize.Height);
         SetPadding(_paddingPercentage);

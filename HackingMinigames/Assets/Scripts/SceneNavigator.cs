@@ -7,20 +7,21 @@ public class SceneNavigator: MonoBehaviour
 
     public void Untangle()
     {
-        Game.Instance.currentMg = MinigameType.UNTANGLE;
-        Game.Instance.currentSettingsPrefab = null;
-
-        SceneManager.LoadScene("untanglescene");
-
+        // Game.Instance.currentSettingsPrefab = null;
+        Game.Instance.selectionCanvas.SetActive(false);
+        Game.Instance.gameCanvas.SetActive(true);
+        var window =  Instantiate(Game.Instance.gameWindowPrefab, Game.Instance.gameCanvas.transform).GetComponent<GameWindow>();
+        window.Initialize(MinigameType.UNTANGLE);
 
         // Game.Instance.CurrentGameWindow.
     }
     public void Hack()
     {
-        Game.Instance.currentMg = MinigameType.HACK;
-        Game.Instance.currentSettingsPrefab = Resources.Load<GameObject>("Prefabs/Hack/Settings/SubSettingsPanel");
-
-        SceneManager.LoadScene("untanglescene");
+        Game.Instance.selectionCanvas.SetActive(false);
+        Game.Instance.gameCanvas.SetActive(true);
+        var window =  Instantiate(Game.Instance.gameWindowPrefab, Game.Instance.gameCanvas.transform).GetComponent<GameWindow>();
+        window.Initialize(MinigameType.HACK);
+        // SceneManager.LoadScene("untanglescene");
 
     }
 

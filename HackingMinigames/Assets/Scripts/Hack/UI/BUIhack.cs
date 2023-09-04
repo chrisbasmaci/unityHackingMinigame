@@ -16,7 +16,7 @@ public class BUIhack :UIPanel
     [SerializeField]public TMP_Text questionTextField;
     [SerializeField]public Image loadingbarTimer;
 
-    public override void Initialize(GameObject bottomPanel){
+    public override void Initialize(GameWindow gameWindow){
     }
 
 

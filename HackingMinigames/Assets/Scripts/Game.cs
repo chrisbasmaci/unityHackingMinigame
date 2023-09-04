@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.U2D.Animation;
 
 public enum ShapeBundle{circle=0, triangle, square, diamond, rectangle}
@@ -23,15 +24,11 @@ public class Game : MonoBehaviour
     // public static string arr;
 
     private static Game instance;
-    [NonSerialized]public MinigameType currentMg;
-    [NonSerialized]public GameObject currentSettingsPrefab;
-    [NonSerialized]private GameWindow _currentGameWindow;
-
-
-    public  int defaultIntroTime = 3;
-    public  int defaultPuzzleTime = 10;
+    [SerializeField] public GameObject gameWindowPrefab;
+    [SerializeField]public GameObject gameCanvas;
+    [SerializeField]public GameObject selectionCanvas;
+    
     //set in unity
-    [SerializeField] public int defaultTileAmount = 4;
     [SerializeField] public Sprite cardBack;
     [SerializeField] public Sprite cardFace;
     [SerializeField] public Sprite[] cardOrderSheet;
@@ -51,7 +48,6 @@ public class Game : MonoBehaviour
     [SerializeField] public GameObject bottomHackPrefab;
     [SerializeField] public GameObject bottomUntanglePrefab;
 
-    [SerializeField] public GameObject highscoreBoardPrefab;
     // Public property to access the singleton instance
     
     //Toggles
@@ -92,19 +88,7 @@ public class Game : MonoBehaviour
         // Don't destroy the singleton object when loading new scenes
         DontDestroyOnLoad(gameObject);
     }
-    public GameWindow CurrentGameWindow
-    {
-        get{
-            if (_currentGameWindow) {
-                return _currentGameWindow;
-            }
-            Debug.Assert(false, "_currentGameWindow is null. No game is in process.");
-            throw new InvalidOperationException("_currentGameWindow is null");
-        }
-        set{
-        _currentGameWindow = value;
-        }
-    }
+
 
 }
 

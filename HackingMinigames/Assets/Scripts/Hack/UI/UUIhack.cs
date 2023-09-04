@@ -8,13 +8,13 @@ public class UUIhack :UIPanel
     [SerializeField]public  Button leftButton;
     [SerializeField]private Button rightButton;
     [SerializeField]public TMP_Text streakText;
-    private GameObject _upperPanel;
+    private GameWindow _gameWindow;
 
-    public override void Initialize(GameObject upperPanel)
+    public override void Initialize(GameWindow gameWindow)
     {
+        _gameWindow = gameWindow;
         Debug.Log("BUTTON");
-        _upperPanel = upperPanel;
-        leftButton.onClick.AddListener(ButtonManager.Instance.backToSettings);
+        leftButton.onClick.AddListener(gameWindow.SettingsButton);
         rightButton.onClick.AddListener(aaa);
     }
 

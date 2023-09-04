@@ -9,13 +9,11 @@
         [SerializeField]public  Button leftButton;
         [SerializeField]private Button rightButton;
         [SerializeField]public TMP_Text movesText;
-        private GameObject _upperPanel;
 
-        public override void Initialize(GameObject gameCanvas){
+        public override void Initialize(GameWindow gameWindow){
             Debug.Log("BUTTON");
-            _upperPanel = gameCanvas;            
             Debug.Log("added listener");
-            leftButton.onClick.AddListener(ButtonManager.Instance.backToSettings);
+            leftButton.onClick.AddListener(gameWindow.SettingsButton);
         }
 
         public void ResetUI()

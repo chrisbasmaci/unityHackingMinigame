@@ -4,6 +4,6 @@ using UnityEngine.Events;
 
 public abstract class UIPanel :MonoBehaviour
 {
-    public abstract void Initialize(GameObject gameCanvas);
-    
+    public abstract void Initialize(GameWindow gameWindow);
+
 }

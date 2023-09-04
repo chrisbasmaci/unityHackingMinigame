@@ -18,12 +18,15 @@ public abstract class MgSettings
     //records
     public float BestTime;
 
-    public MgSettings(int introTimer, int puzzleTimer)
+    public MgSettings()
     {
         // Initialize current timers with default values
-        CurrentIntroTimer = introTimer;
-        CurrentPuzzleTimer = puzzleTimer;
-        BestTime = 0;
+        _defaultIntroTimer = 3;
+        _defaultPuzzleTimer = 10;
+
+        CurrentPuzzleTimer = _defaultPuzzleTimer;
+        CurrentIntroTimer = _defaultIntroTimer;
+            BestTime = 0;
     }
 
 }
@@ -36,7 +39,6 @@ public class UntangleSettings : MgSettings
     public Dictionary<int, int> BestMoves;
 
     public UntangleSettings(int introTimer, int puzzleTimer)
-        : base(introTimer, puzzleTimer)
     {
         //defaults for this puzzle
         _defaultIntroTimer = 0;
@@ -58,16 +60,24 @@ public class HackSettings : MgSettings
 {
     public int defaultCardTotal;
     public int currentCardTotal;
-    public HackSettings(int introTimer, int puzzleTimer, int cardTotal)
-        : base(introTimer, puzzleTimer)
-    {
-        defaultCardTotal = 4;
-        currentCardTotal = cardTotal;
+    public Dictionary<int, int> BestStreak;
+
+    public HackSettings(): base(){
+        defaultCardTotal = 5;
+        currentCardTotal = defaultCardTotal;
         _defaultIntroTimer = 3;
         _defaultPuzzleTimer = 10;
+        BestStreak = new Dictionary<int, int>();
+
     }
     
-    public void UpdateRecords()
+    public void UpdateRecords(int streak)
     {
+        if (BestStreak.ContainsKey(currentCardTotal)) {
+            BestStreak[currentCardTotal] = 
+                (BestStreak[currentCardTotal] > streak) ? streak : BestStreak[currentCardTotal];
+        }else{
+            BestStreak.Add(currentCardTotal, streak);
+        }
     }
 }

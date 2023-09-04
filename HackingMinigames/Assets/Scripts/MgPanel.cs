@@ -15,6 +15,7 @@ public class MgPanel : MonoBehaviour
     [NonSerialized]public WindowSize panelBounds;
     [NonSerialized]public MiniGame _miniGame;
     [NonSerialized]private MinigameType _minigameType;
+    [NonSerialized]public GameObject currentSettingsPrefab;
 
 
 
@@ -31,7 +32,7 @@ public class MgPanel : MonoBehaviour
 
     public IEnumerator AddMinigameScript()
     {
-        switch (Game.Instance.currentMg)
+        switch (gameWindow.currentMg)
         {
             case MinigameType.HACK:
                 _miniGame = gameObject.AddComponent<HackingMG>();
@@ -44,9 +45,10 @@ public class MgPanel : MonoBehaviour
                 _miniGame = gameObject.AddComponent<HackingMG>();
                 break;
         }
+        currentSettingsPrefab = _miniGame.getUpperSettingPrefab();
         yield return _miniGame.Initialize(this);
+        
     }
-
     public void StartMinigame()
     {
         StartCoroutine(_miniGame.StartMinigame());

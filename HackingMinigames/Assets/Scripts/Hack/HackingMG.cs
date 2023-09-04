@@ -6,10 +6,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEditor;
+using UnityEngine.Tilemaps;
 
 public class HackingMG : MiniGame
 {
-    private HackSettings _internalSettings;
+    
+    public HackSettings _internalSettings;
+    private HackSettingsButtonManager _uiSettings;
 
     private List<Card> _cardDeck;
     private CardFactory _cardFactory;
@@ -22,13 +25,17 @@ public class HackingMG : MiniGame
     {
         _cardFactory = new CardFactory();
     }
+    public override GameObject getUpperSettingPrefab()
+    {
+        var upperSettings = Resources.Load<GameObject>("Prefabs/Hack/Settings/SubSettingsPanel");
+        var _uiSettings = upperSettings.GetComponent<HackSettingsButtonManager>();
+        return upperSettings;
+    }
 
 
     public override void ChildStartMinigame()
     {
-
-        _internalSettings = new HackSettings(3,10, Game.Instance.defaultTileAmount);
-        Settings = _internalSettings;
+        _internalSettings = (HackSettings)Settings;
         _puzzleTimer.Initialize(ref _bottomUI.loadingbarTimer, Settings);
     
         _cardDeck = new List<Card>(_internalSettings.currentCardTotal);
@@ -247,8 +254,6 @@ public class HackingMG : MiniGame
         {
             if (_bottomUI.CheckAnswer(correctAnswer))
             {
-
-                _bottomUI.questionTextFieldObject.SetActive(true);
                 Debug.Log("Game success");
                 _upperUI.streakText.text = "Streak: "+ (++currentStreak);
                 _cardDeck.ForEach(card => card.backSprite =Game.Instance.cardOrderSheet[10]);
@@ -260,8 +265,12 @@ public class HackingMG : MiniGame
             yield return null;
 
         }
+        _internalSettings.UpdateRecords(currentStreak);
+        if (mgPanel.gameWindow.highscoreBoardPanel)
+        {
+            mgPanel.gameWindow.highscoreBoard.UpdateHighscore("Minimum Moves", _internalSettings.BestStreak[_internalSettings.currentCardTotal]);
+        }
         yield return flipCards();
-        _bottomUI.questionTextFieldObject.SetActive(true);
         yield return null;
     }
 

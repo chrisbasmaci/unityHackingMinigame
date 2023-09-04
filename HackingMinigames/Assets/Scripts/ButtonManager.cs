@@ -12,53 +12,8 @@ using UnityEngine.Serialization;
 /// </summary>
 public class ButtonManager : MonoBehaviour
 {
-    // Add an identifier for each button
-    [FormerlySerializedAs("relativeCanvasProportions")] [SerializeField]
-    private GameCanvas gameCanvas;
-
-
-
     //Toggles
-    private static ButtonManager _instance;
-
-    private ButtonManager() { } // Private constructor to prevent instantiation from outside
-
-    public static ButtonManager Instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = FindObjectOfType<ButtonManager>(); // Find the existing instance in the scene
-                if (_instance == null)
-                {
-                    GameObject singletonObject = new GameObject();
-                    _instance = singletonObject.AddComponent<ButtonManager>();
-                    singletonObject.name = "ButtonManager (Singleton)";
-                }
-            }
-
-            return _instance;
-        }
-    }
-    
-    
-
-
-
-    public void backToSettings(){
-        StopAllCoroutines();
-        
-        gameCanvas.gameWindow.MinigamePanel.stopGameCoroutines();
-        gameCanvas.gameWindow.ShowSettings();
-        var upperLE = gameCanvas.gameWindow.upperContainer.gameObject.GetComponent<LayoutElement>();
-        var lowerLE = gameCanvas.gameWindow.bottomContainer.gameObject.GetComponent<LayoutElement>();
-        upperLE.flexibleHeight = 100;
-        lowerLE.flexibleHeight = 1;
-
-        StartCoroutine(gameCanvas.ChangePaddingWithAnimation());
-
-    }
+    /// TODO FIND A PLACE FOR THESE TOO, OR MAYBE MOVE THE BUTTONS HERE
 
     public void OnInvertToggleValueChanged(bool isOn){
         Debug.Log("Invert Toggle " + " isOn: " + isOn);

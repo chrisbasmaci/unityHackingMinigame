@@ -14,7 +14,6 @@ public abstract class MiniGame : MonoBehaviour
     public MgPanel mgPanel;
     public MgSettings Settings;
     public PuzzleTimer _puzzleTimer;
-    protected int currentStreak = 0;
 
     //initialization
 

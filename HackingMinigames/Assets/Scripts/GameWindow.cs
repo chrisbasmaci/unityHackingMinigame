@@ -11,7 +11,7 @@ public class GameWindow : MonoBehaviour
     [NonSerialized]public MinigameType currentMg;
     [NonSerialized] private GameCanvas gameCanvas;
     [SerializeField] public GameObject upperContainer;
-    [SerializeField] private GameObject _gamePanel;
+    [SerializeField] private GameObject middleContainer;
     [SerializeField] public GameObject bottomContainer;
     [SerializeField] public GameObject highscoreBoardPanel;
 
@@ -20,14 +20,13 @@ public class GameWindow : MonoBehaviour
     [NonSerialized]private LayoutElement _gamePanelLayout;
     [NonSerialized]private LayoutElement _bottomContainerLayout;
     
+    [NonSerialized]public UIPanel USPanel;
     [NonSerialized]public UIPanel UUIpanel;
     [NonSerialized]public UIPanel BUIPanel;
-    [NonSerialized]public MgPanel MinigamePanel;
+    [SerializeField]public MgPanel MinigamePanel;
     [NonSerialized]public HighscoreBoardPanel highscoreBoard;
     
-    [SerializeField] private GameObject settingsPanel;
-    [SerializeField] private GameObject navigationPanel;
-    [SerializeField] private GameObject hackPanelGobj;
+    [FormerlySerializedAs("navigationPanelContainer")] [SerializeField] private GameObject navigationPanelGOBJ;
 
     
     
@@ -36,11 +35,11 @@ public class GameWindow : MonoBehaviour
     {
         gameCanvas = GetComponentInParent<GameCanvas>();
         highscoreBoard = highscoreBoardPanel.GetComponent<HighscoreBoardPanel>();
-        MinigamePanel = _gamePanel.GetComponent<MgPanel>();
+        // MinigamePanel = middleContainer.GetComponentInChildren<MgPanel>();
         currentMg = mgType;
 
         _upperContainerLayout = upperContainer.GetComponent<LayoutElement>();
-        _gamePanelLayout = _gamePanel.GetComponent<LayoutElement>();
+        _gamePanelLayout = middleContainer.GetComponent<LayoutElement>();
         _bottomContainerLayout = bottomContainer.GetComponent<LayoutElement>();
 
         _upperContainerLayout.flexibleHeight = 100;
@@ -53,32 +52,33 @@ public class GameWindow : MonoBehaviour
     public void ShowSettings()
     {
         Debug.Log("showing settings");
-        hackPanelGobj.SetActive(false);
-        highscoreBoardPanel.SetActive(false);
+        middleContainer.SetActive(false);
+        highscoreBoard.HidePanel();
 
 
-        UUIpanel.gameObject.SetActive(false);
-        BUIPanel.gameObject.SetActive(false);
+        UUIpanel.HidePanel();
+        BUIPanel.HidePanel();
         if (MinigamePanel.currentSettingsPrefab)
         {
-            if (!settingsPanel)
+            if (!USPanel)
             {
-                settingsPanel = Instantiate(MinigamePanel.currentSettingsPrefab, upperContainer.transform);
-                settingsPanel.GetComponent<UIPanel>().Initialize(this);
+                var settingsGOBJ = Instantiate(MinigamePanel.currentSettingsPrefab, upperContainer.transform);
+                USPanel = settingsGOBJ.GetComponent<UIPanel>();
+                USPanel.Initialize(this);
             }
-            settingsPanel.SetActive(true);
+            USPanel.ShowPanel();
         }
-        navigationPanel.SetActive(true);
+        navigationPanelGOBJ.SetActive(true);
     }
     public void ShowGame()
     {
-        if (settingsPanel) {
-            settingsPanel.SetActive(false);
+        if (USPanel) {
+            USPanel.HidePanel();
         }
-        highscoreBoardPanel.SetActive(true);
+        highscoreBoard.ShowPanel();
         
-        navigationPanel.SetActive(false);
-        hackPanelGobj.SetActive(true);
+        navigationPanelGOBJ.SetActive(false);
+        middleContainer.SetActive(true);
     }
     public IEnumerator InitPanels()
     {

@@ -6,4 +6,13 @@ public abstract class UIPanel :MonoBehaviour
 {
     public abstract void Initialize(GameWindow gameWindow);
 
+    public virtual void ShowPanel()
+    {
+        gameObject.SetActive(true);
+    }    
+    public virtual void HidePanel()
+    {
+        gameObject.SetActive(false);
+    }
+
 }

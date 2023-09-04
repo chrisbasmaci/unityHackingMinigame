@@ -17,6 +17,14 @@ public class HackSettingsButtonManager : UIPanel
         
     }
 
+    public override void ShowPanel()
+    {
+        var mg = (HackSettings)_gameWindow.MinigamePanel._miniGame.Settings;
+        tileSlider.value = mg.currentCardTotal;
+        timeSlider.value = mg.CurrentPuzzleTimer;
+        base.ShowPanel();
+    }
+
     public void TimeAmountSlider()
     {
         var _settings = (HackSettings)_gameWindow.MinigamePanel._miniGame.Settings;

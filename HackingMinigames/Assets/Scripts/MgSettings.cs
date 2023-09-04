@@ -62,8 +62,8 @@ public class HackSettings : MgSettings
     public int currentCardTotal;
     public Dictionary<int, int> BestStreak;
 
-    public HackSettings(): base(){
-        defaultCardTotal = 5;
+    public HackSettings(){
+        defaultCardTotal = 4;
         currentCardTotal = defaultCardTotal;
         _defaultIntroTimer = 3;
         _defaultPuzzleTimer = 10;
@@ -75,7 +75,7 @@ public class HackSettings : MgSettings
     {
         if (BestStreak.ContainsKey(currentCardTotal)) {
             BestStreak[currentCardTotal] = 
-                (BestStreak[currentCardTotal] > streak) ? streak : BestStreak[currentCardTotal];
+                (BestStreak[currentCardTotal] < streak) ? streak : BestStreak[currentCardTotal];
         }else{
             BestStreak.Add(currentCardTotal, streak);
         }

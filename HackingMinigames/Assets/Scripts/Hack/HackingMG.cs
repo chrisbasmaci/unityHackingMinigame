@@ -19,7 +19,8 @@ public class HackingMG : MiniGame
     private List<int> _orderList;
     private BUIhack _bottomUI;
     private UUIhack _upperUI;
-    
+    public int currentStreak;
+
 
     protected override void  InitializeDerivative()
     {
@@ -44,7 +45,8 @@ public class HackingMG : MiniGame
     public override void EndMinigame()
     {
         _bottomUI.questionTextFieldObject.SetActive(true);
-        _upperUI.streakText.text = "Streak: 0";
+        currentStreak = 0;
+        _upperUI.resetStreak();
         _bottomUI.questionTextField.text = " ";
         _bottomUI.questionInputField.text = " ";
         _cardDeck.ForEach(card =>
@@ -62,7 +64,8 @@ public class HackingMG : MiniGame
         StopAllCoroutines();
 
         _bottomUI.questionTextFieldObject.SetActive(true);
-        _upperUI.streakText.text = "Streak: 0";
+        currentStreak = 0;
+        _upperUI.resetStreak();
         _bottomUI.questionTextField.text = "retry";
         _bottomUI.questionInputField.text = "";
         // questionTextFieldObject.SetActive(false);
@@ -255,7 +258,7 @@ public class HackingMG : MiniGame
             if (_bottomUI.CheckAnswer(correctAnswer))
             {
                 Debug.Log("Game success");
-                _upperUI.streakText.text = "Streak: "+ (++currentStreak);
+                _upperUI.updateStreak(++currentStreak);
                 _cardDeck.ForEach(card => card.backSprite =Game.Instance.cardOrderSheet[10]);
                 yield return flipCards();
                 _puzzleTimer.reset_timer();
@@ -268,7 +271,7 @@ public class HackingMG : MiniGame
         _internalSettings.UpdateRecords(currentStreak);
         if (mgPanel.gameWindow.highscoreBoardPanel)
         {
-            mgPanel.gameWindow.highscoreBoard.UpdateHighscore("Minimum Moves", _internalSettings.BestStreak[_internalSettings.currentCardTotal]);
+            mgPanel.gameWindow.highscoreBoard.UpdateHighscore("Best Streak", _internalSettings.BestStreak[_internalSettings.currentCardTotal]);
         }
         yield return flipCards();
         yield return null;

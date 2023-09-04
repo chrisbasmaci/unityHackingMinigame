@@ -7,7 +7,7 @@ public class UUIhack :UIPanel
 {
     [SerializeField]public  Button leftButton;
     [SerializeField]private Button rightButton;
-    [SerializeField]public TMP_Text streakText;
+    [SerializeField]private TMP_Text streakText;
     private GameWindow _gameWindow;
 
     public override void Initialize(GameWindow gameWindow)
@@ -15,12 +15,15 @@ public class UUIhack :UIPanel
         _gameWindow = gameWindow;
         Debug.Log("BUTTON");
         leftButton.onClick.AddListener(gameWindow.SettingsButton);
-        rightButton.onClick.AddListener(aaa);
     }
 
-    private void aaa()
+    public void updateStreak(int currentStreak)
     {
-        Debug.Log("AAAAA");
+        streakText.text = "Streak: "+ currentStreak;
+    }
 
+    public void resetStreak()
+    {
+        streakText.text = "Streak: 0";
     }
 }

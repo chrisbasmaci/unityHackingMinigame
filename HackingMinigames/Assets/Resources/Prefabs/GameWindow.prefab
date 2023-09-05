@@ -159,9 +159,9 @@ RectTransform:
   - {fileID: 1678882856215123161}
   m_Father: {fileID: 8055331596044145893}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 390, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 390, y: -70}
   m_SizeDelta: {x: 780, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5957031331776136863
@@ -642,7 +642,7 @@ MonoBehaviour:
   bottomContainer: {fileID: 3618279712612829208}
   highscoreBoardPanel: {fileID: 8314351339313890469}
   MinigamePanel: {fileID: 3360597205712308506}
-  navigationPanelContainer: {fileID: 1622931457660218605}
+  navigationPanelGOBJ: {fileID: 1622931457660218605}
 --- !u!1 &4098413439721532862
 GameObject:
   m_ObjectHideFlags: 0

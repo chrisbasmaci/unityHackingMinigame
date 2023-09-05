@@ -20,9 +20,7 @@ public class Card: MonoBehaviour
     private BoxCollider2D _collider;
     public bool isStartingSideBack =true;
     
-    public WindowSize _cardDimensions;
     // private GameObject gameObject;
-    private MgPanel _mgPanel;
     public SpriteRenderer _cardRenderer;
     public int cardOrder;
     public Animator cardAnimator;
@@ -48,14 +46,12 @@ public class Card: MonoBehaviour
     {
         return facedUp;
     }
-    public void Initialize(WindowSize cardDimensions, MgPanel window, int order)
+    public void Initialize(GameObject window, int order)
     {
         cardOrder = order;
-        Debug.Log("Card added left pos: " + cardDimensions.LeftBorder + "len:"+cardDimensions.Height);
-        _mgPanel = window;
-        _cardDimensions = cardDimensions;
         _cardRenderer = gameObject.AddComponent<SpriteRenderer>();
-        gameObject.transform.SetParent(_mgPanel.transform, false);
+        gameObject.AddComponent<RectTransform>();
+        gameObject.transform.SetParent(window.transform, false);
         
         InitCollider();
         InitPosition();
@@ -73,8 +69,6 @@ public class Card: MonoBehaviour
 
     private void InitPosition()
     {
-        var pos = new Vector3(_cardDimensions.LeftBorder + (_cardDimensions.Width / 2),  _cardDimensions.BottomBorder + (_cardDimensions.Height / 2), -1);
-        gameObject.transform.localPosition = pos;
         gameObject.SetActive(false);
     }
     private void InitSides()

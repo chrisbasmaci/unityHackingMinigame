@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 
 public class HackingMG : MiniGame
 {
@@ -101,16 +102,31 @@ public class HackingMG : MiniGame
     }
     private void FillCardDeckRoutine()
     {
+        var a = new GameObject("GAME");
+        a.transform.SetParent(mgPanel.transform);
+        var rectTransform = a.AddComponent<RectTransform>();
+        rectTransform.localScale = new Vector3(1, 1, 1);
+        rectTransform.anchorMin = Vector2.zero;
+        rectTransform.anchorMax = Vector2.one;
+
+// Reset the position to the center if needed
+        rectTransform.anchoredPosition = Vector2.zero;
+
+// Reset the sizeDelta to zero if needed
+        rectTransform.sizeDelta = Vector2.zero;        
+        var hl = a.AddComponent<HorizontalLayoutGroup>();
+        hl.childControlHeight = false; // Disable child height control
+        hl.childControlWidth = false;  // Disable child width control
+        hl.childAlignment = TextAnchor.MiddleCenter;
         Debug.Log("FillCardDeckRoutine");
         CleanDeck();
-        var cardDimensions = _cardFactory.getAllCardDimensions(_internalSettings.currentCardTotal, mgPanel.panelBounds);
         Debug.Log("got all dimensions");
         _orderList = RandomFactory.GetOrderList(_internalSettings.currentCardTotal);
         _cardDeck.AddRange(Enumerable.Range(0, _internalSettings.currentCardTotal)
             .Select(i => {
                 var tmpObject = new GameObject("Card"+i);
                 var card = tmpObject.AddComponent<Card>();
-                card.Initialize(cardDimensions[i], mgPanel, _orderList[i]);
+                card.Initialize(a, _orderList[i]);
                 return card;
             }));
 

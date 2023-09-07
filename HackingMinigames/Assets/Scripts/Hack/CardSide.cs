@@ -21,19 +21,12 @@ public abstract class CardSide : MonoBehaviour
 
         
         InitializeSide();
-        //set sprite
-        
-        // gameObject.SetActive(true);
     }
 
     protected abstract void InitializeSide();
     public void InitPosScale()
     {
         //setposition
-        
-        float currentWidth = _card._cardRenderer.sprite.bounds.size.x;
-        float currentHeight = _card._cardRenderer.sprite.bounds.size.y;
-        Debug.Log("currentWidth: " + currentWidth + " currentHeight: " + currentHeight);
         
     }
     

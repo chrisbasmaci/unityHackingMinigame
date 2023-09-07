@@ -6,41 +6,40 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Threading;
 using Unity.VisualScripting;
+using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 
 public class Card: MonoBehaviour
 {
-    
+    public Image cardImage;
     public GameObject backGameObject, faceGameObject;
     private CardBack _back;
     public CardFace _face;
-    public Sprite faceSprite, backSprite;
+    public Sprite faceSprite;
+    public Sprite backSprite;
     private bool coroutineAllowed, facedUp;
     private bool flippingEnabled = true;
-    private BoxCollider2D _collider;
+    private EdgeCollider2D _collider;
     public bool isStartingSideBack =true;
     
     // private GameObject gameObject;
-    public SpriteRenderer _cardRenderer;
     public int cardOrder;
     public Animator cardAnimator;
     public GameObject cardCover;
     public bool isWanted;
     public int wantedOrder;
-    public Sprite CurrentSprite
-    {
-        get { return _cardRenderer.sprite; }
-        set { _cardRenderer.sprite = value;
-            if (value == faceSprite) {
-                _face.InitPosScale();
-                _collider.size = new Vector2(faceSprite.bounds.size.x, faceSprite.bounds.size.y);
-            }else {
-                _back.InitPosScale();
-                _collider.size = new Vector2(backSprite.bounds.size.x, backSprite.bounds.size.y);
-    
-            }
-        }
-    }
+    // public Sprite CurrentSprite
+    // {
+    //     get { return _cardRenderer.sprite; }
+    //     set { _cardRenderer.sprite = value;
+    //         if (value == faceImage) {
+    //             // _collider.size = new Vector2(faceImage.bounds.size.x, faceImage.bounds.size.y);
+    //         }else {
+    //             // _collider.size = new Vector2(backImage.bounds.size.x, backImage.bounds.size.y);
+    //
+    //         }
+    //     }
+    // }
 
     public bool isCardFacedUp()
     {
@@ -48,13 +47,16 @@ public class Card: MonoBehaviour
     }
     public void Initialize(GameObject window, int order)
     {
+        // ComponentHandler.AddAspectRatioFitter(gameObject, 600, 895);
         cardOrder = order;
-        _cardRenderer = gameObject.AddComponent<SpriteRenderer>();
+        // cardImage.preserveAspect = true;
         gameObject.AddComponent<RectTransform>();
         gameObject.transform.SetParent(window.transform, false);
         
-        InitCollider();
-        InitPosition();
+        InitTriggers();
+        cardImage = ComponentHandler.AddImageComponent(gameObject);
+        // ComponentHandler.AddAspectRatioFitter(gameObject, AspectRatioFitter.AspectMode.WidthControlsHeight);
+        gameObject.SetActive(false);
         InitSides();
     }
     
@@ -67,10 +69,8 @@ public class Card: MonoBehaviour
         }
     }
 
-    private void InitPosition()
-    {
-        gameObject.SetActive(false);
-    }
+
+
     private void InitSides()
     {
         //add backgameobject
@@ -89,20 +89,30 @@ public class Card: MonoBehaviour
 
         //starting sprite
         Debug.Log("init pos sprite");
-        CurrentSprite = backSprite;
         cardCover = Instantiate(Game.Instance.cardBackPrefab, gameObject.transform, false);
         cardCover.transform.localPosition = new Vector3(0, 0 , 0);
         cardAnimator = cardCover.AddComponent<Animator>();
         cardAnimator.runtimeAnimatorController = Game.Instance.curtainController;
     }
 
-    private void InitCollider()
+    private void InitTriggers()
     {
-        //collider
-        _collider = gameObject.AddComponent<BoxCollider2D>();
-        // _collider.size = new Vector2(_cardDimensions.Width, _cardDimensions.Height);
+        var eventTrigger = gameObject.AddComponent<EventTrigger>();
+        EventHandler.AddTrigger(eventTrigger, EventTriggerType.PointerClick, OnImageClick);
     }
 
+
+    
+
+    public void OnImageClick()
+    {
+        // Handle the click event here
+        Debug.Log("PRESSED CARD");
+        if (flippingEnabled && coroutineAllowed)
+        {
+            StartCoroutine(RotateCard());
+        }    
+    }
     public void enableFlipping()
     {
         flippingEnabled = true;
@@ -121,12 +131,6 @@ public class Card: MonoBehaviour
     {
         
         coroutineAllowed = false;
-        // if (isBackflip && !facedUp)
-        // {
-        //     coroutineAllowed = true;
-        //
-        //     yield break;
-        // }
         if (!facedUp)
         {
             for (float i = 0f; i <= 180f; i += 10f)
@@ -134,7 +138,9 @@ public class Card: MonoBehaviour
                 transform.rotation = Quaternion.Euler(0f, i, 0f);
                 if (i == 90f)
                 {
-                    CurrentSprite = faceSprite;
+                    cardImage.sprite = faceSprite;
+                    _face.gameObject.SetActive(true);
+
                 }
                 yield return new WaitForSeconds(0.01f);
             }
@@ -147,14 +153,15 @@ public class Card: MonoBehaviour
                 transform.rotation = Quaternion.Euler(0f, i, 0f);
                 if (i == 90f)
                 {
-                    CurrentSprite = backSprite;
+                    cardImage.sprite = backSprite;
+                    _face.gameObject.SetActive(false);
                 }
                 yield return new WaitForSeconds(0.01f);
             }
         }
         
         coroutineAllowed = true;
-
+  
         facedUp = !facedUp;
         enableFlipping();
 

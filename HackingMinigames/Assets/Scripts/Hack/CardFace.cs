@@ -13,30 +13,35 @@ public class CardFace : CardSide
     private (string shapeText,int shapePos, int backgroundColorNo) _shapePrompt;
     private (string colorText,int colorPos, int backgroundColorNo) _colorPrompt;
 
+    private GameObject _shapeGameObject;
+    private GameObject _shapePromptGameObject;
+    private GameObject _colorPromptGameObject;
 
-    
-    private (GameObject _object, SpriteRenderer _renderer) _shapeObject;
-    private (GameObject _object, SpriteRenderer _renderer) _shapePromptObject;
-    private (GameObject _object, SpriteRenderer _renderer) _colorPromptObject;
+
+
+    // private (GameObject _object, SpriteRenderer _renderer) _colorPromptObject;
     private int hierarchy = -1;
 
     protected override void InitializeSide()
     {
         _card.faceSprite = Game.Instance.cardFace;
-        _card._cardRenderer.sprite = _card.faceSprite;
+        _card.cardImage.sprite = _card.faceSprite;
+        ComponentHandler.SetAnchorToStretch(gameObject);
+
         initPuzzleParts();
+        
     }
 
     private void initPuzzleParts()
     {
-        initShape();
-        bool isShape =true;
+        ComponentHandler.AddVerticalLayoutGroup(gameObject);
         //invert the shape and color text if toggles on
-        if(Game.Instance.invertToggle && RandomFactory.isSwitched()){
-            isShape = !isShape;
-        }
-        initUpperPrompt(isShape);
-        initLowerPrompt(!isShape);
+
+
+        _shapeGameObject = initPrompt(false);
+        _shapePromptGameObject = initShape();
+        _colorPromptGameObject = initPrompt(false);
+        
         if (_card.isStartingSideBack)
         {
             transform.rotation = Quaternion.Euler(0f, 180f, 0f);
@@ -44,64 +49,66 @@ public class CardFace : CardSide
 
     }
 
-    private void initShape()
+    private GameObject initShape()
     {
         //setup gameobject
-        _shapeObject = initSpriteObject();
         //setup shape
         _shape = RandomFactory.GetShapeTuple();
         
-        Color color;
-        ColorUtility.TryParseHtmlString(ColorHex.colorMap[_shape.backgroundColorNo].colorHex, out color);
-        _shapeObject._renderer.color = color;
-        _shapeObject._renderer.sprite = Game.Instance.shapeSheet[_shape.shapePos];
+        var shapeColor = ColorHex.colorMap[_shape.backgroundColorNo].colorHex;
+        var color = GetColor(shapeColor);
+        var shapeGameObject = AddShape("backgroundShape" ,Game.Instance.shapeSheet[_shape.shapePos], color);
+        ComponentHandler.AddLayoutElement(_shapeGameObject, 0,1000);
+
+        return shapeGameObject;
+
     }
 
-    private void initUpperPrompt(bool isShape)
+    private Color GetColor(string colorHex)
     {
-        initPrompt(isShape ,0.5f);
-    }        
-    private void initLowerPrompt(bool isShape)
+        Color color;
+        ColorUtility.TryParseHtmlString(colorHex, out color);
+        return color;
+
+    }
+    private GameObject AddShape(string childName, Sprite shapeImage, Color shapeColor)
     {
-        initPrompt(isShape ,-0.5f);
-    }      
-    private void initPrompt(bool isShape, float promptY)
+        var shapeGameObject = ComponentHandler.AddChildGameObject(gameObject, childName);
+        ComponentHandler.AddImageComponent(shapeGameObject, shapeImage, shapeColor);
+        ComponentHandler.SetAnchorToStretch(shapeGameObject);
+
+        return shapeGameObject;
+    }
+    
+    private GameObject initPrompt(bool isShape)
     {
         string colorText;
         (GameObject _object, SpriteRenderer _renderer) promptObject;
         
         if (isShape)
         {
-            _shapePromptObject = initSpriteObject(promptY);
-            promptObject = _shapePromptObject;
             _shapePrompt = RandomFactory.GetShapeTuple();
-            colorText = ColorHex.colorMap[_shapePrompt.backgroundColorNo].colorHex;
-            promptObject._renderer.sprite = Game.Instance.shapeTextSheet[_shapePrompt.shapePos];
+                    
+            var shapeColor = ColorHex.colorMap[_shapePrompt.backgroundColorNo].colorHex;
+            var color = GetColor(shapeColor);
+            
+            var gameObject = AddShape("textShape", Game.Instance.shapeTextSheet[_shapePrompt.shapePos], color);
+            ComponentHandler.AddLayoutElement(gameObject, null, 1);
 
         }else {
-            _colorPromptObject = initSpriteObject(promptY);
-            promptObject = _colorPromptObject;
+
             _colorPrompt = RandomFactory.GetcolorPromptTuple();
-            colorText = ColorHex.colorMap[_colorPrompt.backgroundColorNo].colorHex;
-            Debug.Log("xCheck: "+_card.cardOrder);
-            promptObject._renderer.sprite = Game.Instance.colorTextSheet[_colorPrompt.colorPos];
+            var shapeColor = ColorHex.colorMap[_colorPrompt.backgroundColorNo].colorHex;
+            var color = GetColor(shapeColor);
 
+            var gameObject = _colorPromptGameObject = AddShape("textColor", Game.Instance.colorTextSheet[_colorPrompt.colorPos], color);
+            ComponentHandler.AddLayoutElement(gameObject, null, 1);
         }
-        Color color;
-        ColorUtility.TryParseHtmlString(colorText, out color);
-        promptObject._renderer.color = color;
+
+        return gameObject;
     }
 
-    private (GameObject _object, SpriteRenderer _renderer) initSpriteObject(float objectY =0)
-    {
-        (GameObject _object, SpriteRenderer _renderer) spriteObject;
-        spriteObject._object = new GameObject("Prompt1");
-        spriteObject._renderer = spriteObject._object.AddComponent<SpriteRenderer>();
-        spriteObject._object.transform.parent = gameObject.transform;
-        spriteObject._object.transform.localPosition = new Vector3(0, objectY, hierarchy);
-        spriteObject._object.transform.localScale = gameObject.transform.localScale;
-        return spriteObject;
-    }
+
 
     public string getShapeText()
     {

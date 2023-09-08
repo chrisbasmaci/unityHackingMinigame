@@ -18,7 +18,6 @@ public class HackingMG : MiniGame
     private HackSettingsButtonManager _uiSettings;
 
     private List<Card> _cardDeck;
-    private CardFactory _cardFactory;
     private List<int> _orderList;
     private BUIhack _bottomUI;
     private UUIhack _upperUI;
@@ -27,7 +26,6 @@ public class HackingMG : MiniGame
 
     protected override void  InitializeDerivative()
     {
-        _cardFactory = new CardFactory();
     }
     public override GameObject getUpperSettingPrefab()
     {
@@ -104,24 +102,9 @@ public class HackingMG : MiniGame
     }
     private void FillCardDeckRoutine()
     {
-        var a = new GameObject("GAME");
-        a.transform.SetParent(mgPanel.transform);
-        var rectTransform = a.AddComponent<RectTransform>();
-        rectTransform.localScale = new Vector3(1, 1, 1);
-        rectTransform.anchorMin = Vector2.zero;
-        rectTransform.anchorMax = Vector2.one;
-
-// Reset the position to the center if needed
-        rectTransform.anchoredPosition = Vector2.zero;
-
-// Reset the sizeDelta to zero if needed
-        rectTransform.sizeDelta = Vector2.zero;
-       var hl = a.AddComponent<GridLayoutGroup>();
-       hl.childAlignment = TextAnchor.MiddleCenter;
-       a.AddComponent<GridLayoutMaximiser>();
-       // hl.childControlWidth = false;
-       // hl.childAlignment = TextAnchor.MiddleCenter;
-        Debug.Log("FillCardDeckRoutine");
+        var newGameObject = ComponentHandler.AddChildGameObject(mgPanel.gameObject, "Game");
+        ComponentHandler.SetAnchorToStretch(newGameObject);
+        ComponentHandler.AddMaximisedGridLayout(newGameObject, ratio: 600f / 895);
         CleanDeck();
         Debug.Log("got all dimensions");
         _orderList = RandomFactory.GetOrderList(_internalSettings.currentCardTotal);
@@ -131,7 +114,7 @@ public class HackingMG : MiniGame
                 // cover.
                 var tmpObject = new GameObject("Card"+i);
                 var card = tmpObject.AddComponent<Card>();
-                card.Initialize(a, _orderList[i]);
+                card.Initialize(newGameObject, _orderList[i]);
                 return card;
             }));
 

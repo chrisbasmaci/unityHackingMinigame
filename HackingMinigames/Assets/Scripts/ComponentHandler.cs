@@ -1,8 +1,10 @@
 
 using JetBrains.Annotations;
+using ui;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+
 
 public static class ComponentHandler
 {
@@ -122,4 +124,13 @@ public static class ComponentHandler
 
         return aspectRatioFitter;
     }
+
+    public static void AddMaximisedGridLayout(GameObject gameObject, float ratio)
+    {
+        var layout = gameObject.AddComponent<GridLayoutGroup>();
+        layout.childAlignment = TextAnchor.MiddleCenter;
+        var maximiser = gameObject.AddComponent<GridLayoutMaximiser>();
+        maximiser.cellRatio = ratio;
+    }
+    
 }

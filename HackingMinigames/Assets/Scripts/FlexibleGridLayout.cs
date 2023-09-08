@@ -9,15 +9,20 @@ namespace ui {
     public sealed class GridLayoutMaximiser : MonoBehaviour {
         GridLayoutGroup gridLayoutGroup;
         RectTransform rect;
-        public float cellRatio = 600f/895; // Add a public variable for the cell ratio.
-        public int columnCount = 4;
-        public int rowCount = 1;
+        public float cellRatio = 1; // Add a public variable for the cell ratio.
+        
+        private int columnCount = 1;
+        private int rowCount = 1;
         private float maxCellHeight;
         private float maxCellWidth;
         void Start ()
         {
-            gridLayoutGroup = GetComponent<GridLayoutGroup> ();
+            gridLayoutGroup = GetComponent<GridLayoutGroup>();
             rect = GetComponent<RectTransform> ();
+            if (!gridLayoutGroup)
+            {
+                gridLayoutGroup = gameObject.AddComponent<GridLayoutGroup>();
+            }
             gridLayoutGroup.constraint = GridLayoutGroup.Constraint.FixedRowCount;
             gridLayoutGroup.constraintCount = 1;
             CalculateCellSize();

@@ -60,16 +60,15 @@ public class Card: MonoBehaviour
         //add backgameobject
         Debug.Log("init sides" );
 
-        backGameObject = new GameObject("CardBack");
-        backGameObject.transform.SetParent(gameObject.transform, false);
+        backGameObject = ComponentHandler.AddChildGameObject(gameObject, "CardBack");
         _back = backGameObject.AddComponent<CardBack>(); 
         _back.Initialize(this);
 
         //add facegameobject
-        faceGameObject = new GameObject("CardFace");
-        faceGameObject.transform.SetParent(gameObject.transform, false);
+        faceGameObject = ComponentHandler.AddChildGameObject(gameObject, "CardFace");
         _face = faceGameObject.AddComponent<CardFace>();
         _face.Initialize(this);
+        
         SetupCardCover();
         //starting sprite
         cardImage.sprite = backSprite;
@@ -80,7 +79,7 @@ public class Card: MonoBehaviour
 
     public void SetupCardCover()
     {
-        cardCover = Instantiate(Game.Instance.cardBackPrefab, gameObject.transform, false).
+        cardCover = Instantiate(Game.Instance.cardBackPrefab, _back.transform, false).
             GetComponent<CardCover>();
         ComponentHandler.SetAnchorToStretch(cardCover.gameObject);
     }

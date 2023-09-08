@@ -176,31 +176,6 @@ public class HackingMG : MiniGame
     }
     
 
-    // private IEnumerator pullCurtainDown(Card card, bool isCardReveal = false)
-    // {
-    //     if (isCardReveal)
-    //     {
-    //         Debug.Log("curtain down start");
-    //         // StartCoroutine(card.cardCover.PullCurtainDown());
-    //         // card.cardImage.sprite = Game.Instance.cardOrderSheet[10];
-    //
-    //         // yield return new WaitForSeconds(10f);
-    //         
-    //         yield return new WaitUntil(CardCover.CheckAllCurtainsDown);
-    //
-    //         disableCurtain(card);
-    //         yield return card.RotateCard();
-    //     
-    //         //tmp back to cover
-    //
-    //         Debug.Log("curtain down");
-    //     }
-    //     else
-    //     {
-    //         yield return card.RotateCard();
-    //     }
-    // }
-
     public bool flipCardBacks()
     {
         bool needed = false;

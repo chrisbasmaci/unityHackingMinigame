@@ -10,6 +10,7 @@ public class CardBack: CardSide
     {
         Debug.Log(_card.cardOrder);
         _card.backSprite = Game.Instance.cardOrderSheet[_card.cardOrder];
+        ComponentHandler.SetAnchorToStretch(gameObject);
     }
 
     

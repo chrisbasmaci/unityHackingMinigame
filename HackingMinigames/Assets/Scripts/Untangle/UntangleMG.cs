@@ -16,7 +16,7 @@ public class UntangleMG : MiniGame
     private List<Vertice> _vertices;
     private List<Edge> _edgeList;
     private int _verticeTotal;
-    private float verticeScale = 60;
+    private float verticeScale = 0.5f;
     private BUIuntangle _bottomUI;
     private UUIuntangle _upperUI;
     List<(List<Vertice> connections, Vertice vertex)> verticeConnectionMap;

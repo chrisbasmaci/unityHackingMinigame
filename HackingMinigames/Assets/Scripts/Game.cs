@@ -34,9 +34,7 @@ public class Game : MonoBehaviour
     [SerializeField] public Sprite[] cardOrderSheet;
 
     [SerializeField] public GameObject cardBackPrefab;
-    [SerializeField] public AnimationClip orderRevealAnimation;
-    [SerializeField] public RuntimeAnimatorController curtainController;
-
+    
     [SerializeField] public Sprite[] shapeSheet;
     [SerializeField] public Sprite[] shapeTextSheet;
     [SerializeField] public Sprite[] colorTextSheet;

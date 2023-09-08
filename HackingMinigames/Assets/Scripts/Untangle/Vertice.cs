@@ -1,11 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+
+using UnityEngine.UI;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions;
 using TriangleNet;
 using TriangleNet.Geometry;
+using UnityEngine.EventSystems;
 
 public class Vertice : MonoBehaviour
 {
@@ -22,8 +25,8 @@ public class Vertice : MonoBehaviour
     private Vector2 _difference = Vector2.zero;
     private float _verticeScale;
 
+    private Image _vertexImage;
     private BoxCollider2D _collider;
-    private SpriteRenderer _renderer;
     public RectTransform _rect;
     
 
@@ -34,19 +37,19 @@ public class Vertice : MonoBehaviour
 
     public float GetEdgeThickness()
     {
-        return _verticeScale/600;
+        return _verticeScale/10;
     }
     public void Initialize(MgPanel mgPanel,ref Polygon polygon, Vertex solvedVertex, Vertex unsolvedVertex, float verticeScale)
     {
+        _rect = gameObject.AddComponent<RectTransform>();
         connectedVertices = new List<Vertice>();
         Debug.Log("vertissceNO: added" + _verticeTotal);
         verticeNo = ++_verticeTotal;
         _edges = new List<Edge>();
-        _collider =gameObject.AddComponent<BoxCollider2D>();
-        _collider.isTrigger = true;
-        _renderer = gameObject.AddComponent<SpriteRenderer>();
-        _rect = gameObject.AddComponent<RectTransform>();
-        _renderer.sprite = Game.Instance.shapeSheet[0];
+
+        SetupTriggers();
+        
+        _vertexImage = ComponentHandler.AddImageComponent(gameObject, Game.Instance.shapeSheet[0]);
         _mgPanel = mgPanel;
         transform.SetParent(_mgPanel.transform);
         _rect.transform.localPosition =
@@ -62,12 +65,19 @@ public class Vertice : MonoBehaviour
         Debug.Log("verticeNo Init:" +verticeNo );
         Debug.Log("verticePos:" + _rect.transform.localPosition );
         // _rect.transform.localScale = new Vector3(30, 30, 1);
-        Debug.Log("vertice size: bounds "+ _renderer.sprite.bounds.size);
 
 
 
     }
-    
+
+    private void SetupTriggers()
+    {
+        var eventTrigger = gameObject.AddComponent<EventTrigger>();
+        EventHandler.AddTrigger(eventTrigger, EventTriggerType.PointerClick, OnMouseDown);      
+        EventHandler.AddTrigger(eventTrigger, EventTriggerType.Drag, OnMouseDrag);      
+        EventHandler.AddTrigger(eventTrigger, EventTriggerType.PointerUp, OnMouseUp);      
+        
+    }
 
     public void addEdge(Edge edge, ref List<(List<Vertice> connections, Vertice vertex)> verticeConnectionMap)
     {

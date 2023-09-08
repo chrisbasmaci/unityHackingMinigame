@@ -1,15 +1,7 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using ui;
-using Unity.VisualScripting;
-using UnityEditor;
-using UnityEditor.UI;
-using UnityEngine.Tilemaps;
-using UnityEngine.UI;
 
 public class HackingMG : MiniGame
 {
@@ -17,6 +9,7 @@ public class HackingMG : MiniGame
     public HackSettings _internalSettings;
     private HackSettingsButtonManager _uiSettings;
 
+    private GameObject _cardDeckGameObject;
     private List<Card> _cardDeck;
     private List<int> _orderList;
     private BUIhack _bottomUI;
@@ -41,7 +34,7 @@ public class HackingMG : MiniGame
         _puzzleTimer.Initialize(ref _bottomUI.loadingbarTimer, Settings);
     
         _cardDeck = new List<Card>(_internalSettings.currentCardTotal);
-        ToggleCards(true, true);
+        ToggleCards(true);
     }    
     public override void EndMinigame()
     {
@@ -54,7 +47,6 @@ public class HackingMG : MiniGame
         {
             card.StopAllCoroutines();
         });
-        CleanDeck();
         StopAllCoroutines();
         // Destroy(_puzzleTimer);
         // Destroy(this);
@@ -72,7 +64,7 @@ public class HackingMG : MiniGame
         // questionTextFieldObject.SetActive(false);
 
         _puzzleTimer.reset_timer();
-        ToggleCards(true, false);
+        ToggleCards(true);
 
     }
     protected override void InitBottomUI()
@@ -97,35 +89,37 @@ public class HackingMG : MiniGame
     
     public void fillCardDeck()
     {
-        // StopCoroutine("FillCardDeckRoutine");
         FillCardDeckRoutine();
     }
     private void FillCardDeckRoutine()
     {
-        var newGameObject = ComponentHandler.AddChildGameObject(mgPanel.gameObject, "Game");
-        ComponentHandler.SetAnchorToStretch(newGameObject);
-        ComponentHandler.AddMaximisedGridLayout(newGameObject, ratio: 600f / 895);
-        CleanDeck();
+        SetupCardDeckGameObject();
         Debug.Log("got all dimensions");
         _orderList = RandomFactory.GetOrderList(_internalSettings.currentCardTotal);
         _cardDeck.AddRange(Enumerable.Range(0, _internalSettings.currentCardTotal)
-            .Select(i => {
-                var cover = new GameObject("Cover"+i);
-                // cover.
-                var tmpObject = new GameObject("Card"+i);
-                var card = tmpObject.AddComponent<Card>();
-                card.Initialize(newGameObject, _orderList[i]);
+            .Select(i =>
+            {
+                var cardGameObject = ComponentHandler.AddChildGameObject(_cardDeckGameObject, "Card" + i);
+                var card = cardGameObject.AddComponent<Card>();
+                card.Initialize(_orderList[i]);
                 return card;
             }));
 
     }
-    private void CleanDeck()
+
+    private void SetupCardDeckGameObject()
     {
-        _cardDeck.ForEach(card => Destroy(card.gameObject));
+        if (_cardDeckGameObject) {
+            Destroy(_cardDeckGameObject);
+        }
+        _cardDeckGameObject = ComponentHandler.AddChildGameObject(mgPanel.gameObject, "Game");
+        ComponentHandler.SetAnchorToStretch(_cardDeckGameObject);
+        ComponentHandler.AddMaximisedGridLayout(_cardDeckGameObject, ratio: 600f / 895);
         _cardDeck = new List<Card>(_internalSettings.currentCardTotal);
+
     }
-    
-    public void ToggleCards(bool toggle, bool isStart  =false)
+
+    public void ToggleCards(bool toggle)
     {
         //TODO THIS WAIT IS ANIMATION DUROATION FIX need to only happen at start
         fillCardDeck();

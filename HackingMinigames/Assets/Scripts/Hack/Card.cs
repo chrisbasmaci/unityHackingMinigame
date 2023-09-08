@@ -28,35 +28,20 @@ public class Card: MonoBehaviour
     public GameObject cardCover;
     public bool isWanted;
     public int wantedOrder;
-    // public Sprite CurrentSprite
-    // {
-    //     get { return _cardRenderer.sprite; }
-    //     set { _cardRenderer.sprite = value;
-    //         if (value == faceImage) {
-    //             // _collider.size = new Vector2(faceImage.bounds.size.x, faceImage.bounds.size.y);
-    //         }else {
-    //             // _collider.size = new Vector2(backImage.bounds.size.x, backImage.bounds.size.y);
-    //
-    //         }
-    //     }
-    // }
-
+    
     public bool isCardFacedUp()
     {
         return facedUp;
     }
-    public void Initialize(GameObject window, int order)
+    public void Initialize(int order)
     {
-        // ComponentHandler.AddAspectRatioFitter(gameObject, 600, 895);
         cardOrder = order;
-        // cardImage.preserveAspect = true;
+  
         gameObject.AddComponent<RectTransform>();
-        gameObject.transform.SetParent(window.transform, false);
-        
-        InitTriggers();
         cardImage = ComponentHandler.AddImageComponent(gameObject);
-        // ComponentHandler.AddAspectRatioFitter(gameObject, AspectRatioFitter.AspectMode.WidthControlsHeight);
         gameObject.SetActive(false);
+
+        InitTriggers();
         InitSides();
     }
     

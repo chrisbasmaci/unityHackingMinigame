@@ -34,7 +34,7 @@ public class HackingMG : MiniGame
         _puzzleTimer.Initialize(ref _bottomUI.loadingbarTimer, Settings);
     
         _cardDeck = new List<Card>(_internalSettings.currentCardTotal);
-        ToggleCards(true);
+        StartCoroutine(ToggleCards(true));
     }    
     public override void EndMinigame()
     {
@@ -64,7 +64,7 @@ public class HackingMG : MiniGame
         // questionTextFieldObject.SetActive(false);
 
         _puzzleTimer.reset_timer();
-        ToggleCards(true);
+        StartCoroutine(ToggleCards(true));
 
     }
     protected override void InitBottomUI()
@@ -84,7 +84,7 @@ public class HackingMG : MiniGame
 
     private void continueHacks()
     {
-        ToggleCards(true);
+        StartCoroutine(ToggleCards(true));
     }
     
     public void fillCardDeck()
@@ -119,18 +119,21 @@ public class HackingMG : MiniGame
 
     }
 
-    public void ToggleCards(bool toggle)
+    public IEnumerator ToggleCards(bool toggle)
     {
         //TODO THIS WAIT IS ANIMATION DUROATION FIX need to only happen at start
         fillCardDeck();
-
+        
 
         _cardDeck.ForEach(card =>
         { 
             card.gameObject.SetActive(toggle);
-            card.cardAnimator.SetTrigger("pullCurtainUp");
+           ///TODO FILL CURTAIN UP
+           StartCoroutine(card.cardCover.PullCurtainUp());
+
         });
-        Debug.Log("about to start timer");
+        yield return new WaitUntil(() => CardCover.CheckAllCurtainsUp(_internalSettings.currentCardTotal));
+
         StartCoroutine( StartIntroTimer());
     }
     
@@ -147,48 +150,56 @@ public class HackingMG : MiniGame
             {
                 card.disableFlipping();
             }
-            StartCoroutine(pullCurtainDown(card, isCardReveal));
+
+            if (isCardReveal)
+            {
+                StartCoroutine(card.cardCover.PullCurtainDown());
+            }
+
+        }
+        Debug.Log("card reveal");
+        if (isCardReveal) {
+            yield return new WaitUntil(CardCover.CheckAllCurtainsDown);
         }
 
         foreach (var card in _cardDeck)
         {
-            yield return new WaitUntil(() => card.isFlippable());
-        }
+            if (isCardReveal)
+            {
+                card.cardImage.sprite = Game.Instance.cardOrderSheet[10];
+                card.cardCover.HideCover();
+            }
 
+            //TODO YOU NEED TO WAIT TILL ROTATE FINISHES
+            StartCoroutine(card.RotateCard());
+        }
     }
     
-    private void disableCurtain(Card card)
-    {
-        if (card)
-        {
-            card.cardCover.SetActive(false);
-            // Animation has finished, continue with other actions if needed
-        }
-    }
-    private IEnumerator pullCurtainDown(Card card, bool isCardReveal = false)
-    {
-        if (isCardReveal)
-        {
-            Debug.Log("curtain down start");
-            card.cardAnimator.SetTrigger("pullCurtainDown");
-            // Wait until the animation finishes playing
-            yield return new WaitForSeconds(1);
 
-            card.cardImage.sprite = Game.Instance.cardOrderSheet[10];
-            disableCurtain(card);
-            yield return card.RotateCard();
-        
-            //tmp back to cover
-
-            Debug.Log("curtain down");
-        }
-        else
-        {
-            yield return card.RotateCard();
-        }
-
-
-    }
+    // private IEnumerator pullCurtainDown(Card card, bool isCardReveal = false)
+    // {
+    //     if (isCardReveal)
+    //     {
+    //         Debug.Log("curtain down start");
+    //         // StartCoroutine(card.cardCover.PullCurtainDown());
+    //         // card.cardImage.sprite = Game.Instance.cardOrderSheet[10];
+    //
+    //         // yield return new WaitForSeconds(10f);
+    //         
+    //         yield return new WaitUntil(CardCover.CheckAllCurtainsDown);
+    //
+    //         disableCurtain(card);
+    //         yield return card.RotateCard();
+    //     
+    //         //tmp back to cover
+    //
+    //         Debug.Log("curtain down");
+    //     }
+    //     else
+    //     {
+    //         yield return card.RotateCard();
+    //     }
+    // }
 
     public bool flipCardBacks()
     {

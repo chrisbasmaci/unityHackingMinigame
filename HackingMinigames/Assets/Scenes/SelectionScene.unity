@@ -745,7 +745,7 @@ MonoBehaviour:
   - {fileID: 1887994825, guid: cf094b3adf842d74aad31f7b8549b577, type: 3}
   - {fileID: -295863191, guid: cf094b3adf842d74aad31f7b8549b577, type: 3}
   - {fileID: 1867219225, guid: cf094b3adf842d74aad31f7b8549b577, type: 3}
-  cardBackPrefab: {fileID: -8653719598885068355, guid: 8e3c7a7fb5c88ec4d8284fef657de03a, type: 3}
+  cardBackPrefab: {fileID: 2394986260456157355, guid: 34e5de19b9bf40457a7c3ad17fa5e2fb, type: 3}
   orderRevealAnimation: {fileID: 7400000, guid: fde9ea63f20f12741b06211e428bc0ec, type: 2}
   curtainController: {fileID: 9100000, guid: bc98ef6dcc84eaa4ebfa909fe2ca2bd1, type: 2}
   shapeSheet:

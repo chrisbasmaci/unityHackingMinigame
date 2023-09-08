@@ -24,8 +24,7 @@ public class Card: MonoBehaviour
     
     // private GameObject gameObject;
     public int cardOrder;
-    public Animator cardAnimator;
-    public GameObject cardCover;
+    public CardCover cardCover;
     public bool isWanted;
     public int wantedOrder;
     
@@ -71,15 +70,20 @@ public class Card: MonoBehaviour
         faceGameObject.transform.SetParent(gameObject.transform, false);
         _face = faceGameObject.AddComponent<CardFace>();
         _face.Initialize(this);
-
+        SetupCardCover();
         //starting sprite
-        Debug.Log("init pos sprite");
-        cardCover = Instantiate(Game.Instance.cardBackPrefab, gameObject.transform, false);
-        cardCover.transform.localPosition = new Vector3(0, 0 , 0);
-        cardAnimator = cardCover.AddComponent<Animator>();
-        cardAnimator.runtimeAnimatorController = Game.Instance.curtainController;
+        cardImage.sprite = backSprite;
+        faceGameObject.SetActive(false);
+        backGameObject.SetActive(true);
     }
 
+
+    public void SetupCardCover()
+    {
+        cardCover = Instantiate(Game.Instance.cardBackPrefab, gameObject.transform, false).
+            GetComponent<CardCover>();
+        ComponentHandler.SetAnchorToStretch(cardCover.gameObject);
+    }
     private void InitTriggers()
     {
         var eventTrigger = gameObject.AddComponent<EventTrigger>();

@@ -1,4 +1,5 @@
 
+using System.Collections;
 using JetBrains.Annotations;
 using ui;
 using Unity.VisualScripting;
@@ -132,5 +133,29 @@ public static class ComponentHandler
         var maximiser = gameObject.AddComponent<GridLayoutMaximiser>();
         maximiser.cellRatio = ratio;
     }
-    
+    public static IEnumerator FillImage(
+        GameObject targetGameObject, 
+        float fillTime, int fillOrigin, Image.FillMethod fillMethod,
+        float startFillAmount = 0f,float targetFillAmount = 1f)
+    {
+        Image targetImage = targetGameObject.GetComponent<Image>();
+        targetImage.type = Image.Type.Filled;
+        
+        targetImage.fillMethod = fillMethod;
+        targetImage.fillOrigin = fillOrigin;
+        targetImage.fillAmount = startFillAmount;
+
+        float elapsedTime = 0f;
+
+        while (elapsedTime < fillTime)
+        {
+            elapsedTime += Time.deltaTime;
+            float fillPercentage = Mathf.Lerp(startFillAmount, targetFillAmount, elapsedTime / fillTime);
+            targetImage.fillAmount = fillPercentage;
+            yield return null;
+        }
+
+        // Ensure the fill is complete.
+        targetImage.fillAmount = targetFillAmount;
+    }
 }

@@ -158,4 +158,12 @@ public static class ComponentHandler
         // Ensure the fill is complete.
         targetImage.fillAmount = targetFillAmount;
     }
+
+    public static Canvas AddCanvasAndRaycaster(GameObject gameObject, int order)
+    {
+        var canvas = gameObject.AddComponent<Canvas>();
+        canvas.sortingOrder = order;
+        gameObject.AddComponent<GraphicRaycaster>();
+        return canvas;
+    }
 }

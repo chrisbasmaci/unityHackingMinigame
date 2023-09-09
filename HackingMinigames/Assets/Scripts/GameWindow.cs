@@ -35,7 +35,6 @@ public class GameWindow : MonoBehaviour
     {
         gameCanvas = GetComponentInParent<GameCanvas>();
         highscoreBoard = highscoreBoardPanel.GetComponent<HighscoreBoardPanel>();
-        // MinigamePanel = middleContainer.GetComponentInChildren<MgPanel>();
         currentMg = mgType;
 
         _upperContainerLayout = upperContainer.GetComponent<LayoutElement>();
@@ -44,6 +43,7 @@ public class GameWindow : MonoBehaviour
 
         _upperContainerLayout.flexibleHeight = 100;
         _bottomContainerLayout.flexibleHeight = 1;
+        
         
         StartCoroutine(MinigamePanel.AddMinigameScript());
         ShowSettings();

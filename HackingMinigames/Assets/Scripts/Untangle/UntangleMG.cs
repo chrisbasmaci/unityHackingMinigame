@@ -1,4 +1,4 @@
-using System.Collections;
+using System;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +16,7 @@ public class UntangleMG : MiniGame
     private List<Vertice> _vertices;
     private List<Edge> _edgeList;
     private int _verticeTotal;
-    private float verticeScale = 0.5f;
+    private float verticeScale = 1f;
     private BUIuntangle _bottomUI;
     private UUIuntangle _upperUI;
     List<(List<Vertice> connections, Vertice vertex)> verticeConnectionMap;
@@ -168,13 +168,22 @@ public class UntangleMG : MiniGame
 
     }
 
+    public float CalculateVertexSize()
+    {
+        float panelResolution = mgPanel.panelBounds.Height * mgPanel.panelBounds.Width;
+        float resolutionPerVertex = panelResolution / _verticeTotal;
+        return (float)Math.Sqrt(resolutionPerVertex)/300 ;
+    }
+
     private void InstantiateVertice(Vertex solvedVertex, Vertex unsolvedVertex)
     {
         var tmpObject = new GameObject("TMP");
         var vertice = tmpObject.AddComponent<Vertice>();
 
-        
+
+        var size = CalculateVertexSize();
         vertice.Initialize(mgPanel,ref polygon, solvedVertex, unsolvedVertex, verticeScale);
+        vertice.gameObject.transform.localScale = new Vector2(size, size);
  
         
         vertice._rect.position =

@@ -34,15 +34,21 @@ public abstract class MgSettings
 public class UntangleSettings : MgSettings
 {
     //defaults
+    private int _defaultVertexTotal;
+    public int CurrentVertexTotal;
     //currents
     //records
     public Dictionary<int, int> BestMoves;
 
-    public UntangleSettings(int introTimer, int puzzleTimer)
+    public UntangleSettings()
     {
         //defaults for this puzzle
         _defaultIntroTimer = 0;
         _defaultPuzzleTimer = 60;
+
+        _defaultVertexTotal = 5;
+        CurrentVertexTotal = _defaultVertexTotal;
+        
         BestMoves = new Dictionary<int, int>();
     }
 
@@ -58,15 +64,18 @@ public class UntangleSettings : MgSettings
 }
 public class HackSettings : MgSettings
 {
-    public int defaultCardTotal;
+    private int defaultCardTotal;
     public int currentCardTotal;
     public Dictionary<int, int> BestStreak;
 
     public HackSettings(){
-        defaultCardTotal = 4;
-        currentCardTotal = defaultCardTotal;
+        
         _defaultIntroTimer = 3;
         _defaultPuzzleTimer = 10;
+        
+        defaultCardTotal = 4;
+        currentCardTotal = defaultCardTotal;
+
         BestStreak = new Dictionary<int, int>();
 
     }

@@ -31,6 +31,7 @@ public class HackingMG : MiniGame
     public override void ChildStartMinigame()
     {
         _internalSettings = (HackSettings)Settings;
+
         _puzzleTimer.Initialize(ref _bottomUI.loadingbarTimer, Settings);
     
         _cardDeck = new List<Card>(_internalSettings.currentCardTotal);
@@ -38,6 +39,8 @@ public class HackingMG : MiniGame
     }    
     public override void EndMinigame()
     {
+        //NOTE If you need replay, you should destroy this here
+        Destroy(_cardDeckGameObject);
         _bottomUI.questionTextFieldObject.SetActive(true);
         currentStreak = 0;
         _upperUI.resetStreak();
@@ -121,14 +124,12 @@ public class HackingMG : MiniGame
 
     public IEnumerator ToggleCards(bool toggle)
     {
-        //TODO THIS WAIT IS ANIMATION DUROATION FIX need to only happen at start
         fillCardDeck();
         
 
         _cardDeck.ForEach(card =>
         { 
             card.gameObject.SetActive(toggle);
-           ///TODO FILL CURTAIN UP
            StartCoroutine(card.cardCover.PullCurtainUp());
 
         });

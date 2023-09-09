@@ -1,15 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-using System.Threading;
-using UnityEngine.Serialization;
 
-/// <summary>
-/// TODO MAKE THIS A SINGLETON
-/// </summary>
 public class ButtonManager : MonoBehaviour
 {
     //Toggles

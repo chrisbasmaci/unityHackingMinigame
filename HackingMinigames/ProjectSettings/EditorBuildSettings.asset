@@ -8,7 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SelectionScene.unity
     guid: 0f0168562cb959447a37c7457e51bdff
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/untangleScene.unity
     guid: caa261060fb9cc24486ef159c057b680
   m_configObjects: {}

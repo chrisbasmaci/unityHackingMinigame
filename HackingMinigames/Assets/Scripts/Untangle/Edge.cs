@@ -32,7 +32,7 @@ public class Edge : MonoBehaviour
 
         var rigidbdy = gameObject.AddComponent<Rigidbody2D>();
         rigidbdy.bodyType = RigidbodyType2D.Dynamic;
-        rigidbdy.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+        rigidbdy.collisionDetectionMode = CollisionDetectionMode2D.Discrete;
         
         rigidbdy.constraints = RigidbodyConstraints2D.FreezeAll;
         _collider.isTrigger = false;
@@ -56,6 +56,7 @@ public class Edge : MonoBehaviour
     // Update is called once per frame
     public void stretchEdge()
     {
+        Debug.Log("Stretch Edge");
         Vector3 startPoint = _verticePair.leftVertice._rect.transform.position;
         Vector3 endPoint = _verticePair.rightVertice._rect.transform.position;
 
@@ -67,10 +68,6 @@ public class Edge : MonoBehaviour
         
 
         UpdateColliderPos();
-        // CheckIfTangled();
-        // _verticePair.rightVertice.Edges().ForEach(edge=> edge.CheckIfTangled());
-        // _verticePair.leftVertice.Edges().ForEach(edge=> edge.CheckIfTangled());
-        
 
     }
     public Vertice OtherVertice(Vertice vertice){
@@ -88,12 +85,12 @@ public class Edge : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D overlappingCollider)
     {
         // CheckIfTangled();
-
+    
         // Store references to the edges for readability and performance
         var leftEdges = _verticePair.leftVertice.Edges();
         var rightEdges = _verticePair.rightVertice.Edges();
         var overlappingObjectName = overlappingCollider.gameObject.name;
-
+    
         if (!leftEdges.Exists(edge => edge.gameObject.name == overlappingObjectName)
             && !rightEdges.Exists(edge => edge.gameObject.name == overlappingObjectName))
         {
@@ -103,14 +100,14 @@ public class Edge : MonoBehaviour
             mg?.TangledEdges.Add(this);
         }
     }
-
+    
     private void OnCollisionExit2D(Collision2D overlappingCollider)
     {
         // Store references to the edges for readability and performance
         var leftEdges = _verticePair.leftVertice.Edges();
         var rightEdges = _verticePair.rightVertice.Edges();
         var overlappingObjectName = overlappingCollider.gameObject.name;
-
+    
         if (!leftEdges.Exists(edge => edge.gameObject.name == overlappingObjectName)
             && !rightEdges.Exists(edge => edge.gameObject.name == overlappingObjectName))
         {
@@ -128,22 +125,20 @@ public class Edge : MonoBehaviour
 
 
     private void UpdateColliderPos()
-    {
+    {        
+        Debug.Log("Stretch Edge 2");
+
         var l = _verticePair.leftVertice.transform.position;
         var r = _verticePair.rightVertice.transform.position;
-        // Debug.Log(_verticePair+"l: "+l + "r: " +r);
-        var newPoints = new List<Vector2> {
-            l,
-            r,
-            r,
-            l
-        };
+
         var colliderPoints = CalculateColliderPoints();
         
         _collider.SetPath(0, colliderPoints.ConvertAll(p => (Vector2)transform.InverseTransformPoint(p)));
         // _collider.SetPath(0, cpoints);
     }
     private List<Vector2> CalculateColliderPoints() {
+        Debug.Log("Stretch Edge3");
+
         //Get All positions on the line renderer
         Vector3[] positions = GetPositions();
 
@@ -177,6 +172,8 @@ public class Edge : MonoBehaviour
         return colliderPositions;
     }
     public Vector3[] GetPositions() {
+        Debug.Log("Stretch Edge 4");
+
         Vector3[] positions = new Vector3[_lineRenderer.positionCount];
         _lineRenderer.GetPositions(positions);
         return positions;

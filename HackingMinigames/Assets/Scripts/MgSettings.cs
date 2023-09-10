@@ -16,6 +16,7 @@ public abstract class MgSettings
     public int CurrentPuzzleTimer;
 
     public abstract void UpdateRecords();
+    public abstract string GetRecords();
 
 
 
@@ -77,15 +78,20 @@ public class UntangleSettings : MgSettings
         }
     }
 
-    public (string mode, int? record) GetMoveRecord()
+    public override string GetRecords()
     {
-        int? record = null; // Use int? (nullable int) to allow for null values
-        if (BestMoves.TryGetValue(_currentVertexTotal, out int tempRecord)) {
-            record = tempRecord; 
+        return GetMoveRecord();
+    }
+
+    public string GetMoveRecord()
+    {
+        int record;
+        string recordName = " Minimum Moves: ";
+        if (BestMoves.TryGetValue(_currentVertexTotal, out record))
+        {
+            return GameMode+recordName + record;
         }
-        return (GameMode, record);
-
-
+        return GameMode + recordName + "No Highscore";
     }
 }
 public class HackSettings : MgSettings
@@ -93,7 +99,8 @@ public class HackSettings : MgSettings
     private int defaultCardTotal;
     public int currentCardTotal;
     public int currentStreak;
-    public Dictionary<int, int> BestStreak;
+    public Dictionary<int, int> BestStreak{ get; }
+    public string GameMode => "GameMode [" + currentCardTotal + "] Vertices";
 
     public HackSettings(){
         
@@ -107,9 +114,26 @@ public class HackSettings : MgSettings
 
     }
 
+    public override string GetRecords()
+    {
+       return GetStreakRecord();
+    }
+
     public override void UpdateRecords()
     {
         UpdateStreakRecord();
+    }
+    
+    
+    public string GetStreakRecord()
+    {
+        int record;
+        string recordName = " Current Streak: ";
+        if (BestStreak.TryGetValue(currentCardTotal, out record))
+        {
+            return GameMode+recordName + record;
+        }
+        return GameMode + recordName + "No Highscore";
     }
     
     public void UpdateStreakRecord()

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,6 +54,8 @@ public abstract class MiniGame : MonoBehaviour
         yield return null;
         mgPanel.gameWindow.UUIpanel.gameObject.SetActive(true);
         mgPanel.gameWindow.BUIPanel.gameObject.SetActive(true);
+        
+        UpdateHighscoreBoard();
         ChildStartMinigame();
     }
 
@@ -70,9 +73,30 @@ public abstract class MiniGame : MonoBehaviour
 
     }
 
+    public void UpdateHighscoreBoard()
+    {
+        var highscore = Settings.GetRecords();
+        mgPanel.gameWindow.highscoreBoard.UpdateHighscore(highscore);
+    }
+    
     public abstract void ChildStartMinigame();
     public abstract void EndMinigame();
     public abstract void RetryMinigame();
+
+    public void PuzzleSolved()
+    {
+        PuzzleSolvedChild();
+    }
+    public virtual void PuzzleSolvedChild()
+    {
+        throw new NotImplementedException();
+    }
+
+    public virtual void EndRound()
+    {
+        Settings.UpdateRecords();
+        UpdateHighscoreBoard();
+    }
 
     protected void SetupPanels()
     {

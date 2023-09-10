@@ -30,6 +30,7 @@ public class HackingMG : MiniGame
     public override void ChildStartMinigame()
     {
         _internalSettings = (HackSettings)Settings;
+        _internalSettings.currentStreak = 0;
 
         _puzzleTimer.Initialize(ref _bottomUI.loadingbarTimer, Settings);
     
@@ -86,6 +87,7 @@ public class HackingMG : MiniGame
 
     private void continueHacks()
     {
+        EndRound();
         StartCoroutine(ToggleCards(true));
     }
     
@@ -173,6 +175,11 @@ public class HackingMG : MiniGame
             //TODO YOU NEED TO WAIT TILL ROTATE FINISHES
             StartCoroutine(card.RotateCard());
         }
+
+        while (!_cardDeck.All(card => card.isFlippable()))
+        {
+            yield return null; 
+        }  
     }
     
 
@@ -252,11 +259,8 @@ public class HackingMG : MiniGame
             yield return null;
 
         }
-        _internalSettings.UpdateStreakRecord();
-        if (mgPanel.gameWindow.highscoreBoardPanel)
-        {
-            mgPanel.gameWindow.highscoreBoard.UpdateHighscore("Best Streak", _internalSettings.BestStreak[_internalSettings.currentCardTotal]);
-        }
+        
+        
         yield return flipCards();
         yield return null;
     }

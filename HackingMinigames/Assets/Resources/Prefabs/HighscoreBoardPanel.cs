@@ -14,17 +14,9 @@
         public override void Initialize(GameWindow gameWindow) {
             _gameWindow = gameWindow;
         }
-        public void ResetUI((string mode, int? record) lastRecord)
-        {
-            if (lastRecord.record == null) {
-                highScore.text = lastRecord.mode + " No Highscore Yet!";
-            }else {
-                UpdateHighscore(lastRecord.mode, (int)lastRecord.record);
-            }
-        }
         
-        public void UpdateHighscore(string mode, int score)
+        public void UpdateHighscore(string highscore)
         {
-            highScore.text =mode+ " : " + score;
+            highScore.text = highscore;
         }
     }

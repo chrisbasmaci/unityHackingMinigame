@@ -60,7 +60,7 @@ public class UntangleMG : MiniGame
         Debug.Log("CHECK SOLVED");
         if (!_edgeList.Find(edge => edge._isTangled))
         {
-            PuzzleSolved();
+            PuzzleSolvedChild();
         }
     }
     public override void ChildStartMinigame()
@@ -70,9 +70,6 @@ public class UntangleMG : MiniGame
         polygon = new Polygon(_internalSettings.CurrentVertexTotal);
 
         _puzzleTimer.Initialize(ref _bottomUI.loadingbarTimer, _internalSettings);
-        var lastRecord = _internalSettings.GetMoveRecord();
-
-        mgPanel.gameWindow.highscoreBoard.ResetUI(lastRecord);
         _upperUI.ResetUI();
         
         _internalSettings.currentMoves = 0;
@@ -124,16 +121,12 @@ public class UntangleMG : MiniGame
     {
         _internalSettings.currentMoves++;
     }
-    public void PuzzleSolved()
+    public override void PuzzleSolvedChild()
     {
         Debug.Log("Puzzle Solved with " +_puzzleTimer.puzzleTimeLeft + "seconds left"
         +"and in" +_internalSettings.currentMoves +"Moves");
         PauseMinigame();
-        _internalSettings.UpdateRecords();
-        if (mgPanel.gameWindow.highscoreBoardPanel)
-        {
-            mgPanel.gameWindow.highscoreBoard.UpdateHighscore(_internalSettings.GameMode, _internalSettings.BestMoves[_internalSettings.CurrentVertexTotal]);
-        }
+        EndRound();
     }
     //===========
     private void InstantiateVertices()

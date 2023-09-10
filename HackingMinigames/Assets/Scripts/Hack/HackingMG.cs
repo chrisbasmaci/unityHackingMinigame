@@ -14,7 +14,6 @@ public class HackingMG : MiniGame
     private List<int> _orderList;
     private BUIhack _bottomUI;
     private UUIhack _upperUI;
-    public int currentStreak;
 
 
     protected override void  InitializeDerivative()
@@ -42,7 +41,7 @@ public class HackingMG : MiniGame
         //NOTE If you need replay, you should destroy this here
         Destroy(_cardDeckGameObject);
         _bottomUI.questionTextFieldObject.SetActive(true);
-        currentStreak = 0;
+        _internalSettings.currentStreak = 0;
         _upperUI.resetStreak();
         _bottomUI.questionTextField.text = " ";
         _bottomUI.questionInputField.text = " ";
@@ -60,7 +59,7 @@ public class HackingMG : MiniGame
         StopAllCoroutines();
 
         _bottomUI.questionTextFieldObject.SetActive(true);
-        currentStreak = 0;
+        _internalSettings.currentStreak = 0;
         _upperUI.resetStreak();
         _bottomUI.questionTextField.text = "retry";
         _bottomUI.questionInputField.text = "";
@@ -243,7 +242,7 @@ public class HackingMG : MiniGame
             if (_bottomUI.CheckAnswer(correctAnswer))
             {
                 Debug.Log("Game success");
-                _upperUI.updateStreak(++currentStreak);
+                _upperUI.updateStreak(++_internalSettings.currentStreak);
                 _cardDeck.ForEach(card => card.backSprite =Game.Instance.cardOrderSheet[10]);
                 yield return flipCards();
                 _puzzleTimer.reset_timer();
@@ -253,7 +252,7 @@ public class HackingMG : MiniGame
             yield return null;
 
         }
-        _internalSettings.UpdateRecords(currentStreak);
+        _internalSettings.UpdateStreakRecord();
         if (mgPanel.gameWindow.highscoreBoardPanel)
         {
             mgPanel.gameWindow.highscoreBoard.UpdateHighscore("Best Streak", _internalSettings.BestStreak[_internalSettings.currentCardTotal]);

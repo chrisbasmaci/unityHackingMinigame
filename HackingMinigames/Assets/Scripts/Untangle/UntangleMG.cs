@@ -12,7 +12,6 @@ public class UntangleMG : MiniGame
 {
     private UntangleSettings _internalSettings;
     private Polygon polygon;
-    public int moveTotal = 0;
     private List<Vertice> _vertices;
     private List<Edge> _edgeList;
     private float verticeScale = 1f;
@@ -20,6 +19,7 @@ public class UntangleMG : MiniGame
     private UUIuntangle _upperUI;
     List<(List<Vertice> connections, Vertice vertex)> verticeConnectionMap;
     public HashSet<Edge> TangledEdges;
+    public string gameMode = "Not Set";
 
     protected override void InitializeDerivative()
     {
@@ -70,8 +70,12 @@ public class UntangleMG : MiniGame
         polygon = new Polygon(_internalSettings.CurrentVertexTotal);
 
         _puzzleTimer.Initialize(ref _bottomUI.loadingbarTimer, _internalSettings);
+        var lastRecord = _internalSettings.GetMoveRecord();
+
+        mgPanel.gameWindow.highscoreBoard.ResetUI(lastRecord);
         _upperUI.ResetUI();
-        moveTotal = 0;
+        
+        _internalSettings.currentMoves = 0;
         TangledEdges = new HashSet<Edge>();
         polygon = new Polygon(_internalSettings.CurrentVertexTotal);
         _edgeList = new List<Edge>();
@@ -95,9 +99,9 @@ public class UntangleMG : MiniGame
         _edgeList.ForEach(edge => Destroy(edge.gameObject));
     }
 
-    public void UpdateMoves(int movesCount)
+    public void UpdateMoves()
     {
-        _upperUI.UpdateMoves(movesCount);
+        _upperUI.UpdateMoves(_internalSettings.currentMoves);
     }
 
     public void showSolution()
@@ -116,16 +120,19 @@ public class UntangleMG : MiniGame
         _edgeList.ForEach(edge => Destroy(edge.gameObject));
         ChildStartMinigame();
     }
-
+    public void IncrementMoveTotal()
+    {
+        _internalSettings.currentMoves++;
+    }
     public void PuzzleSolved()
     {
         Debug.Log("Puzzle Solved with " +_puzzleTimer.puzzleTimeLeft + "seconds left"
-        +"and in" +moveTotal +"Moves");
+        +"and in" +_internalSettings.currentMoves +"Moves");
         PauseMinigame();
-        _internalSettings.UpdateRecords(_puzzleTimer.puzzleTimeLeft,_internalSettings.CurrentVertexTotal, moveTotal);
+        _internalSettings.UpdateRecords();
         if (mgPanel.gameWindow.highscoreBoardPanel)
         {
-            mgPanel.gameWindow.highscoreBoard.UpdateHighscore("Minimum Moves", _internalSettings.BestMoves[_internalSettings.CurrentVertexTotal]);
+            mgPanel.gameWindow.highscoreBoard.UpdateHighscore(_internalSettings.GameMode, _internalSettings.BestMoves[_internalSettings.CurrentVertexTotal]);
         }
     }
     //===========

@@ -188,7 +188,8 @@ public class Vertice : MonoBehaviour
             return;
         }
         var mg = _mgPanel?._miniGame as UntangleMG;
-        mg.UpdateMoves(++mg.moveTotal);
+        mg.IncrementMoveTotal();
+        mg.UpdateMoves();
         mg?.CheckIfSolved();
     
     }

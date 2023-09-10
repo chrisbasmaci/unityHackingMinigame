@@ -24,7 +24,8 @@ public abstract class MiniGame : MonoBehaviour
         _puzzleTimer = this.AddComponent<PuzzleTimer>();
         if (mgPanel.gameWindow.highscoreBoardPanel)
         {
-            mgPanel.gameWindow.highscoreBoard.ResetUI();
+            /// TODO URGENT THIS
+            // mgPanel.gameWindow.highscoreBoard.ResetUI();
         }
 
         InitializeDerivative();

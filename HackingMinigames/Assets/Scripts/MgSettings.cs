@@ -14,9 +14,10 @@ public abstract class MgSettings
     //currents
     public int CurrentIntroTimer;
     public int CurrentPuzzleTimer;
-    
-    //records
-    public float BestTime;
+
+    public abstract void UpdateRecords();
+
+
 
     public MgSettings()
     {
@@ -26,8 +27,8 @@ public abstract class MgSettings
 
         CurrentPuzzleTimer = _defaultPuzzleTimer;
         CurrentIntroTimer = _defaultIntroTimer;
-            BestTime = 0;
     }
+    
 
 }
 
@@ -35,10 +36,19 @@ public class UntangleSettings : MgSettings
 {
     //defaults
     private int _defaultVertexTotal;
-    public int CurrentVertexTotal;
+    private int _currentVertexTotal;
+    public int currentMoves;
+    public string GameMode => "GameMode [" + _currentVertexTotal + "] Vertices";
+    
+    public int CurrentVertexTotal
+    {
+        get => _currentVertexTotal;
+        set => _currentVertexTotal = value;
+    }
     //currents
     //records
-    public Dictionary<int, int> BestMoves;
+
+    public Dictionary<int, int> BestMoves { get; }
 
     public UntangleSettings()
     {
@@ -47,25 +57,42 @@ public class UntangleSettings : MgSettings
         _defaultPuzzleTimer = 60;
 
         _defaultVertexTotal = 5;
-        CurrentVertexTotal = _defaultVertexTotal;
+        _currentVertexTotal = _defaultVertexTotal;
         
         BestMoves = new Dictionary<int, int>();
     }
 
-    public void UpdateRecords(float currentTime, int verticeTotal, int currentMoves)
+    public override void UpdateRecords()
     {
-        if (BestMoves.ContainsKey(verticeTotal)) {
-            BestMoves[verticeTotal] = 
-                (BestMoves[verticeTotal] > currentMoves) ? currentMoves : BestMoves[verticeTotal];
+        UpdateMoveRecord();
+    }
+
+    public void UpdateMoveRecord()
+    {
+        if (BestMoves.ContainsKey(_currentVertexTotal)) {
+            BestMoves[_currentVertexTotal] = 
+                (BestMoves[_currentVertexTotal] > currentMoves) ? currentMoves : BestMoves[_currentVertexTotal];
         }else{
-            BestMoves.Add(verticeTotal, currentMoves);
+            BestMoves.Add(_currentVertexTotal, currentMoves);
         }
+    }
+
+    public (string mode, int? record) GetMoveRecord()
+    {
+        int? record = null; // Use int? (nullable int) to allow for null values
+        if (BestMoves.TryGetValue(_currentVertexTotal, out int tempRecord)) {
+            record = tempRecord; 
+        }
+        return (GameMode, record);
+
+
     }
 }
 public class HackSettings : MgSettings
 {
     private int defaultCardTotal;
     public int currentCardTotal;
+    public int currentStreak;
     public Dictionary<int, int> BestStreak;
 
     public HackSettings(){
@@ -79,14 +106,19 @@ public class HackSettings : MgSettings
         BestStreak = new Dictionary<int, int>();
 
     }
+
+    public override void UpdateRecords()
+    {
+        UpdateStreakRecord();
+    }
     
-    public void UpdateRecords(int streak)
+    public void UpdateStreakRecord()
     {
         if (BestStreak.ContainsKey(currentCardTotal)) {
             BestStreak[currentCardTotal] = 
-                (BestStreak[currentCardTotal] < streak) ? streak : BestStreak[currentCardTotal];
+                (BestStreak[currentCardTotal] < currentStreak) ? currentStreak : BestStreak[currentCardTotal];
         }else{
-            BestStreak.Add(currentCardTotal, streak);
+            BestStreak.Add(currentCardTotal, currentStreak);
         }
     }
 }

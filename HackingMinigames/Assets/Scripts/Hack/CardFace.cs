@@ -38,7 +38,7 @@ public class CardFace : CardSide
         //invert the shape and color text if toggles on
 
 
-        _shapeGameObject = initPrompt(false);
+        _shapeGameObject = initPrompt(true);
         _shapePromptGameObject = initShape();
         _colorPromptGameObject = initPrompt(false);
         

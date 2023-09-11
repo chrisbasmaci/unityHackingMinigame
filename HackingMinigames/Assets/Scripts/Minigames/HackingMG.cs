@@ -2,12 +2,13 @@ using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using Hack;
 
 public class HackingMG : MiniGame
 {
     
     public HackSettings _internalSettings;
-    private HackSettingsButtonManager _uiSettings;
+    private HackUsi _uiSettings;
 
     private GameObject _cardDeckGameObject;
     private List<Card> _cardDeck;
@@ -22,12 +23,12 @@ public class HackingMG : MiniGame
     public override GameObject getUpperSettingPrefab()
     {
         var upperSettings = Resources.Load<GameObject>("Prefabs/Hack/Settings/SubSettingsPanel");
-        var _uiSettings = upperSettings.GetComponent<HackSettingsButtonManager>();
+        var _uiSettings = upperSettings.GetComponent<HackUsi>();
         return upperSettings;
     }
 
 
-    public override void ChildStartMinigame()
+    public override void StartMinigameChild()
     {
         _internalSettings = (HackSettings)Settings;
         _internalSettings.currentStreak = 0;
@@ -70,19 +71,21 @@ public class HackingMG : MiniGame
         StartCoroutine(ToggleCards(true));
 
     }
-    protected override void InitBottomUI()
+    protected override UIPanel InitBottomUIChild()
     {
         mgPanel.gameWindow.BUIPanel = Instantiate(Game.Instance.bottomHackPrefab, mgPanel.gameWindow.bottomContainer.transform)
             .GetComponent<BUIhack>();
         _bottomUI = (BUIhack)mgPanel.gameWindow.BUIPanel;
         _bottomUI.InitializeRightButton(RetryMinigame);
+        return _bottomUI;
     }
 
-    protected override void InitUpperUI()
+    protected override UIPanel InitUpperUIChild()
     {
         mgPanel.gameWindow.UUIpanel = Instantiate(Game.Instance.upperHackPrefab, mgPanel.gameWindow.upperContainer.transform)
             .GetComponent<UUIhack>();
         _upperUI = (UUIhack)mgPanel.gameWindow.UUIpanel;
+        return _upperUI;
     }
 
     private void continueHacks()

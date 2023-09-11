@@ -17,6 +17,11 @@ public class UUIhack :UIPanel
         leftButton.onClick.AddListener(gameWindow.SettingsButton);
     }
 
+    public override void ResetPanel()
+    {
+        resetStreak();
+    }
+
     public void updateStreak(int currentStreak)
     {
         streakText.text = "Streak: "+ currentStreak;

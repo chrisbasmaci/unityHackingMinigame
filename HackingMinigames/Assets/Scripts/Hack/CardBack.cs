@@ -4,16 +4,19 @@ using UnityEngine;
 using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 
-public class CardBack: CardSide
+namespace Hack
 {
-    protected override void InitializeSide()
+    public class CardBack : CardSide
     {
-        Debug.Log(_card.cardOrder);
-        _card.backSprite = Game.Instance.cardOrderSheet[_card.cardOrder];
-        ComponentHandler.SetAnchorToStretch(gameObject);
+        protected override void InitializeSide()
+        {
+            Debug.Log(_card.cardOrder);
+            _card.backSprite = Game.Instance.cardOrderSheet[_card.cardOrder];
+            ComponentHandler.SetAnchorToStretch(gameObject);
+        }
+
+
+
+
     }
-
-    
-    
-
 }

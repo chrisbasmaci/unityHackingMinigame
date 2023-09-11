@@ -1,4 +1,5 @@
 
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -13,6 +14,11 @@ public abstract class UIPanel :MonoBehaviour
     public virtual void HidePanel()
     {
         gameObject.SetActive(false);
+    }
+
+    public virtual void ResetPanel()
+    {
+        throw new NotImplementedException();
     }
 
 }

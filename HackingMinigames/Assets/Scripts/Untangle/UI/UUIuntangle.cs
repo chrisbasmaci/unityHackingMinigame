@@ -16,7 +16,12 @@
             leftButton.onClick.AddListener(gameWindow.SettingsButton);
         }
 
-        public void ResetUI()
+        public override void ResetPanel()
+        {
+            ResetMoves();
+        }
+
+        public void ResetMoves()
         {
             movesText.text = "Moves: " + 0;
 

@@ -5,6 +5,8 @@ using System.Linq;
 using TriangleNet.Geometry;
 using TriangleNet;
 using TriangleNet.Meshing;
+using Untangle;
+using Edge = Untangle.Edge;
 using Random = System.Random;
 using Vertex = TriangleNet.Geometry.Vertex;
 
@@ -19,16 +21,10 @@ public class UntangleMG : MiniGame
     private UUIuntangle _upperUI;
     List<(List<Vertice> connections, Vertice vertex)> verticeConnectionMap;
     public HashSet<Edge> TangledEdges;
-    public string gameMode = "Not Set";
 
     protected override void InitializeDerivative()
     {
-        TangledEdges = new HashSet<Edge>();
-        _edgeList = new List<Edge>();
-        _vertices = new List<Vertice>();
-        verticeConnectionMap = new List<(List<Vertice> connections, Vertice vertex)>();
-
-
+        
     }
 
     public override GameObject getUpperSettingPrefab()
@@ -38,7 +34,7 @@ public class UntangleMG : MiniGame
         return upperSettings;
     }
 
-    protected override void InitBottomUI()
+    protected override UIPanel InitBottomUIChild()
     {
         
         mgPanel.gameWindow.BUIPanel = Instantiate(Game.Instance.bottomUntanglePrefab, mgPanel.gameWindow.bottomContainer.transform)
@@ -46,13 +42,14 @@ public class UntangleMG : MiniGame
         _bottomUI = (BUIuntangle)mgPanel.gameWindow.BUIPanel;
         _bottomUI.InitializeLeftButton(showSolution);
         _bottomUI.InitializeRightButton(RetryMinigame);
+        return _bottomUI;
     }    
-    protected override void InitUpperUI()
+    protected override UIPanel InitUpperUIChild()
     {
         mgPanel.gameWindow.UUIpanel = Instantiate(Game.Instance.upperUntanglePrefab, mgPanel.gameWindow.upperContainer.transform)
             .GetComponent<UUIuntangle>();
         _upperUI = (UUIuntangle)mgPanel.gameWindow.UUIpanel;
-        _upperUI.UpdateMoves(10);
+        return _upperUI;
     }
 
     public void CheckIfSolved()
@@ -63,14 +60,13 @@ public class UntangleMG : MiniGame
             PuzzleSolvedChild();
         }
     }
-    public override void ChildStartMinigame()
+    public override void StartMinigameChild()
     {
         _internalSettings = (UntangleSettings)Settings;
         
         polygon = new Polygon(_internalSettings.CurrentVertexTotal);
 
         _puzzleTimer.Initialize(ref _bottomUI.loadingbarTimer, _internalSettings);
-        _upperUI.ResetUI();
         
         _internalSettings.currentMoves = 0;
         TangledEdges = new HashSet<Edge>();
@@ -104,7 +100,7 @@ public class UntangleMG : MiniGame
     public void showSolution()
     {
         PauseMinigame();
-        _vertices.ForEach(vertice => StartCoroutine(vertice.MoveCoroutine()));
+        _vertices.ForEach(vertice => StartCoroutine(vertice.MoveToSolution()));
 
     }
 
@@ -115,7 +111,7 @@ public class UntangleMG : MiniGame
         StopAllCoroutines();
         _vertices.ForEach(vertice =>vertice.destr());
         _edgeList.ForEach(edge => Destroy(edge.gameObject));
-        ChildStartMinigame();
+        StartMinigameChild();
     }
     public void IncrementMoveTotal()
     {

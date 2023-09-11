@@ -11,23 +11,27 @@ using UnityEngine.Serialization;
 //     FACE,
 //     BACK
 // }
-public abstract class CardSide : MonoBehaviour
+namespace Hack
 {
-    protected Card _card;
-    
-    public void Initialize(Card card)
+    public abstract class CardSide : MonoBehaviour
     {
-        _card = card;
+        protected Card _card;
 
-        
-        InitializeSide();
-    }
+        public void Initialize(Card card)
+        {
+            _card = card;
 
-    protected abstract void InitializeSide();
-    public void InitPosScale()
-    {
-        //setposition
-        
+
+            InitializeSide();
+        }
+
+        protected abstract void InitializeSide();
+
+        public void InitPosScale()
+        {
+            //setposition
+
+        }
+
     }
-    
 }

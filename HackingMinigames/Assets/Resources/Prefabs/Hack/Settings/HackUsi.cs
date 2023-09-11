@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HackSettingsButtonManager : UIPanel
+public class HackUsi : UIPanel
 {
     [SerializeField] Slider tileSlider;
     [SerializeField] Slider timeSlider;

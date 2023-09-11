@@ -45,7 +45,8 @@ public class HackingMG : MiniGame
     }    
     public override void EndMinigame()
     {
-        //NOTE If you need replay, you should destroy this here
+        base.EndMinigame();
+        //NOTE If you need replay, you shouldnt destroy this here
         Destroy(_cardDeckGameObject);
         _bottomUI.questionTextFieldObject.SetActive(true);
         _bottomUI.questionTextField.text = " ";
@@ -55,8 +56,6 @@ public class HackingMG : MiniGame
             card.StopAllCoroutines();
         });
         StopAllCoroutines();
-        // Destroy(_puzzleTimer);
-        // Destroy(this);
     }
 
     public override void RetryMinigame()

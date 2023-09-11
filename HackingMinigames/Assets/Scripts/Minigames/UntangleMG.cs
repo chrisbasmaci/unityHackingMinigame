@@ -85,9 +85,7 @@ public class UntangleMG : MiniGame
 
     public override void EndMinigame()
     {
-        _puzzleTimer.reset_timer();
-        StopAllCoroutines();
-        polygon = new Polygon(InternalSettings.CurrentVertexTotal);
+        base.EndMinigame();
         _vertices.ForEach(vertice =>vertice.destr());
         _edgeList.ForEach(edge => Destroy(edge.gameObject));
     }

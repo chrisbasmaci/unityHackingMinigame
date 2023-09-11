@@ -62,7 +62,7 @@ public abstract class MiniGame : MonoBehaviour
         _upperUI.ResetPanel();
         StartMinigameChild();
     }
-
+    public abstract void StartMinigameChild();
     public virtual void PauseMinigame()
     {
         isPaused = true;
@@ -82,11 +82,14 @@ public abstract class MiniGame : MonoBehaviour
         var highscore = Settings.GetRecords();
         mgPanel.gameWindow.highscoreBoard.UpdateHighscore(highscore);
     }
+
+    public virtual void EndMinigame()
+    {
+        ///Todo add bottom UI RESET, AND PUT IT HERE
+        StopAllCoroutines();
+        _puzzleTimer.reset_timer();
+    }
     
-    public abstract void StartMinigameChild();
-    public abstract void EndMinigame();
-
-
     public virtual void RetryMinigame()
     {
         UpdateHighscoreBoard();

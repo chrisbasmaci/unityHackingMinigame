@@ -3,11 +3,12 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using Hack;
+using UnityEditor;
 
 public class HackingMG : MiniGame
 {
     
-    public HackSettings _internalSettings;
+    private HackSettings InternalSettings => Settings as HackSettings;
     private HackUsi _uiSettings;
 
     private GameObject _cardDeckGameObject;
@@ -19,7 +20,14 @@ public class HackingMG : MiniGame
 
     protected override void  InitializeDerivative()
     {
+        _puzzleTimer.InitializeLoadingBar(_bottomUI.loadingbarTimer);
     }
+
+    public override MgSettings AddSettings()
+    {
+        return new HackSettings();
+    }
+
     public override GameObject getUpperSettingPrefab()
     {
         var upperSettings = Resources.Load<GameObject>("Prefabs/Hack/Settings/SubSettingsPanel");
@@ -30,12 +38,9 @@ public class HackingMG : MiniGame
 
     public override void StartMinigameChild()
     {
-        _internalSettings = (HackSettings)Settings;
-        _internalSettings.currentStreak = 0;
 
-        _puzzleTimer.Initialize(ref _bottomUI.loadingbarTimer, Settings);
     
-        _cardDeck = new List<Card>(_internalSettings.currentCardTotal);
+        _cardDeck = new List<Card>(InternalSettings.currentCardTotal);
         StartCoroutine(ToggleCards(true));
     }    
     public override void EndMinigame()
@@ -43,8 +48,6 @@ public class HackingMG : MiniGame
         //NOTE If you need replay, you should destroy this here
         Destroy(_cardDeckGameObject);
         _bottomUI.questionTextFieldObject.SetActive(true);
-        _internalSettings.currentStreak = 0;
-        _upperUI.resetStreak();
         _bottomUI.questionTextField.text = " ";
         _bottomUI.questionInputField.text = " ";
         _cardDeck.ForEach(card =>
@@ -58,16 +61,12 @@ public class HackingMG : MiniGame
 
     public override void RetryMinigame()
     {
-        StopAllCoroutines();
+        base.RetryMinigame();
+
 
         _bottomUI.questionTextFieldObject.SetActive(true);
-        _internalSettings.currentStreak = 0;
-        _upperUI.resetStreak();
-        _bottomUI.questionTextField.text = "retry";
         _bottomUI.questionInputField.text = "";
-        // questionTextFieldObject.SetActive(false);
 
-        _puzzleTimer.reset_timer();
         StartCoroutine(ToggleCards(true));
 
     }
@@ -102,8 +101,8 @@ public class HackingMG : MiniGame
     {
         SetupCardDeckGameObject();
         Debug.Log("got all dimensions");
-        _orderList = RandomFactory.GetOrderList(_internalSettings.currentCardTotal);
-        _cardDeck.AddRange(Enumerable.Range(0, _internalSettings.currentCardTotal)
+        _orderList = RandomFactory.GetOrderList(InternalSettings.currentCardTotal);
+        _cardDeck.AddRange(Enumerable.Range(0, InternalSettings.currentCardTotal)
             .Select(i =>
             {
                 var cardGameObject = ComponentHandler.AddChildGameObject(_cardDeckGameObject, "Card" + i);
@@ -122,7 +121,7 @@ public class HackingMG : MiniGame
         _cardDeckGameObject = ComponentHandler.AddChildGameObject(mgPanel.gameObject, "Game");
         ComponentHandler.SetAnchorToStretch(_cardDeckGameObject);
         ComponentHandler.AddMaximisedGridLayout(_cardDeckGameObject, ratio: 600f / 895);
-        _cardDeck = new List<Card>(_internalSettings.currentCardTotal);
+        _cardDeck = new List<Card>(InternalSettings.currentCardTotal);
 
     }
 
@@ -137,7 +136,7 @@ public class HackingMG : MiniGame
            StartCoroutine(card.cardCover.PullCurtainUp());
 
         });
-        yield return new WaitUntil(() => CardCover.CheckAllCurtainsUp(_internalSettings.currentCardTotal));
+        yield return new WaitUntil(() => CardCover.CheckAllCurtainsUp(InternalSettings.currentCardTotal));
 
         StartCoroutine( StartIntroTimer());
     }
@@ -231,7 +230,7 @@ public class HackingMG : MiniGame
 
         if (!questionFirst)
         { 
-            question = _bottomUI.SetQuestion(_internalSettings.currentCardTotal, _cardDeck);
+            question = _bottomUI.SetQuestion(InternalSettings.currentCardTotal, _cardDeck);
         }
         StartCoroutine(StartGameTimer(question));
 
@@ -252,7 +251,7 @@ public class HackingMG : MiniGame
             if (_bottomUI.CheckAnswer(correctAnswer))
             {
                 Debug.Log("Game success");
-                _upperUI.updateStreak(++_internalSettings.currentStreak);
+                _upperUI.updateStreak(++InternalSettings.currentStreak);
                 _cardDeck.ForEach(card => card.backSprite =Game.Instance.cardOrderSheet[10]);
                 yield return flipCards();
                 _puzzleTimer.reset_timer();

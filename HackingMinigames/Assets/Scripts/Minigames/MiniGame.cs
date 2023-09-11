@@ -5,15 +5,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine.Serialization;
 
 public enum MinigameType {HACK =0, UNTANGLE}
 
 public abstract class MiniGame : MonoBehaviour
 {
+    //this is set inside the game, cause im not sure how to  pass a variable as reference,
+    //where da pointer at when I want it :(
+    public MgSettings Settings;
+
     public bool isPaused = false;
     public MgPanel mgPanel;
-    public MgSettings Settings;
     public PuzzleTimer _puzzleTimer;
     private UIPanel _bottomUI;
     private UIPanel _upperUI;
@@ -24,12 +28,11 @@ public abstract class MiniGame : MonoBehaviour
     {
         mgPanel = panel;
         SetupPanels();
+
+   
+        Settings = AddSettings();
         _puzzleTimer = this.AddComponent<PuzzleTimer>();
-        if (mgPanel.gameWindow.highscoreBoardPanel)
-        {
-            /// TODO URGENT THIS
-            // mgPanel.gameWindow.highscoreBoard.ResetUI();
-        }
+        _puzzleTimer.Initialize(Settings);
 
         InitializeDerivative();
         yield return mgPanel.gameWindow.InitPanels();
@@ -47,6 +50,7 @@ public abstract class MiniGame : MonoBehaviour
 
     public IEnumerator StartMinigame()
     {
+        Settings.ResetTemp();
         Debug.Log("Minigame Started");
         isPaused = false;
         ReadyUpGamePanel();
@@ -81,7 +85,17 @@ public abstract class MiniGame : MonoBehaviour
     
     public abstract void StartMinigameChild();
     public abstract void EndMinigame();
-    public abstract void RetryMinigame();
+
+
+    public virtual void RetryMinigame()
+    {
+        UpdateHighscoreBoard();
+        StopAllCoroutines();
+        Settings.ResetTemp();
+        _upperUI.ResetPanel();
+        _puzzleTimer.reset_timer();
+
+    }
 
     public void PuzzleSolved()
     {
@@ -94,6 +108,7 @@ public abstract class MiniGame : MonoBehaviour
 
     public virtual void EndRound()
     {
+        
         Settings.UpdateRecords();
         UpdateHighscoreBoard();
     }
@@ -124,5 +139,9 @@ public abstract class MiniGame : MonoBehaviour
 
     protected abstract UIPanel InitBottomUIChild();
     protected abstract UIPanel InitUpperUIChild();
+    public virtual MgSettings AddSettings()
+    {
+        throw new NotImplementedException();
+    }
 }
 

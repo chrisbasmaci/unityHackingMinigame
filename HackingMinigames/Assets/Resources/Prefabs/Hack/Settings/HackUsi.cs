@@ -13,7 +13,6 @@ public class HackUsi : UIPanel
     {
         Debug.Log("Initialized settings manager");
         _gameWindow = gameWindow;
-        _gameWindow.MinigamePanel._miniGame.Settings = new HackSettings();
         tileSlider.onValueChanged.AddListener(TileAmountSlider);
         timeSlider.onValueChanged.AddListener(TimeAmountSlider);
 

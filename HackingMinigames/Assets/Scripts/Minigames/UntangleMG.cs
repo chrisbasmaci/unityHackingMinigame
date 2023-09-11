@@ -5,6 +5,7 @@ using System.Linq;
 using TriangleNet.Geometry;
 using TriangleNet;
 using TriangleNet.Meshing;
+using UnityEditor;
 using Untangle;
 using Edge = Untangle.Edge;
 using Random = System.Random;
@@ -12,7 +13,8 @@ using Vertex = TriangleNet.Geometry.Vertex;
 
 public class UntangleMG : MiniGame
 {
-    private UntangleSettings _internalSettings;
+    private UntangleSettings InternalSettings => Settings as UntangleSettings;
+    
     private Polygon polygon;
     private List<Vertice> _vertices;
     private List<Edge> _edgeList;
@@ -24,7 +26,11 @@ public class UntangleMG : MiniGame
 
     protected override void InitializeDerivative()
     {
-        
+        _puzzleTimer.InitializeLoadingBar(_bottomUI.loadingbarTimer);
+    }
+    public override MgSettings AddSettings()
+    {
+        return new UntangleSettings();
     }
 
     public override GameObject getUpperSettingPrefab()
@@ -57,24 +63,18 @@ public class UntangleMG : MiniGame
         Debug.Log("CHECK SOLVED");
         if (!_edgeList.Find(edge => edge._isTangled))
         {
-            PuzzleSolvedChild();
+            PuzzleSolved();
         }
     }
     public override void StartMinigameChild()
     {
-        _internalSettings = (UntangleSettings)Settings;
         
-        polygon = new Polygon(_internalSettings.CurrentVertexTotal);
-
-        _puzzleTimer.Initialize(ref _bottomUI.loadingbarTimer, _internalSettings);
-        
-        _internalSettings.currentMoves = 0;
+        polygon = new Polygon(InternalSettings.CurrentVertexTotal);
         TangledEdges = new HashSet<Edge>();
-        polygon = new Polygon(_internalSettings.CurrentVertexTotal);
+        polygon = new Polygon(InternalSettings.CurrentVertexTotal);
         _edgeList = new List<Edge>();
         _vertices = new List<Vertice>();
         verticeConnectionMap = new List<(List<Vertice> connections, Vertice vertex)>();
-
         PauseMinigame();
         InstantiateVertices();
         InstantiateEdges();
@@ -87,14 +87,14 @@ public class UntangleMG : MiniGame
     {
         _puzzleTimer.reset_timer();
         StopAllCoroutines();
-        polygon = new Polygon(_internalSettings.CurrentVertexTotal);
+        polygon = new Polygon(InternalSettings.CurrentVertexTotal);
         _vertices.ForEach(vertice =>vertice.destr());
         _edgeList.ForEach(edge => Destroy(edge.gameObject));
     }
 
     public void UpdateMoves()
     {
-        _upperUI.UpdateMoves(_internalSettings.currentMoves);
+        _upperUI.UpdateMoves(InternalSettings.currentMoves);
     }
 
     public void showSolution()
@@ -104,8 +104,10 @@ public class UntangleMG : MiniGame
 
     }
 
+  
     public override void RetryMinigame()
     {
+        base.RetryMinigame();
         isPaused = false;
         _puzzleTimer.reset_timer();
         StopAllCoroutines();
@@ -113,14 +115,15 @@ public class UntangleMG : MiniGame
         _edgeList.ForEach(edge => Destroy(edge.gameObject));
         StartMinigameChild();
     }
+
     public void IncrementMoveTotal()
     {
-        _internalSettings.currentMoves++;
+        InternalSettings.currentMoves++;
     }
     public override void PuzzleSolvedChild()
     {
         Debug.Log("Puzzle Solved with " +_puzzleTimer.puzzleTimeLeft + "seconds left"
-        +"and in" +_internalSettings.currentMoves +"Moves");
+        +"and in" +InternalSettings.currentMoves +"Moves");
         PauseMinigame();
         EndRound();
     }
@@ -128,7 +131,7 @@ public class UntangleMG : MiniGame
     private void InstantiateVertices()
     {
         int radius = (mgPanel.panelBounds.Height< mgPanel.panelBounds.Width)? (int)mgPanel.panelBounds.Height / 2: (int)mgPanel.panelBounds.Width / 2 ;
-        PlaceVerticesCircleToLatin(_internalSettings.CurrentVertexTotal, radius);
+        PlaceVerticesCircleToLatin(InternalSettings.CurrentVertexTotal, radius);
     }
 
 
@@ -149,8 +152,8 @@ public class UntangleMG : MiniGame
     
     private void PlaceVerticesCircleToLatin(int points, int radius)
     {
-        var dots = Generate.GetLatinSpreadPoints(_internalSettings.CurrentVertexTotal, ref verticeScale, mgPanel.panelBounds);
-        var startingDots = Generate.CirclePoints(radius, new Point(0,0), _internalSettings.CurrentVertexTotal);
+        var dots = Generate.GetLatinSpreadPoints(InternalSettings.CurrentVertexTotal, ref verticeScale, mgPanel.panelBounds);
+        var startingDots = Generate.CirclePoints(radius, new Point(0,0), InternalSettings.CurrentVertexTotal);
         
         Debug.Log("points: " + points);
         for (int i = 0; i < points; i++)
@@ -166,7 +169,7 @@ public class UntangleMG : MiniGame
     public float CalculateVertexSize()
     {
         float panelResolution = mgPanel.panelBounds.Height * mgPanel.panelBounds.Width;
-        float resolutionPerVertex = panelResolution / _internalSettings.CurrentVertexTotal;
+        float resolutionPerVertex = panelResolution / InternalSettings.CurrentVertexTotal;
         return (float)Math.Sqrt(resolutionPerVertex)/300 ;
     }
 

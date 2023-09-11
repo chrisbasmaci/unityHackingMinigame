@@ -18,6 +18,7 @@ public abstract class MgSettings
     public abstract void UpdateRecords();
     public abstract string GetRecords();
 
+    public virtual void ResetTemp() { }
 
     public MgSettings()
     {

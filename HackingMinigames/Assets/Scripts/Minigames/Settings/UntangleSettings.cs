@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public class UntangleSettings : MgSettings
 {
@@ -26,10 +27,14 @@ public class UntangleSettings : MgSettings
 
         _defaultVertexTotal = 5;
         _currentVertexTotal = _defaultVertexTotal;
+        currentMoves = 999;
         
         BestMoves = new Dictionary<int, int>();
     }
-
+    public override void ResetTemp()
+    {
+        currentMoves = 0;
+    }
     public override void UpdateRecords()
     {
         UpdateMoveRecord();
@@ -37,6 +42,7 @@ public class UntangleSettings : MgSettings
 
     public void UpdateMoveRecord()
     {
+        Debug.Log("update: " + _currentVertexTotal + "move total: " +currentMoves);
         if (BestMoves.ContainsKey(_currentVertexTotal)) {
             BestMoves[_currentVertexTotal] = 
                 (BestMoves[_currentVertexTotal] > currentMoves) ? currentMoves : BestMoves[_currentVertexTotal];

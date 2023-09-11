@@ -53,6 +53,7 @@ public class MgPanel : MonoBehaviour
     {
         StartCoroutine(_miniGame.StartMinigame());
     }
+    
  
     
 }

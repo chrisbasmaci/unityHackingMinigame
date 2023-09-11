@@ -17,13 +17,18 @@ public class PuzzleTimer : MonoBehaviour
     [FormerlySerializedAs("puzzleStarted")] public bool introEnded ;
     private Image _loadingbarTimer;
 
-    public void Initialize(ref Image loadingBarTimer, MgSettings settings)
+    public void Initialize(MgSettings settings, Image loadingBarTimer =null)
     {
         _settings = settings;
         _introTime = _settings.DefaultIntroTimer;
         _puzzleTime = _settings.DefaultPuzzleTimer;
         _loadingbarTimer = loadingBarTimer;
         reset_timer();
+    }
+
+    public void InitializeLoadingBar(Image loadingBarTimer)
+    {
+        _loadingbarTimer = loadingBarTimer;
     }
 
     public void reset_timer()

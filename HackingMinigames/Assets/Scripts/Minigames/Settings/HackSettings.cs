@@ -20,6 +20,11 @@ public class HackSettings : MgSettings
 
     }
 
+    public override void ResetTemp()
+    {
+        currentStreak = 0;
+    }
+
     public override string GetRecords()
     {
         return GetStreakRecord();

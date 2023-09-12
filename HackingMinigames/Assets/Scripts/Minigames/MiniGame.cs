@@ -116,6 +116,7 @@ public abstract class MiniGame : MonoBehaviour
     {
         
         Settings.UpdateRecords();
+        _puzzleTimer.reset_timer();
         UpdateHighscoreBoard();
     }
 

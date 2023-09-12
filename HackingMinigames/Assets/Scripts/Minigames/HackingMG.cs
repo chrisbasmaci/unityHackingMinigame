@@ -245,7 +245,6 @@ public class HackingMG : MiniGame
                 HackUpperUI.updateStreak(++InternalSettings.currentStreak);
                 _cardDeck.ForEach(card => card.backSprite =Game.Instance.cardOrderSheet[10]);
                 yield return flipCards();
-                _puzzleTimer.reset_timer();
                 continueHacks();
                 yield break;
             }

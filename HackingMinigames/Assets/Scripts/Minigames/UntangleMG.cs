@@ -14,19 +14,19 @@ using Vertex = TriangleNet.Geometry.Vertex;
 public class UntangleMG : MiniGame
 {
     private UntangleSettings InternalSettings => Settings as UntangleSettings;
-    
+    private BUIuntangle UntangleBottomUI => BottomUI as BUIuntangle;
+    private UUIuntangle UntangleUpperUI => UpperUI as UUIuntangle;
     private Polygon polygon;
     private List<Vertice> _vertices;
     private List<Edge> _edgeList;
     private float verticeScale = 1f;
-    private BUIuntangle _bottomUI;
-    private UUIuntangle _upperUI;
+
     List<(List<Vertice> connections, Vertice vertex)> verticeConnectionMap;
     public HashSet<Edge> TangledEdges;
 
     protected override void InitializeDerivative()
     {
-        _puzzleTimer.InitializeLoadingBar(_bottomUI.loadingbarTimer);
+        _puzzleTimer.InitializeLoadingBar(UntangleBottomUI.loadingbarTimer);
     }
     public override MgSettings AddSettings()
     {
@@ -42,20 +42,19 @@ public class UntangleMG : MiniGame
 
     protected override UIPanel InitBottomUIChild()
     {
-        
         mgPanel.gameWindow.BUIPanel = Instantiate(Game.Instance.bottomUntanglePrefab, mgPanel.gameWindow.bottomContainer.transform)
             .GetComponent<BUIuntangle>();
-        _bottomUI = (BUIuntangle)mgPanel.gameWindow.BUIPanel;
-        _bottomUI.InitializeLeftButton(showSolution);
-        _bottomUI.InitializeRightButton(RetryMinigame);
-        return _bottomUI;
+        var bottomUI = (BUIuntangle)mgPanel.gameWindow.BUIPanel;
+        bottomUI.InitializeLeftButton(showSolution);
+        bottomUI.InitializeRightButton(RetryMinigame);
+        return bottomUI;
     }    
     protected override UIPanel InitUpperUIChild()
     {
         mgPanel.gameWindow.UUIpanel = Instantiate(Game.Instance.upperUntanglePrefab, mgPanel.gameWindow.upperContainer.transform)
             .GetComponent<UUIuntangle>();
-        _upperUI = (UUIuntangle)mgPanel.gameWindow.UUIpanel;
-        return _upperUI;
+        var upperUI = (UUIuntangle)mgPanel.gameWindow.UUIpanel;
+        return upperUI;
     }
 
     public void CheckIfSolved()
@@ -92,7 +91,7 @@ public class UntangleMG : MiniGame
 
     public void UpdateMoves()
     {
-        _upperUI.UpdateMoves(InternalSettings.currentMoves);
+        UntangleUpperUI.UpdateMoves(InternalSettings.currentMoves);
     }
 
     public void showSolution()
@@ -106,9 +105,6 @@ public class UntangleMG : MiniGame
     public override void RetryMinigame()
     {
         base.RetryMinigame();
-        isPaused = false;
-        _puzzleTimer.reset_timer();
-        StopAllCoroutines();
         _vertices.ForEach(vertice =>vertice.destr());
         _edgeList.ForEach(edge => Destroy(edge.gameObject));
         StartMinigameChild();

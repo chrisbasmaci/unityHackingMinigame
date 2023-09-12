@@ -20,6 +20,11 @@ public class BUIhack :UIPanel
     public override void Initialize(GameWindow gameWindow){
     }
 
+    public override void ResetPanel()
+    {
+        questionTextField.text = " ";
+        questionInputField.text = " ";
+    }
 
     public string SetQuestion(int tileAmount,List<Card> cardDeck)
     {

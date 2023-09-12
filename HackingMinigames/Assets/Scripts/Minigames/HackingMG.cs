@@ -9,18 +9,35 @@ public class HackingMG : MiniGame
 {
     
     private HackSettings InternalSettings => Settings as HackSettings;
+    private BUIhack HackBottomUI => BottomUI as BUIhack;
+    private UUIhack HackUpperUI => UpperUI as UUIhack;
+    
     private HackUsi _uiSettings;
 
     private GameObject _cardDeckGameObject;
     private List<Card> _cardDeck;
     private List<int> _orderList;
-    private BUIhack _bottomUI;
-    private UUIhack _upperUI;
 
 
     protected override void  InitializeDerivative()
     {
-        _puzzleTimer.InitializeLoadingBar(_bottomUI.loadingbarTimer);
+        _puzzleTimer.InitializeLoadingBar(HackBottomUI.loadingbarTimer);
+    }
+    protected override UIPanel InitBottomUIChild()
+    {
+        mgPanel.gameWindow.BUIPanel = Instantiate(Game.Instance.bottomHackPrefab, mgPanel.gameWindow.bottomContainer.transform)
+            .GetComponent<BUIhack>();
+        var bottomUI = (BUIhack)mgPanel.gameWindow.BUIPanel;
+        bottomUI.InitializeRightButton(RetryMinigame);
+        return bottomUI;
+    }
+
+    protected override UIPanel InitUpperUIChild()
+    {
+        mgPanel.gameWindow.UUIpanel = Instantiate(Game.Instance.upperHackPrefab, mgPanel.gameWindow.upperContainer.transform)
+            .GetComponent<UUIhack>();
+        var upperUI = (UUIhack)mgPanel.gameWindow.UUIpanel;
+        return upperUI;
     }
 
     public override MgSettings AddSettings()
@@ -48,42 +65,17 @@ public class HackingMG : MiniGame
         base.EndMinigame();
         //NOTE If you need replay, you shouldnt destroy this here
         Destroy(_cardDeckGameObject);
-        _bottomUI.questionTextFieldObject.SetActive(true);
-        _bottomUI.questionTextField.text = " ";
-        _bottomUI.questionInputField.text = " ";
         _cardDeck.ForEach(card =>
         {
             card.StopAllCoroutines();
         });
-        StopAllCoroutines();
     }
 
     public override void RetryMinigame()
     {
         base.RetryMinigame();
-
-
-        _bottomUI.questionTextFieldObject.SetActive(true);
-        _bottomUI.questionInputField.text = "";
-
         StartCoroutine(ToggleCards(true));
 
-    }
-    protected override UIPanel InitBottomUIChild()
-    {
-        mgPanel.gameWindow.BUIPanel = Instantiate(Game.Instance.bottomHackPrefab, mgPanel.gameWindow.bottomContainer.transform)
-            .GetComponent<BUIhack>();
-        _bottomUI = (BUIhack)mgPanel.gameWindow.BUIPanel;
-        _bottomUI.InitializeRightButton(RetryMinigame);
-        return _bottomUI;
-    }
-
-    protected override UIPanel InitUpperUIChild()
-    {
-        mgPanel.gameWindow.UUIpanel = Instantiate(Game.Instance.upperHackPrefab, mgPanel.gameWindow.upperContainer.transform)
-            .GetComponent<UUIhack>();
-        _upperUI = (UUIhack)mgPanel.gameWindow.UUIpanel;
-        return _upperUI;
     }
 
     private void continueHacks()
@@ -229,7 +221,7 @@ public class HackingMG : MiniGame
 
         if (!questionFirst)
         { 
-            question = _bottomUI.SetQuestion(InternalSettings.currentCardTotal, _cardDeck);
+            question = HackBottomUI.SetQuestion(InternalSettings.currentCardTotal, _cardDeck);
         }
         StartCoroutine(StartGameTimer(question));
 
@@ -240,17 +232,17 @@ public class HackingMG : MiniGame
         Debug.Log("Game timer started");
         if (Game.Instance.questionFirstToggle)
         {
-            _bottomUI.questionTextFieldObject.SetActive(false);
+            HackBottomUI.questionTextFieldObject.SetActive(false);
         }
         
         _puzzleTimer.startPuzzleTimer();
         string correctAnswer = PuzzleFactory.getQuestionSolution(_cardDeck, question);
         while (!_puzzleTimer.IsGameOver())
         {
-            if (_bottomUI.CheckAnswer(correctAnswer))
+            if (HackBottomUI.CheckAnswer(correctAnswer))
             {
                 Debug.Log("Game success");
-                _upperUI.updateStreak(++InternalSettings.currentStreak);
+                HackUpperUI.updateStreak(++InternalSettings.currentStreak);
                 _cardDeck.ForEach(card => card.backSprite =Game.Instance.cardOrderSheet[10]);
                 yield return flipCards();
                 _puzzleTimer.reset_timer();

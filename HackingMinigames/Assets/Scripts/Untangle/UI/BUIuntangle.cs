@@ -12,7 +12,12 @@ public class BUIuntangle :UIPanel
     {
     }
 
-    
+    public override void ResetPanel()
+    {
+        loadingbarTimer.fillAmount = 0;
+    }
+
+
     public void InitializeLeftButton(UnityAction call)
     {
         _leftButton.onClick.AddListener(call);

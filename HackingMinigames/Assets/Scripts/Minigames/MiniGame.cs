@@ -19,8 +19,8 @@ public abstract class MiniGame : MonoBehaviour
     public bool isPaused = false;
     public MgPanel mgPanel;
     public PuzzleTimer _puzzleTimer;
-    private UIPanel _bottomUI;
-    private UIPanel _upperUI;
+    protected UIPanel BottomUI;
+    protected UIPanel UpperUI;
 
     //initialization
 
@@ -59,7 +59,7 @@ public abstract class MiniGame : MonoBehaviour
         mgPanel.gameWindow.BUIPanel.gameObject.SetActive(true);
         
         UpdateHighscoreBoard();
-        _upperUI.ResetPanel();
+        UpperUI.ResetPanel();
         StartMinigameChild();
     }
     public abstract void StartMinigameChild();
@@ -86,6 +86,7 @@ public abstract class MiniGame : MonoBehaviour
     public virtual void EndMinigame()
     {
         ///Todo add bottom UI RESET, AND PUT IT HERE
+        BottomUI.ResetPanel();
         StopAllCoroutines();
         _puzzleTimer.reset_timer();
     }
@@ -95,7 +96,9 @@ public abstract class MiniGame : MonoBehaviour
         UpdateHighscoreBoard();
         StopAllCoroutines();
         Settings.ResetTemp();
-        _upperUI.ResetPanel();
+        UpperUI.ResetPanel();
+        BottomUI.ResetPanel();
+        isPaused = false;
         _puzzleTimer.reset_timer();
 
     }
@@ -127,17 +130,17 @@ public abstract class MiniGame : MonoBehaviour
 
     protected void SetupPanels()
     {
-        InitBottomUI();
-        InitUpperUI();
+        BottomUI = InitBottomUI();
+        UpperUI  = InitUpperUI();
     }
-    private void InitBottomUI()
+    private UIPanel InitBottomUI()
     {
-        _bottomUI = InitBottomUIChild();
+        return InitBottomUIChild();
     }
 
-    private void InitUpperUI()
+    private UIPanel InitUpperUI()
     {
-        _upperUI = InitUpperUIChild();
+        return InitUpperUIChild();
     }
 
     protected abstract UIPanel InitBottomUIChild();

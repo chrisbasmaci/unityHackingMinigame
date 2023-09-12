@@ -253,7 +253,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 30}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &754890251
 MonoBehaviour:
@@ -520,16 +520,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
+    m_Left: 200
+    m_Right: 200
+    m_Top: 100
+    m_Bottom: 100
   m_ChildAlignment: 4
-  m_Spacing: 0
+  m_Spacing: 100
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 0
-  m_ChildControlHeight: 0
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
@@ -746,8 +746,6 @@ MonoBehaviour:
   - {fileID: -295863191, guid: cf094b3adf842d74aad31f7b8549b577, type: 3}
   - {fileID: 1867219225, guid: cf094b3adf842d74aad31f7b8549b577, type: 3}
   cardBackPrefab: {fileID: 2394986260456157355, guid: 34e5de19b9bf40457a7c3ad17fa5e2fb, type: 3}
-  orderRevealAnimation: {fileID: 7400000, guid: fde9ea63f20f12741b06211e428bc0ec, type: 2}
-  curtainController: {fileID: 9100000, guid: bc98ef6dcc84eaa4ebfa909fe2ca2bd1, type: 2}
   shapeSheet:
   - {fileID: -1617172729, guid: 015ce0a0416af4840af1956cafef6e76, type: 3}
   - {fileID: -1760786088, guid: 015ce0a0416af4840af1956cafef6e76, type: 3}
@@ -958,7 +956,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 30}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1519056879
 MonoBehaviour:

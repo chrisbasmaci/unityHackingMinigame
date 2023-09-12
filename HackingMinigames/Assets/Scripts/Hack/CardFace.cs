@@ -17,6 +17,7 @@ namespace Hack
         private GameObject _shapeGameObject;
         private GameObject _shapePromptGameObject;
         private GameObject _colorPromptGameObject;
+        private string _faceSpriteLocation = "Sprites/splitCardFace";
 
 
 
@@ -25,17 +26,19 @@ namespace Hack
 
         protected override void InitializeSide()
         {
-            _card.faceSprite = Game.Instance.cardFace;
+            _card.faceSprite = Resources.Load<Sprite>(_faceSpriteLocation);
             _card.cardImage.sprite = _card.faceSprite;
             ComponentHandler.SetAnchorToStretch(gameObject);
-
+            
             initPuzzleParts();
 
         }
 
         private void initPuzzleParts()
         {
-            ComponentHandler.AddVerticalLayoutGroup(gameObject);
+            //TODO IN CASE YOU ADD A NEW TEXT THIS MIGHT NEED CHANGE
+            ComponentHandler.AddVerticalLayoutGroup(gameObject,
+                new RectOffset(0,0,10,10));
             //invert the shape and color text if toggles on
 
 

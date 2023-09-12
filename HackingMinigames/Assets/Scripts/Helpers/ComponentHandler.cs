@@ -69,26 +69,24 @@ public static class ComponentHandler
         rectTransform.sizeDelta = Vector2.zero;
     }
     
-    public static void AddVerticalLayoutGroup(GameObject gameObject)
+    public static VerticalLayoutGroup AddVerticalLayoutGroup(GameObject gameObject, RectOffset padding)
     {
         VerticalLayoutGroup verticalLayoutGroup = gameObject.GetComponent<VerticalLayoutGroup>();
-        if (verticalLayoutGroup == null)
-        {
+        if (!verticalLayoutGroup) {
             verticalLayoutGroup = gameObject.AddComponent<VerticalLayoutGroup>();
-        
-
-            // verticalLayoutGroup.spacing = 10f;
-
-            // You can set other properties like padding, child alignment, etc.
-            // verticalLayoutGroup.padding = new RectOffset(10, 10, 10, 10);
-            // verticalLayoutGroup.childAlignment = TextAnchor.UpperCenter;
-            // verticalLayoutGroup.childForceExpandHeight = false;
-            // verticalLayoutGroup.childForceExpandWidth = false;
-        }
-        else
-        {
+            
+        }else {
             Debug.LogWarning("The GameObject already has a VerticalLayoutGroup component.");
         }
+        
+        // verticalLayoutGroup.spacing = 10f;
+
+        // You can set other properties like padding, child alignment, etc.
+        verticalLayoutGroup.padding = padding;
+        verticalLayoutGroup.childAlignment = TextAnchor.MiddleCenter;
+        // verticalLayoutGroup.childForceExpandHeight = false;
+        // verticalLayoutGroup.childForceExpandWidth = false;
+        return verticalLayoutGroup;
     }
     public static void AddLayoutElement(GameObject gameObject,
                                         float? flexibleWidth = null, float? flexibleHeight = null,  

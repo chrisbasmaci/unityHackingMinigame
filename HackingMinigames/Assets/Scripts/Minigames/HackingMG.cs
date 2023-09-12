@@ -250,9 +250,9 @@ public class HackingMG : MiniGame
                 yield break;
             }
             yield return null;
-
         }
-        
+        EndRound();
+        HackBottomUI.ShowAnswer(correctAnswer);
         
         yield return flipCards();
         yield return null;

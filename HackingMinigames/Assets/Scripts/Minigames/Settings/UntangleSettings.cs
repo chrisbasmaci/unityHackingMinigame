@@ -7,7 +7,7 @@ public class UntangleSettings : MgSettings
     private int _defaultVertexTotal;
     private int _currentVertexTotal;
     public int currentMoves;
-    public string GameMode => "GameMode [" + _currentVertexTotal + "] Vertices";
+    public string GameMode => "|| GameMode [" + _currentVertexTotal + "] Vertices ||";
     
     public int CurrentVertexTotal
     {

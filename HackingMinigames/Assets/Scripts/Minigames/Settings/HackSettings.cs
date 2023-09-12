@@ -6,7 +6,7 @@ public class HackSettings : MgSettings
     public int currentCardTotal;
     public int currentStreak;
     public Dictionary<int, int> BestStreak{ get; }
-    public string GameMode => "GameMode [" + currentCardTotal + "] Vertices";
+    public string GameMode => "|| GameMode [" + currentCardTotal + "] Cards ||";
 
     public HackSettings(){
         
@@ -39,7 +39,7 @@ public class HackSettings : MgSettings
     public string GetStreakRecord()
     {
         int record;
-        string recordName = " Current Streak: ";
+        string recordName = " Max Streak: ";
         if (BestStreak.TryGetValue(currentCardTotal, out record))
         {
             return GameMode+recordName + record;

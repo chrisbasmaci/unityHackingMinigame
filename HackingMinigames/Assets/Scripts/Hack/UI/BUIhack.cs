@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Hack;
+using Unity.VisualScripting;
 using UnityEngine.Events;
 
 public class BUIhack :UIPanel
@@ -56,7 +57,17 @@ public class BUIhack :UIPanel
     public void InitializeLeftButton(UnityAction call)
     {
         _leftButton.onClick.AddListener(call);
-    }    
+    }
+
+    public void ShowAnswer(string solution)
+    {
+        var textfld = questionInputField.placeholder.GetComponent<TMP_Text>();
+        if (!textfld)
+        {
+            questionInputField.placeholder.AddComponent<TMP_Text>();
+        }
+        textfld.text = solution;
+    }
     
     public void InitializeRightButton(UnityAction call)
     {

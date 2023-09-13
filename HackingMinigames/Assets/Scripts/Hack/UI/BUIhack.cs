@@ -17,14 +17,18 @@ public class BUIhack :UIPanel
     [SerializeField]public GameObject questionTextFieldObject;
     [SerializeField]public TMP_Text questionTextField;
     [SerializeField]public Image loadingbarTimer;
+    private TMP_Text _inputFieldPlaceholder;
 
     public override void Initialize(GameWindow gameWindow){
+        _inputFieldPlaceholder = questionInputField.placeholder.GetComponent<TMP_Text>();
+        ResetPanel();
     }
 
     public override void ResetPanel()
     {
         questionTextField.text = " ";
-        questionInputField.text = " ";
+        questionInputField.text = "";
+        _inputFieldPlaceholder.text = "example: blue rectangle";
     }
 
     public string SetQuestion(int tileAmount,List<Card> cardDeck)
@@ -61,12 +65,7 @@ public class BUIhack :UIPanel
 
     public void ShowAnswer(string solution)
     {
-        var textfld = questionInputField.placeholder.GetComponent<TMP_Text>();
-        if (!textfld)
-        {
-            questionInputField.placeholder.AddComponent<TMP_Text>();
-        }
-        textfld.text = solution;
+        _inputFieldPlaceholder.text = solution;
     }
     
     public void InitializeRightButton(UnityAction call)

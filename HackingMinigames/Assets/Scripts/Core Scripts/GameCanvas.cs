@@ -50,9 +50,7 @@ public class GameCanvas : MonoBehaviour
     }
 
     public IEnumerator ChangePaddingWithAnimation()
-    { 
-        Debug.Log("current height: "+settingWindowSize.Height);
-
+    {
         float elapsedTime = 0f;
         float startPadding = _paddingPercentage;
         while (elapsedTime < _animationDuration)

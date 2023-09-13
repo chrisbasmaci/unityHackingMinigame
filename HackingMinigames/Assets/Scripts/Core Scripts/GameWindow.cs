@@ -28,15 +28,19 @@ public class GameWindow : MonoBehaviour
     
     [FormerlySerializedAs("navigationPanelContainer")] [SerializeField] private GameObject navigationPanelGOBJ;
 
-    
-    
+
+    private void Start()
+    {
+        gameCanvas = GetComponentInParent<GameCanvas>();
+
+    }
 
     public void Initialize(MinigameType mgType)
     {
-        gameCanvas = GetComponentInParent<GameCanvas>();
-        highscoreBoard = highscoreBoardPanel.GetComponent<HighscoreBoardPanel>();
+
         currentMg = mgType;
 
+        highscoreBoard = highscoreBoardPanel.GetComponent<HighscoreBoardPanel>();            
         _upperContainerLayout = upperContainer.GetComponent<LayoutElement>();
         _gamePanelLayout = middleContainer.GetComponent<LayoutElement>();
         _bottomContainerLayout = bottomContainer.GetComponent<LayoutElement>();
@@ -56,8 +60,8 @@ public class GameWindow : MonoBehaviour
         highscoreBoard.HidePanel();
 
 
-        UUIpanel.HidePanel();
-        BUIPanel.HidePanel();
+        UUIpanel?.HidePanel();
+        BUIPanel?.HidePanel();
         if (MinigamePanel.currentSettingsPrefab)
         {
             if (!USPanel)
@@ -75,7 +79,11 @@ public class GameWindow : MonoBehaviour
         if (USPanel) {
             USPanel.HidePanel();
         }
-        highscoreBoard.ShowPanel();
+
+        if (highscoreBoard)
+        {
+            highscoreBoard.ShowPanel();
+        }
         
         navigationPanelGOBJ.SetActive(false);
         middleContainer.SetActive(true);
@@ -83,15 +91,15 @@ public class GameWindow : MonoBehaviour
     public IEnumerator InitPanels()
     {
 
-        UUIpanel.Initialize(this);
-        BUIPanel.Initialize(this);
-        var uuiLayoutElement = UUIpanel.GetComponent<LayoutElement>();
-        var buiLayoutElement = BUIPanel.GetComponent<LayoutElement>();
+        UUIpanel?.Initialize(this);
+        BUIPanel?.Initialize(this);
+        var uuiLayoutElement = UUIpanel?.GetComponent<LayoutElement>();
+        var buiLayoutElement = BUIPanel?.GetComponent<LayoutElement>();
         
         
-        _upperContainerLayout.preferredHeight = uuiLayoutElement.preferredHeight;
+        _upperContainerLayout.preferredHeight = (uuiLayoutElement)? uuiLayoutElement.preferredHeight : 1;
         _gamePanelLayout.flexibleHeight = 10000;
-        _bottomContainerLayout.preferredHeight = buiLayoutElement.preferredHeight;
+        _bottomContainerLayout.preferredHeight = (buiLayoutElement)? buiLayoutElement.preferredHeight : 1;
         yield return null;
     }
     

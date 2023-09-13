@@ -34,15 +34,17 @@ public class MgPanel : MonoBehaviour
     {
         switch (gameWindow.currentMg)
         {
+            case MinigameType.EXAMPLE:
+                _miniGame = gameObject.AddComponent<ExampleMG>();
+                break;       
             case MinigameType.HACK:
                 _miniGame = gameObject.AddComponent<HackingMG>();
-
                 break;
             case MinigameType.UNTANGLE:
                 _miniGame = gameObject.AddComponent<UntangleMG>();
                 break;
             default:
-                _miniGame = gameObject.AddComponent<HackingMG>();
+                _miniGame = gameObject.AddComponent<ExampleMG>();
                 break;
         }
         currentSettingsPrefab = _miniGame.getUpperSettingPrefab();

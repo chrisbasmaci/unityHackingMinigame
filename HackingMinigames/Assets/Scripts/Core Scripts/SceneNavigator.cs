@@ -1,29 +1,41 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+/// <instruction>
+/// EXAMPLE INSTRUCTION (1)
+/// Add corresponding ENUM
+/// </instruction>
+public enum MinigameType {EXAMPLE, HACK, UNTANGLE}
 
 public class SceneNavigator: MonoBehaviour
 {
-
-    public void Untangle()
+    /// <instruction>
+    /// EXAMPLE INSTRUCTION (2)
+    /// Add Navigation to the corresponding enum
+    /// EXAMPLE INSTRUCTION (2.5)
+    /// Bind this to a button to start the game 
+    /// </instruction>
+    public void Example()
     {
-        // Game.Instance.currentSettingsPrefab = null;
-        Game.Instance.selectionCanvas.SetActive(false);
-        Game.Instance.gameCanvas.SetActive(true);
-        var window =  Instantiate(Game.Instance.gameWindowPrefab, Game.Instance.gameCanvas.transform).GetComponent<GameWindow>();
-        window.Initialize(MinigameType.UNTANGLE);
-
-        // Game.Instance.CurrentGameWindow.
+        NavigationPrep().Initialize(MinigameType.EXAMPLE);
     }
     public void Hack()
     {
+        NavigationPrep().Initialize(MinigameType.HACK);
+    }
+    public void Untangle()
+    {
+        NavigationPrep().Initialize(MinigameType.UNTANGLE);
+    }
+
+    private static GameWindow NavigationPrep()
+    {
+        GameWindow window =  Instantiate(Game.Instance.gameWindowPrefab, Game.Instance.gameCanvas.transform).GetComponent<GameWindow>();
         Game.Instance.selectionCanvas.SetActive(false);
         Game.Instance.gameCanvas.SetActive(true);
-        var window =  Instantiate(Game.Instance.gameWindowPrefab, Game.Instance.gameCanvas.transform).GetComponent<GameWindow>();
-        window.Initialize(MinigameType.HACK);
-        // SceneManager.LoadScene("untanglescene");
-
+        return window;
     }
+
 
 
 }

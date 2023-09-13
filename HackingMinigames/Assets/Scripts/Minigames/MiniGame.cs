@@ -8,7 +8,6 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine.Serialization;
 
-public enum MinigameType {HACK =0, UNTANGLE}
 
 public abstract class MiniGame : MonoBehaviour
 {
@@ -55,11 +54,11 @@ public abstract class MiniGame : MonoBehaviour
         isPaused = false;
         ReadyUpGamePanel();
         yield return null;
-        mgPanel.gameWindow.UUIpanel.gameObject.SetActive(true);
-        mgPanel.gameWindow.BUIPanel.gameObject.SetActive(true);
+        mgPanel.gameWindow.UUIpanel?.gameObject.SetActive(true);
+        mgPanel.gameWindow.BUIPanel?.gameObject.SetActive(true);
         
         UpdateHighscoreBoard();
-        UpperUI.ResetPanel();
+        UpperUI?.ResetPanel();
         StartMinigameChild();
     }
     public abstract void StartMinigameChild();
@@ -86,7 +85,7 @@ public abstract class MiniGame : MonoBehaviour
     public virtual void EndMinigame()
     {
         ///Todo add bottom UI RESET, AND PUT IT HERE
-        BottomUI.ResetPanel();
+        BottomUI?.ResetPanel();
         StopAllCoroutines();
         _puzzleTimer.reset_timer();
     }
@@ -96,8 +95,8 @@ public abstract class MiniGame : MonoBehaviour
         UpdateHighscoreBoard();
         StopAllCoroutines();
         Settings.ResetTemp();
-        UpperUI.ResetPanel();
-        BottomUI.ResetPanel();
+        UpperUI?.ResetPanel();
+        BottomUI?.ResetPanel();
         isPaused = false;
         _puzzleTimer.reset_timer();
 

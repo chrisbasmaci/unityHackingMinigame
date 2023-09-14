@@ -5,10 +5,12 @@ using ui;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UI.Extensions;
 
 
 public static class ComponentHandler
 {
+    private static GameObject _settingSlider =Resources.Load<GameObject>("UI_Prefabs/SliderPrefab") ;
     public static GameObject AddChildGameObject(GameObject parentObject, string childName, Vector3? pos = null)
     {
         GameObject gameObject = new GameObject(childName);
@@ -163,5 +165,17 @@ public static class ComponentHandler
         canvas.sortingOrder = order;
         gameObject.AddComponent<GraphicRaycaster>();
         return canvas;
+    }
+
+    public static void AddFlowLayout(GameObject gameObject)
+    {
+        var currentLayoutGroup = gameObject.GetComponent<LayoutGroup>();
+        if (currentLayoutGroup) {
+            Object.DestroyImmediate(currentLayoutGroup);
+        }
+
+        var flowLayout = gameObject.AddComponent<FlowLayoutGroup>();
+        flowLayout.childAlignment = TextAnchor.MiddleCenter;
+        flowLayout.ChildForceExpandWidth = true;
     }
 }

@@ -35,9 +35,16 @@ public class UntangleMG : MiniGame
 
     public override GameObject getUpperSettingPrefab()
     {
-        var upperSettings = Resources.Load<GameObject>("Prefabs/Untangle/Settings/UntangleUSI");
-        var _uiSettings = upperSettings.GetComponent<UntangleUsi>();
-        return upperSettings;
+        var newPanel = new GameObject("UpperSetting").
+            AddComponent<UntangleUsi>();
+        ComponentHandler.AddFlowLayout(newPanel.gameObject);
+       
+        newPanel.InitSliders( 
+            Helpers.PrefabHandler.AddSliderPrefab(newPanel.gameObject, "TimeSlider"),
+            Helpers.PrefabHandler.AddSliderPrefab(newPanel.gameObject, "VertexSlider")
+        );
+
+        return newPanel.gameObject;
     }
 
     protected override UIPanel InitBottomUIChild()
@@ -67,6 +74,7 @@ public class UntangleMG : MiniGame
     }
     public override void StartMinigameChild()
     {
+        Debug.Log("actual puzzle timer"+Settings.CurrentPuzzleTimer);
         
         polygon = new Polygon(InternalSettings.CurrentVertexTotal);
         TangledEdges = new HashSet<Edge>();
@@ -74,10 +82,10 @@ public class UntangleMG : MiniGame
         _edgeList = new List<Edge>();
         _vertices = new List<Vertice>();
         verticeConnectionMap = new List<(List<Vertice> connections, Vertice vertex)>();
-        PauseMinigame();
+        // PauseMinigame();
         InstantiateVertices();
         InstantiateEdges();
-        ResumeMinigame();
+        // ResumeMinigame();
         _puzzleTimer.startPuzzleTimer();
         
     }

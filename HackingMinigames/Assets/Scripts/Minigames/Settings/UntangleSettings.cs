@@ -25,10 +25,11 @@ public class UntangleSettings : MgSettings
         _defaultIntroTimer = 0;
         _defaultPuzzleTimer = 60;
 
+        CurrentPuzzleTimer = _defaultPuzzleTimer;
+        CurrentIntroTimer = _defaultIntroTimer;
+
         _defaultVertexTotal = 5;
-        _currentVertexTotal = _defaultVertexTotal;
-        currentMoves = 999;
-        
+        _currentVertexTotal = 5;
         BestMoves = new Dictionary<int, int>();
     }
     public override void ResetTemp()

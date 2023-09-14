@@ -56,7 +56,7 @@ public abstract class MiniGame : MonoBehaviour
         yield return null;
         mgPanel.gameWindow.UUIpanel?.gameObject.SetActive(true);
         mgPanel.gameWindow.BUIPanel?.gameObject.SetActive(true);
-        
+        _puzzleTimer.reset_timer(Settings);
         UpdateHighscoreBoard();
         UpperUI?.ResetPanel();
         StartMinigameChild();
@@ -87,7 +87,7 @@ public abstract class MiniGame : MonoBehaviour
         ///Todo add bottom UI RESET, AND PUT IT HERE
         BottomUI?.ResetPanel();
         StopAllCoroutines();
-        _puzzleTimer.reset_timer();
+        _puzzleTimer.reset_timer(Settings);
     }
     
     public virtual void RetryMinigame()
@@ -98,7 +98,7 @@ public abstract class MiniGame : MonoBehaviour
         UpperUI?.ResetPanel();
         BottomUI?.ResetPanel();
         isPaused = false;
-        _puzzleTimer.reset_timer();
+        _puzzleTimer.reset_timer(Settings);
 
     }
 
@@ -115,7 +115,7 @@ public abstract class MiniGame : MonoBehaviour
     {
         
         Settings.UpdateRecords();
-        _puzzleTimer.reset_timer();
+        _puzzleTimer.reset_timer(Settings);
         UpdateHighscoreBoard();
     }
 

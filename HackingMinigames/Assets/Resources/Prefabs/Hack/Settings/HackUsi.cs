@@ -4,8 +4,8 @@ using UnityEngine.UI;
 
 public class HackUsi : UIPanel
 {
-    [SerializeField] Slider tileSlider;
-    [SerializeField] Slider timeSlider;
+    [SerializeField] UnityEngine.UI.Slider tileSlider;
+    [SerializeField] UnityEngine.UI.Slider timeSlider;
     private GameWindow _gameWindow;
     // Start is called before the first frame update
 

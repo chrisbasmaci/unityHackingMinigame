@@ -46,13 +46,18 @@ public class ExampleMG : MiniGame
     protected override UIPanel InitUpperUIChild()
     {
         var uui = Resources.Load<GameObject>(_uuiPrefabLocation);
-        if (!uui) {
-            return null;
-        }
-        mgPanel.gameWindow.UUIpanel = Instantiate(uui, mgPanel.gameWindow.upperContainer.transform)
-            .GetComponent<UUIuntangle>();
-        var upperUI = (UUIuntangle)mgPanel.gameWindow.UUIpanel;
-        return upperUI;
+
+        // if (!uui) {
+        //     return null;
+        // }
+        // mgPanel.gameWindow.UUIpanel = Instantiate(uui, mgPanel.gameWindow.upperContainer.transform)
+        //     .GetComponent<UUIuntangle>();
+        // var upperUI = (UUIuntangle)mgPanel.gameWindow.UUIpanel;
+        ComponentHandler.AddFlowLayout(mgPanel.gameWindow.upperContainer);
+        Helpers.PrefabHandler.AddSliderPrefab(mgPanel.gameWindow.upperContainer, "Slider");
+        Helpers.PrefabHandler.AddSliderPrefab(mgPanel.gameWindow.upperContainer, "Slider");
+        Helpers.PrefabHandler.AddSliderPrefab(mgPanel.gameWindow.upperContainer, "Slider");
+        return null;
     }
 
 

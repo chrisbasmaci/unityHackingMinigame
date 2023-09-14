@@ -7,7 +7,6 @@ using UnityEngine.UI;
 
 public class PuzzleTimer : MonoBehaviour
 {
-    private MgSettings _settings;
     private int _introTime;
     private int _puzzleTime;
     public float introTimeLeft;
@@ -19,11 +18,10 @@ public class PuzzleTimer : MonoBehaviour
 
     public void Initialize(MgSettings settings, Image loadingBarTimer =null)
     {
-        _settings = settings;
-        _introTime = _settings.DefaultIntroTimer;
-        _puzzleTime = _settings.DefaultPuzzleTimer;
+        Debug.Log("Initialize called on timer");
+        _introTime = settings.DefaultIntroTimer;
+        _puzzleTime = settings.DefaultPuzzleTimer;
         _loadingbarTimer = loadingBarTimer;
-        reset_timer();
     }
 
     public void InitializeLoadingBar(Image loadingBarTimer)
@@ -31,10 +29,11 @@ public class PuzzleTimer : MonoBehaviour
         _loadingbarTimer = loadingBarTimer;
     }
 
-    public void reset_timer()
+    public void reset_timer(MgSettings settings)
     {
-        _introTime = _settings.CurrentIntroTimer;
-        _puzzleTime = _settings.CurrentPuzzleTimer;
+        Debug.Log("Puzzle time" +_puzzleTime);
+        _introTime = settings.CurrentIntroTimer;
+        _puzzleTime = settings.CurrentPuzzleTimer;
         introTimeLeft = _introTime; 
         puzzleTimeLeft = _puzzleTime;
         isEnabled = false;
@@ -50,7 +49,6 @@ public class PuzzleTimer : MonoBehaviour
 
     }
     public void startIntroTimer(){
-        reset_timer();
         isEnabled = true;
     }
     public bool introFinished()

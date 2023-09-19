@@ -4,35 +4,32 @@ using UnityEngine.UI;
 
 public class HackUsi : UIPanel
 {
-    [SerializeField] UnityEngine.UI.Slider tileSlider;
-    [SerializeField] UnityEngine.UI.Slider timeSlider;
-    private GameWindow _gameWindow;
+    public HackSettings Settings => GameWindow.MinigamePanel._miniGame.Settings as HackSettings;
+
+    public SettingsSlider tileSlider;
+    public SettingsSlider timeSlider;
     // Start is called before the first frame update
-
-    public override void Initialize(GameWindow gameWindow)
+    
+    public void InitSliders(SettingsSlider time, SettingsSlider vertex)
     {
-        Debug.Log("Initialized settings manager");
-        _gameWindow = gameWindow;
-        tileSlider.onValueChanged.AddListener(TileAmountSlider);
-        timeSlider.onValueChanged.AddListener(TimeAmountSlider);
-
-        
+        tileSlider = vertex;
+        timeSlider = time;
+        tileSlider.Initialize("Card", Settings.currentCardTotal,2,9);
+        timeSlider.Initialize("Time", Settings.CurrentPuzzleTimer,2,60);
     }
 
     public override void ShowPanel()
     {
-        var mg = (HackSettings)_gameWindow.MinigamePanel._miniGame.Settings;
-        tileSlider.value = mg.currentCardTotal;
-        timeSlider.value = mg.CurrentPuzzleTimer;
         base.ShowPanel();
+        tileSlider.slidingBar.onValueChanged.AddListener(TileAmountSlider);
+        timeSlider.slidingBar.onValueChanged.AddListener(TimeAmountSlider);
     }
 
     public void TimeAmountSlider(float value)
     {
-        var _settings = (HackSettings)_gameWindow.MinigamePanel._miniGame.Settings;
-        if (_settings != null) // Check if _settings is not null before using it.
+        if (Settings != null) // Check if _settings is not null before using it.
         {
-            _settings.CurrentPuzzleTimer = (int)value;
+            Settings.CurrentPuzzleTimer = (int)value;
         }
         else
         {
@@ -42,10 +39,9 @@ public class HackUsi : UIPanel
 
     public void TileAmountSlider(float value)
     {
-        var _settings = (HackSettings)_gameWindow.MinigamePanel._miniGame.Settings;
-        if (_settings!= null) // Check if _settings is not null before using it.
+        if (Settings!= null) // Check if _settings is not null before using it.
         {
-            _settings.currentCardTotal = (int)value;
+            Settings.currentCardTotal = (int)value;
         }
         else
         {

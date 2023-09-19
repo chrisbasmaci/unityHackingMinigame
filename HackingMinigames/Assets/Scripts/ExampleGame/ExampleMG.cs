@@ -33,11 +33,11 @@ public class ExampleMG : MiniGame
 
         ComponentHandler.AddFlowLayout(newPanel.gameObject);
         newPanel.Initialize(mgPanel.gameWindow);
-        newPanel.InitSlider( 
-            Helpers.PrefabHandler.AddSliderPrefab(newPanel.gameObject, "Slider")
-        );
+        newPanel.InitSlider(Helpers.PrefabHandler.
+            AddSliderPrefab(newPanel.gameObject, "Slider"));
 
-        return newPanel.gameObject;    }
+        return newPanel.gameObject;    
+    }
 
     protected override UIPanel InitBottomUIChild()
     {

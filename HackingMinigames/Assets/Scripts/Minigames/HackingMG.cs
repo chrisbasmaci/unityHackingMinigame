@@ -47,12 +47,18 @@ public class HackingMG : MiniGame
 
     public override GameObject InstantiateUpperSettings()
     {
-        var upperSettings = Resources.Load<GameObject>("Prefabs/Hack/Settings/SubSettingsPanel");
-        var _uiSettings = upperSettings.GetComponent<HackUsi>();
-        return upperSettings;
+        var newPanel = ComponentHandler.AddChildGameObject(mgPanel.gameWindow.upperContainer, "UpperSetting").
+            AddComponent<HackUsi>();
+
+        ComponentHandler.AddFlowLayout(newPanel.gameObject);
+        newPanel.Initialize(mgPanel.gameWindow);
+        newPanel.InitSliders( 
+            Helpers.PrefabHandler.AddSliderPrefab(newPanel.gameObject, "TimeSlider"),
+            Helpers.PrefabHandler.AddSliderPrefab(newPanel.gameObject, "CardSlider")
+        );
+
+        return newPanel.gameObject;
     }
-
-
     public override void StartMinigameChild()
     {
 

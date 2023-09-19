@@ -7,13 +7,7 @@ public class UntangleUsi : UIPanel
     public SettingsSlider vertexSlider;
     public SettingsSlider timeSlider;
     // Start is called before the first frame update
-
     
-    public override void Initialize(GameWindow gameWindow)
-    {
-        GameWindow = gameWindow;
-    }
-
     public void InitSliders(SettingsSlider time, SettingsSlider vertex)
     {
         vertexSlider = vertex;

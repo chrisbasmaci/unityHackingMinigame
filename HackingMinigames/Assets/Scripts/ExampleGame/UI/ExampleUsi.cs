@@ -1,12 +1,12 @@
 
-    public class ExampleUsi :UIPanel
+    public class ExampleUsi : SettingsPanel
     {
         public SettingsSlider exampleSlider;
 
-        public void InitSlider(SettingsSlider slider)
+        public override void InitSliders()
         {
-            exampleSlider = slider;
+            exampleSlider =  Helpers.PrefabHandler.AddSliderPrefab(gameObject, "ExampleSlider");;
             ExampleSettings settings = (ExampleSettings)GameWindow.MinigamePanel._miniGame.Settings;
-            slider.Initialize("Slider", settings.CurrentPuzzleTimer,5,10);
+            exampleSlider.Initialize("Slider", settings.CurrentPuzzleTimer,5,10);
         }
     }

@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HackUsi : UIPanel
+public class HackUsi : SettingsPanel
 {
     public HackSettings Settings => GameWindow.MinigamePanel._miniGame.Settings as HackSettings;
 
@@ -10,10 +10,10 @@ public class HackUsi : UIPanel
     public SettingsSlider timeSlider;
     // Start is called before the first frame update
     
-    public void InitSliders(SettingsSlider time, SettingsSlider vertex)
+    public override void InitSliders()
     {
-        tileSlider = vertex;
-        timeSlider = time;
+        tileSlider = Helpers.PrefabHandler.AddSliderPrefab(gameObject, "TileSlider");;
+        timeSlider = Helpers.PrefabHandler.AddSliderPrefab(gameObject, "TimeSlider");;;
         tileSlider.Initialize("Card", Settings.currentCardTotal,2,9);
         timeSlider.Initialize("Time", Settings.CurrentPuzzleTimer,2,60);
     }

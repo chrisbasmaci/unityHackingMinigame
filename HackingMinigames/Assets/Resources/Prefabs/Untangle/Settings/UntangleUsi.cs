@@ -2,19 +2,21 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UntangleUsi : UIPanel
+public class UntangleUsi : SettingsPanel
 {
+    private UntangleSettings Settings => GameWindow.MinigamePanel._miniGame.Settings as UntangleSettings;
     public SettingsSlider vertexSlider;
     public SettingsSlider timeSlider;
     // Start is called before the first frame update
     
-    public void InitSliders(SettingsSlider time, SettingsSlider vertex)
+    public override void InitSliders()
     {
-        vertexSlider = vertex;
-        timeSlider = time;
-        UntangleSettings settings = (UntangleSettings)GameWindow.MinigamePanel._miniGame.Settings;
-        vertexSlider.Initialize("Vertex", settings.CurrentVertexTotal,5,30);
-        timeSlider.Initialize("Time", settings.CurrentPuzzleTimer,2,60);
+
+        timeSlider =  Helpers.PrefabHandler.AddSliderPrefab(gameObject, "TimeSlider");
+        vertexSlider =  Helpers.PrefabHandler.AddSliderPrefab(gameObject, "VertexSlider");
+        
+        vertexSlider.Initialize("Vertex", Settings.CurrentVertexTotal,5,30);
+        timeSlider.Initialize("Time", Settings.CurrentPuzzleTimer,2,60);
     }
 
     public override void ShowPanel()
@@ -27,11 +29,9 @@ public class UntangleUsi : UIPanel
     public void TimeAmountSlider(float value)
     {
         
-        var _settings = (UntangleSettings)GameWindow.MinigamePanel._miniGame.Settings;
-        if (_settings != null) // Check if _settings is not null before using it.
+        if (Settings != null) // Check if _settings is not null before using it.
         {
-            Debug.Log("Vallahi set" + value);
-            _settings.CurrentPuzzleTimer = (int)value;
+            Settings.CurrentPuzzleTimer = (int)value;
         }
         else
         {
@@ -41,11 +41,9 @@ public class UntangleUsi : UIPanel
 
     public void VertexAmountSlider(float value)
     {
-        Debug.Log("Vertex Slider");
-        var _settings = (UntangleSettings)GameWindow.MinigamePanel._miniGame.Settings;
-        if (_settings!= null) // Check if _settings is not null before using it.
+        if (Settings!= null) // Check if _settings is not null before using it.
         {
-            _settings.CurrentVertexTotal = (int)value;
+            Settings.CurrentVertexTotal = (int)value;
         }
         else
         {

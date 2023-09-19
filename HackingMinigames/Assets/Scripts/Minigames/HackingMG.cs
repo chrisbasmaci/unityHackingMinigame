@@ -52,11 +52,6 @@ public class HackingMG : MiniGame
 
         ComponentHandler.AddFlowLayout(newPanel.gameObject);
         newPanel.Initialize(mgPanel.gameWindow);
-        newPanel.InitSliders( 
-            Helpers.PrefabHandler.AddSliderPrefab(newPanel.gameObject, "TimeSlider"),
-            Helpers.PrefabHandler.AddSliderPrefab(newPanel.gameObject, "CardSlider")
-        );
-
         return newPanel.gameObject;
     }
     public override void StartMinigameChild()

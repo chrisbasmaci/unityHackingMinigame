@@ -7,15 +7,10 @@ namespace UI_Prefab
 {
     public abstract class CustomUIComponent: MonoBehaviour
     {
-        // private void Awake()
-        // {
-        //     Init();
-        // }
-
         public abstract void Setup();
         public abstract void Configure();
 
-        protected void Init()
+        public void Init()
         {
             Setup();
             Configure();

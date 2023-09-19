@@ -17,24 +17,31 @@ public class SettingsSlider : CustomUIComponent
     public TextMeshProUGUI amount;
     public Button incrementButton;
     private float currentAmount = 0f;
-    public void Initialize(string name, int startingValue,int minValue, int maxValue )
+    private float minValue;
+    private float maxValue;
+    public void Initialize(string name, int start,int min, int max )
     {
-        sliderName.text = name;
-        slidingBar.minValue = minValue;
-        slidingBar.maxValue = maxValue;
+        currentAmount = start;
+        minValue = min;
+        maxValue = max;
+
+        Refresh();
         Init();
-        currentAmount = startingValue;
+        sliderName.text = name;
         slidingBar.value = currentAmount;
-        // Setup();
-        // Configure();zx
     }
 
+    public void Refresh()
+    {
+        slidingBar.minValue = minValue;
+        slidingBar.maxValue = maxValue;
+    }
 
     public override void Setup()
     {
-        slidingBar.onValueChanged.RemoveAllListeners();
-        incrementButton.onClick.RemoveAllListeners();
-        decrementButton.onClick.RemoveAllListeners();
+        // slidingBar.onValueChanged.RemoveAllListeners();
+        // incrementButton.onClick.RemoveAllListeners();
+        // decrementButton.onClick.RemoveAllListeners();
     }
 
     public override void Configure()

@@ -26,10 +26,18 @@ public class ExampleMG : MiniGame
         return new ExampleSettings();
     }
 
-    public override GameObject getUpperSettingPrefab()
+    public override GameObject InstantiateUpperSettings()
     {
-        return Resources.Load<GameObject>(_usiPrefabLocation);
-    }
+        var newPanel = ComponentHandler.AddChildGameObject(mgPanel.gameWindow.upperContainer, "UpperSetting").
+            AddComponent<ExampleUsi>();
+
+        ComponentHandler.AddFlowLayout(newPanel.gameObject);
+        newPanel.Initialize(mgPanel.gameWindow);
+        newPanel.InitSlider( 
+            Helpers.PrefabHandler.AddSliderPrefab(newPanel.gameObject, "Slider")
+        );
+
+        return newPanel.gameObject;    }
 
     protected override UIPanel InitBottomUIChild()
     {
@@ -47,16 +55,8 @@ public class ExampleMG : MiniGame
     {
         var uui = Resources.Load<GameObject>(_uuiPrefabLocation);
 
-        // if (!uui) {
-        //     return null;
-        // }
-        // mgPanel.gameWindow.UUIpanel = Instantiate(uui, mgPanel.gameWindow.upperContainer.transform)
-        //     .GetComponent<UUIuntangle>();
-        // var upperUI = (UUIuntangle)mgPanel.gameWindow.UUIpanel;
         ComponentHandler.AddFlowLayout(mgPanel.gameWindow.upperContainer);
-        Helpers.PrefabHandler.AddSliderPrefab(mgPanel.gameWindow.upperContainer, "Slider");
-        Helpers.PrefabHandler.AddSliderPrefab(mgPanel.gameWindow.upperContainer, "Slider");
-        Helpers.PrefabHandler.AddSliderPrefab(mgPanel.gameWindow.upperContainer, "Slider");
+
         return null;
     }
 

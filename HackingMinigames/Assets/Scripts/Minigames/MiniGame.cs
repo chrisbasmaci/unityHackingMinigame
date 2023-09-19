@@ -23,13 +23,13 @@ public abstract class MiniGame : MonoBehaviour
 
     //initialization
 
-    public IEnumerator Initialize(MgPanel panel)
+    public IEnumerator Initialize(MgPanel panel,MgSettings startSetting)
     {
         mgPanel = panel;
         SetupPanels();
 
    
-        Settings = AddSettings();
+        Settings = startSetting;
         _puzzleTimer = this.AddComponent<PuzzleTimer>();
         _puzzleTimer.Initialize(Settings);
 
@@ -121,7 +121,7 @@ public abstract class MiniGame : MonoBehaviour
 
 
 
-    public virtual GameObject getUpperSettingPrefab()
+    public virtual GameObject InstantiateUpperSettings()
     {
         Debug.Log("This minigame has no upper setting prefab set!");
         return null;

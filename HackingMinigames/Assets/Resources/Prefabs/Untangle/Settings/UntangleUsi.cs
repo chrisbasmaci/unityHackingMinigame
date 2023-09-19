@@ -6,29 +6,25 @@ public class UntangleUsi : UIPanel
 {
     public SettingsSlider vertexSlider;
     public SettingsSlider timeSlider;
-    private GameWindow _gameWindow;
     // Start is called before the first frame update
 
     
     public override void Initialize(GameWindow gameWindow)
     {
-        Debug.Log("Initialized settings manager");
-        _gameWindow = gameWindow;
-        _gameWindow.MinigamePanel._miniGame.Settings = new UntangleSettings();
-
+        GameWindow = gameWindow;
     }
 
     public void InitSliders(SettingsSlider time, SettingsSlider vertex)
     {
         vertexSlider = vertex;
         timeSlider = time;
+        UntangleSettings settings = (UntangleSettings)GameWindow.MinigamePanel._miniGame.Settings;
+        vertexSlider.Initialize("Vertex", settings.CurrentVertexTotal,5,30);
+        timeSlider.Initialize("Time", settings.CurrentPuzzleTimer,2,60);
     }
 
     public override void ShowPanel()
     {
-        var mg = (UntangleSettings)_gameWindow.MinigamePanel._miniGame.Settings;
-        vertexSlider.Initialize("Vertex", mg.CurrentVertexTotal,5,30);
-        timeSlider.Initialize("Time", mg.CurrentPuzzleTimer,2,60);
         base.ShowPanel();
         vertexSlider.slidingBar.onValueChanged.AddListener(VertexAmountSlider);
         timeSlider.slidingBar.onValueChanged.AddListener(TimeAmountSlider);
@@ -37,7 +33,7 @@ public class UntangleUsi : UIPanel
     public void TimeAmountSlider(float value)
     {
         
-        var _settings = (UntangleSettings)_gameWindow.MinigamePanel._miniGame.Settings;
+        var _settings = (UntangleSettings)GameWindow.MinigamePanel._miniGame.Settings;
         if (_settings != null) // Check if _settings is not null before using it.
         {
             Debug.Log("Vallahi set" + value);
@@ -52,7 +48,7 @@ public class UntangleUsi : UIPanel
     public void VertexAmountSlider(float value)
     {
         Debug.Log("Vertex Slider");
-        var _settings = (UntangleSettings)_gameWindow.MinigamePanel._miniGame.Settings;
+        var _settings = (UntangleSettings)GameWindow.MinigamePanel._miniGame.Settings;
         if (_settings!= null) // Check if _settings is not null before using it.
         {
             _settings.CurrentVertexTotal = (int)value;

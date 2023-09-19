@@ -5,7 +5,12 @@ using UnityEngine.Events;
 
 public abstract class UIPanel :MonoBehaviour
 {
-    public abstract void Initialize(GameWindow gameWindow);
+    protected GameWindow GameWindow;
+
+    public virtual void Initialize(GameWindow gameWindow)
+    {
+        GameWindow = gameWindow;
+    }
 
     public virtual void ShowPanel()
     {

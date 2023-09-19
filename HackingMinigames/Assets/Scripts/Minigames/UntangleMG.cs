@@ -30,15 +30,18 @@ public class UntangleMG : MiniGame
     }
     public override MgSettings AddSettings()
     {
-        return new UntangleSettings();
+        Debug.Log("added settings");
+        Settings = new UntangleSettings();
+        return Settings;
     }
 
-    public override GameObject getUpperSettingPrefab()
+    public override GameObject InstantiateUpperSettings()
     {
-        var newPanel = new GameObject("UpperSetting").
+        var newPanel = ComponentHandler.AddChildGameObject(mgPanel.gameWindow.upperContainer, "UpperSetting").
             AddComponent<UntangleUsi>();
+
         ComponentHandler.AddFlowLayout(newPanel.gameObject);
-       
+        newPanel.Initialize(mgPanel.gameWindow);
         newPanel.InitSliders( 
             Helpers.PrefabHandler.AddSliderPrefab(newPanel.gameObject, "TimeSlider"),
             Helpers.PrefabHandler.AddSliderPrefab(newPanel.gameObject, "VertexSlider")

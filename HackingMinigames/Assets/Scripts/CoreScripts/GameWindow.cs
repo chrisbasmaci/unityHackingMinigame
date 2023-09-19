@@ -47,9 +47,14 @@ public class GameWindow : MonoBehaviour
 
         _upperContainerLayout.flexibleHeight = 100;
         _bottomContainerLayout.flexibleHeight = 1;
-        
-        
-        StartCoroutine(MinigamePanel.AddMinigameScript());
+        StartCoroutine(GamePrepCoroutine());
+
+    }
+
+    private IEnumerator GamePrepCoroutine()
+    {
+        yield return MinigamePanel.AddMinigameScript();
+        Debug.Log("added script");
         ShowSettings();
     }
 
@@ -62,16 +67,14 @@ public class GameWindow : MonoBehaviour
 
         UUIpanel?.HidePanel();
         BUIPanel?.HidePanel();
-        if (MinigamePanel.currentSettingsPrefab)
+
+        if (!USPanel)
         {
-            if (!USPanel)
-            {
-                var settingsGOBJ = Instantiate(MinigamePanel.currentSettingsPrefab, upperContainer.transform);
-                USPanel = settingsGOBJ.GetComponent<UIPanel>();
-                USPanel.Initialize(this);
-            }
-            USPanel.ShowPanel();
+            var currentSettings = MinigamePanel._miniGame.InstantiateUpperSettings();
+            USPanel = currentSettings.GetComponent<UIPanel>();
         }
+        USPanel.ShowPanel();
+        
         navigationPanelGOBJ.SetActive(true);
     }
     public void ShowGame()

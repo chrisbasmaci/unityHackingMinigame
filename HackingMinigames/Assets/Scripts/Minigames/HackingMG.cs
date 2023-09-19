@@ -45,7 +45,7 @@ public class HackingMG : MiniGame
         return new HackSettings();
     }
 
-    public override GameObject getUpperSettingPrefab()
+    public override GameObject InstantiateUpperSettings()
     {
         var upperSettings = Resources.Load<GameObject>("Prefabs/Hack/Settings/SubSettingsPanel");
         var _uiSettings = upperSettings.GetComponent<HackUsi>();

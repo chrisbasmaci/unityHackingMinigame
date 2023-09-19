@@ -15,7 +15,7 @@ public class MgPanel : MonoBehaviour
     [NonSerialized]public WindowSize panelBounds;
     [NonSerialized]public MiniGame _miniGame;
     [NonSerialized]private MinigameType _minigameType;
-    [NonSerialized]public GameObject currentSettingsPrefab;
+    // [NonSerialized]public GameObject currentSettingsPrefab;
 
 
 
@@ -47,8 +47,9 @@ public class MgPanel : MonoBehaviour
                 _miniGame = gameObject.AddComponent<ExampleMG>();
                 break;
         }
-        currentSettingsPrefab = _miniGame.getUpperSettingPrefab();
-        yield return _miniGame.Initialize(this);
+
+        var set =_miniGame.AddSettings();
+        yield return _miniGame.Initialize(this,set);
         
     }
     public void StartMinigame()

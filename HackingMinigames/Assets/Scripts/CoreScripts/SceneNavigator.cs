@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 /// EXAMPLE INSTRUCTION (1)
 /// Add corresponding ENUM
 /// </instruction>
-public enum MinigameType {EXAMPLE, HACK, UNTANGLE}
+public enum MinigameType {EXAMPLE, HACK, UNTANGLE,JumpChess}
 
 public class SceneNavigator: MonoBehaviour
 {
@@ -18,6 +18,10 @@ public class SceneNavigator: MonoBehaviour
     public void Example()
     {
         NavigationPrep().Initialize(MinigameType.EXAMPLE);
+    }
+    public void JumpChess()
+    {
+        NavigationPrep().Initialize(MinigameType.JumpChess);
     }
     public void Hack()
     {

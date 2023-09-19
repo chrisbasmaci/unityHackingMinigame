@@ -29,7 +29,10 @@ public class MgPanel : MonoBehaviour
         _miniGame.EndMinigame();
         StopAllCoroutines();
     }
-
+    /// <instruction>
+    /// EXAMPLE INSTRUCTION (3)
+    /// Add it to the switch
+    /// </instruction>
     public IEnumerator AddMinigameScript()
     {
         switch (gameWindow.currentMg)
@@ -42,6 +45,9 @@ public class MgPanel : MonoBehaviour
                 break;
             case MinigameType.UNTANGLE:
                 _miniGame = gameObject.AddComponent<UntangleMG>();
+                break;            
+            case MinigameType.JumpChess:
+                _miniGame = gameObject.AddComponent<JumpChessMG>();
                 break;
             default:
                 _miniGame = gameObject.AddComponent<ExampleMG>();

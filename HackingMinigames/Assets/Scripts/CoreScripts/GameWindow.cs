@@ -45,6 +45,7 @@ public class GameWindow : MonoBehaviour
         _gamePanelLayout = middleContainer.GetComponent<LayoutElement>();
         _bottomContainerLayout = bottomContainer.GetComponent<LayoutElement>();
 
+        // gameObject.AddComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.MinSize;
         _upperContainerLayout.flexibleHeight = 100;
         _bottomContainerLayout.flexibleHeight = 1;
         StartCoroutine(GamePrepCoroutine());

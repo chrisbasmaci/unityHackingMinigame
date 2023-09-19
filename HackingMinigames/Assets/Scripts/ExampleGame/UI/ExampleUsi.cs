@@ -5,8 +5,9 @@
 
         public override void InitSliders()
         {
-            exampleSlider =  Helpers.PrefabHandler.AddSliderPrefab(gameObject, "ExampleSlider");;
             ExampleSettings settings = (ExampleSettings)GameWindow.MinigamePanel._miniGame.Settings;
+
+            exampleSlider =  Helpers.PrefabHandler.AddSliderPrefab(gameObject, "ExampleSlider");;
             exampleSlider.Initialize("Slider", settings.CurrentPuzzleTimer,5,10);
         }
     }

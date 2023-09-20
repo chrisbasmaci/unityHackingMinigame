@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,6 +21,8 @@ namespace UI_Prefab
             {
                 _buttonText.text.text = buttonName;
             }
+            
         }
     }
+    
 }

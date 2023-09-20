@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
+using Helpers;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -27,6 +29,7 @@ public class GameWindow : MonoBehaviour
     [NonSerialized]public HighscoreBoardPanel highscoreBoard;
     
     [FormerlySerializedAs("navigationPanelContainer")] [SerializeField] private GameObject navigationPanelGOBJ;
+    private (int height, int width) _dimensions;
 
 
     private void Start()
@@ -34,10 +37,9 @@ public class GameWindow : MonoBehaviour
         gameCanvas = GetComponentInParent<GameCanvas>();
 
     }
-
+    
     public void Initialize(MinigameType mgType)
     {
-
         currentMg = mgType;
 
         highscoreBoard = highscoreBoardPanel.GetComponent<HighscoreBoardPanel>();            
@@ -48,14 +50,15 @@ public class GameWindow : MonoBehaviour
         // gameObject.AddComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.MinSize;
         _upperContainerLayout.flexibleHeight = 100;
         _bottomContainerLayout.flexibleHeight = 1;
-        StartCoroutine(GamePrepCoroutine());
+        GamePrep();
 
     }
 
-    private IEnumerator GamePrepCoroutine()
+    private void GamePrep()
     {
-        yield return MinigamePanel.AddMinigameScript();
+        MinigamePanel.AddMinigameScript();
         Debug.Log("added script");
+        ObjectHandler.SetSize(gameObject, MinigamePanel._miniGame.Settings.SettingDimensions);
         ShowSettings();
     }
 
@@ -64,8 +67,7 @@ public class GameWindow : MonoBehaviour
         Debug.Log("showing settings");
         middleContainer.SetActive(false);
         highscoreBoard.HidePanel();
-
-
+        
         UUIpanel?.HidePanel();
         BUIPanel?.HidePanel();
 
@@ -92,7 +94,7 @@ public class GameWindow : MonoBehaviour
         navigationPanelGOBJ.SetActive(false);
         middleContainer.SetActive(true);
     }
-    public IEnumerator InitPanels()
+    public void InitPanels()
     {
 
         UUIpanel?.Initialize(this);
@@ -104,7 +106,6 @@ public class GameWindow : MonoBehaviour
         _upperContainerLayout.preferredHeight = (uuiLayoutElement)? uuiLayoutElement.preferredHeight : 1;
         _gamePanelLayout.flexibleHeight = 10000;
         _bottomContainerLayout.preferredHeight = (buiLayoutElement)? buiLayoutElement.preferredHeight : 1;
-        yield return null;
     }
     
 
@@ -116,7 +117,7 @@ public class GameWindow : MonoBehaviour
     public IEnumerator StartMinigame()
     {
         ShowGame();
-        yield return gameCanvas.ChangePaddingWithAnimation();
+        yield return ObjectHandler.ChangeSizeCoroutine(gameObject, (MinigamePanel._miniGame.Settings.GameDimensions), 0.3f);
         Debug.Log("aboutta start minigame");
         MinigamePanel.StartMinigame();
         yield return null;
@@ -140,7 +141,7 @@ public class GameWindow : MonoBehaviour
 
     public IEnumerator SettingsCoroutine()
     {
-        yield return gameCanvas.ChangePaddingWithAnimation();
+        yield return ObjectHandler.ChangeSizeCoroutine(gameObject, MinigamePanel._miniGame.Settings.SettingDimensions, 0.3f);
 
     }
 }

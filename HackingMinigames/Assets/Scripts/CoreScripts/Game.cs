@@ -25,6 +25,7 @@ public class Game : MonoBehaviour
 
     private static Game instance;
     [SerializeField] public GameObject gameWindowPrefab;
+    [SerializeField]public GameObject settingCanvas;
     [SerializeField]public GameObject gameCanvas;
     [SerializeField]public GameObject selectionCanvas;
     

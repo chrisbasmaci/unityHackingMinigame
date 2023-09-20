@@ -18,21 +18,27 @@ namespace Helpers
             return newSlider;
 
         }
-        public static void CreateGrid(GameObject parentObject, int dimension)
+        public static T[,] CreateGrid<T>(GameObject parentObject, int dimension) where T : Component
         {
-            Sprite squarePrefab =Resources.Load<Sprite>("Sprites/greenSquare") ;
-            
-            GridLayoutGroup gridLayout = parentObject.AddComponent<GridLayoutGroup>();
-        
-            // Set the cell size, spacing, etc. as needed
-            gridLayout.cellSize = new Vector2(100, 100); // Example size
+            Sprite squarePrefab = Resources.Load<Sprite>("Sprites/greenSquare");
+            ComponentHandler.AddMaximisedGridLayout(parentObject);
 
-            for (int i = 0; i < dimension * dimension; i++)
+            T[,] componentMatrix = new T[dimension, dimension];
+
+            for (int x = 0; x < dimension; x++)
             {
-                GameObject child = new GameObject("GridChild_" + i);
-                child.AddComponent<Image>().sprite = squarePrefab; // Add Image component
-                child.transform.SetParent(parentObject.transform, false);
+                for (int y = 0; y < dimension; y++)
+                {
+                    GameObject child = new GameObject("GridChild_" + x + "_" + y);
+                    child.AddComponent<Image>().sprite = squarePrefab;
+                    child.transform.SetParent(parentObject.transform, false);
+                    componentMatrix[x, y] = child.AddComponent<T>();
+                }
             }
+
+            return componentMatrix;
         }
+
+
     }
 }

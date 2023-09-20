@@ -33,7 +33,7 @@ public class MgPanel : MonoBehaviour
     /// EXAMPLE INSTRUCTION (3)
     /// Add it to the switch
     /// </instruction>
-    public IEnumerator AddMinigameScript()
+    public void AddMinigameScript()
     {
         switch (gameWindow.currentMg)
         {
@@ -55,9 +55,10 @@ public class MgPanel : MonoBehaviour
         }
 
         var set =_miniGame.AddSettings();
-        yield return _miniGame.Initialize(this,set);
+        _miniGame.Initialize(this,set);
         
     }
+    
     public void StartMinigame()
     {
         StartCoroutine(_miniGame.StartMinigame());

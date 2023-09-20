@@ -11,8 +11,6 @@ using UnityEngine.Serialization;
 
 public abstract class MiniGame : MonoBehaviour
 {
-    //this is set inside the game, cause im not sure how to  pass a variable as reference,
-    //where da pointer at when I want it :(
     public MgSettings Settings;
 
     public bool isPaused = false;
@@ -23,7 +21,7 @@ public abstract class MiniGame : MonoBehaviour
 
     //initialization
 
-    public IEnumerator Initialize(MgPanel panel,MgSettings startSetting)
+    public void Initialize(MgPanel panel,MgSettings startSetting)
     {
         mgPanel = panel;
         SetupPanels();
@@ -34,7 +32,7 @@ public abstract class MiniGame : MonoBehaviour
         _puzzleTimer.Initialize(Settings);
 
         InitializeDerivative();
-        yield return mgPanel.gameWindow.InitPanels();
+        mgPanel.gameWindow.InitPanels();
 
     }
 
@@ -131,7 +129,9 @@ public abstract class MiniGame : MonoBehaviour
     protected void SetupPanels()
     {
         BottomUI = InitBottomUI();
+        BottomUI?.gameObject.SetActive(false);
         UpperUI  = InitUpperUI();
+        UpperUI?.gameObject.SetActive(false);
     }
     private UIPanel InitBottomUI()
     {

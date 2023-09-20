@@ -14,6 +14,8 @@ public abstract class MgSettings
     //currents
     public int CurrentIntroTimer;
     public int CurrentPuzzleTimer;
+    public (int, int) SettingDimensions;
+    public (int, int) GameDimensions;
 
     public abstract void UpdateRecords();
     public abstract string GetRecords();
@@ -22,6 +24,8 @@ public abstract class MgSettings
 
     public MgSettings()
     {
+        SettingDimensions = (1400, 165);
+        GameDimensions = (1400, 900);
         // Initialize current timers with default values
         _defaultIntroTimer = 3;
         _defaultPuzzleTimer = 10;

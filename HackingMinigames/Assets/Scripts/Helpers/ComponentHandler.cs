@@ -40,19 +40,6 @@ public static class ComponentHandler
         return imageComponent;
     }
 
-    public static AspectRatioFitter AddAspectRatioFitter(GameObject gameObject, float width, float height)
-    {
-        var aspectRatioFitterComponent = gameObject.GetComponent<AspectRatioFitter>();
-        if (!aspectRatioFitterComponent) {
-            aspectRatioFitterComponent = gameObject.AddComponent<AspectRatioFitter>();
-        }
-
-        aspectRatioFitterComponent.aspectMode = AspectRatioFitter.AspectMode.WidthControlsHeight;
-
-        aspectRatioFitterComponent.aspectRatio = width / height;
-
-        return aspectRatioFitterComponent;
-    }
 
     public static void SetAnchorToStretch(GameObject gameObject)
     {
@@ -114,19 +101,19 @@ public static class ComponentHandler
     public static AspectRatioFitter AddAspectRatioFitter(GameObject gameObject, AspectRatioFitter.AspectMode aspectMode, float aspectRatio = 1)
     {
         AspectRatioFitter aspectRatioFitter = gameObject.GetComponent<AspectRatioFitter>();
-
+    
         if (aspectRatioFitter == null)
         {
             aspectRatioFitter = gameObject.AddComponent<AspectRatioFitter>();
         }
-
+    
         aspectRatioFitter.aspectMode = aspectMode;
         aspectRatioFitter.aspectRatio = aspectRatio;
-
+    
         return aspectRatioFitter;
     }
 
-    public static void AddMaximisedGridLayout(GameObject gameObject, float ratio)
+    public static void AddMaximisedGridLayout(GameObject gameObject, float ratio = 1)
     {
         var layout = gameObject.AddComponent<GridLayoutGroup>();
         layout.childAlignment = TextAnchor.MiddleCenter;

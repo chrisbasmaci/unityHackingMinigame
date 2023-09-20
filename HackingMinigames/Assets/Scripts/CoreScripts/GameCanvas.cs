@@ -29,8 +29,6 @@ public class GameCanvas : MonoBehaviour
     public HorizontalLayoutGroup canvasHorizontalLayout;
     // [SerializeField] public MgPanel mgPanel;
     [SerializeField] public GameWindow gameWindow;
-    [NonSerialized] private float _paddingPercentage = 0.1f;
-    [NonSerialized] private float _targetPaddingPercentage = 0.025f;
     [NonSerialized] private float _animationDuration =0.3f;
     [NonSerialized] public WindowSize settingWindowSize;
 
@@ -39,49 +37,13 @@ public class GameCanvas : MonoBehaviour
     private void Start()
     {
         canvasRect = GetComponent<RectTransform>();
-        settingWindowSize = CalculateWsWithPadding(canvasRect.rect, _paddingPercentage);
+        settingWindowSize = CalculateWsWithPadding(canvasRect.rect, 0);
         Debug.Log("current height: "+settingWindowSize.Height);
-        SetPadding(_paddingPercentage);
     }
 
     public WindowSize GetGameWindowSize()
     {
-        return CalculateWsWithPadding(canvasRect.rect, _targetPaddingPercentage);
-    }
-
-    public IEnumerator ChangePaddingWithAnimation()
-    {
-        float elapsedTime = 0f;
-        float startPadding = _paddingPercentage;
-        while (elapsedTime < _animationDuration)
-        {
-            elapsedTime += Time.deltaTime;
-            _paddingPercentage = Mathf.Lerp(startPadding, _targetPaddingPercentage, elapsedTime / _animationDuration);
-            SetPadding(_paddingPercentage);
-            yield return null;
-        }
-
-        // Debug.Log("paddingPercentage"+_targetPaddingPercentage);
-
-        SetPadding(_paddingPercentage);
-        var tmp = _targetPaddingPercentage;
-        _targetPaddingPercentage = startPadding;
-        _paddingPercentage = tmp;
-        
-        yield return null;
-    }
-
-    public void SetPadding(float paddingPercentage)
-    {
-        float padding = canvasRect.rect.width * paddingPercentage;
-        // float padding = 0;
-        // Debug.Log("current  padding"+padding);
-        canvasHorizontalLayout.padding.left = (int)padding;
-        canvasHorizontalLayout.padding.top = (int)padding;
-        canvasHorizontalLayout.padding.bottom = (int)padding;
-        canvasHorizontalLayout.padding.right = (int)padding;
-        LayoutRebuilder.MarkLayoutForRebuild(canvasRect as RectTransform);
-
+        return CalculateWsWithPadding(canvasRect.rect, 0);
     }
     
     

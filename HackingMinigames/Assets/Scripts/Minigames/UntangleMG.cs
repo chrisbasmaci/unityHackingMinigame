@@ -186,7 +186,7 @@ public class UntangleMG : MiniGame
  
         
         vertice._rect.position =
-            new Vector3(vertice._rect.position.x, vertice._rect.position.y, -2);
+            new Vector3(vertice._rect.position.x, vertice._rect.position.y, 0);
         
         tmpObject.name = "Vertice["+vertice.verticeNo+"]";
         Debug.Log("VX: "+tmpObject.name);

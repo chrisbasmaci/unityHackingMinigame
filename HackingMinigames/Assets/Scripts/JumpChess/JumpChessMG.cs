@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using Helpers;
 using TriangleNet.Geometry;
 using TriangleNet;
 using TriangleNet.Meshing;
@@ -62,7 +63,8 @@ public class JumpChessMG : MiniGame
     public override void StartMinigameChild()
     {
         _puzzleTimer.startPuzzleTimer();
-        
+        PrefabHandler.CreateGrid(gameObject, 3);
+
     }
 
     public override void EndMinigame()

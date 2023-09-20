@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d44b9cfd3f84e02b150e743b75a7a8c, type: 3}
-  m_Name: TextSO
+  m_Name: Hack Button
   m_EditorClassIdentifier: 
   theme: {fileID: 11400000, guid: 19a489d01897fca9aa6e553570ddadb2, type: 2}
   font: {fileID: 11400000, guid: 8a89fa14b10d46a99122fd4f73fca9a2, type: 2}

@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using TMPro;
-using UnityEngine.PlayerLoop;
 
 namespace UI_Prefab 
 {
@@ -11,6 +10,7 @@ namespace UI_Prefab
     {
         public TextSO textData;
         public Style style;
+        public TMP_Text text;
 
         private TextMeshProUGUI textMeshProUGUI;
 
@@ -21,6 +21,7 @@ namespace UI_Prefab
             {
                 textMeshProUGUI = GetComponentInChildren<TextMeshProUGUI>();
             }
+            text = GetComponentInChildren<TMP_Text>();
         }        
         
         public override void Configure()

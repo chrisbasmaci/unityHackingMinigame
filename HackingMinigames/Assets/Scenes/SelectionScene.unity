@@ -570,7 +570,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10aab609ed70d904b84cf4743573b195, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameWindowPrefab: {fileID: 4052789167237352207, guid: 931282409bd6838bcb05532b0d6baf3d, type: 3}
+  gameWindowPrefab: {fileID: 422121144681792733, guid: 6811fe1ee1f43800e8ac8a9d6d4c1561, type: 3}
   settingCanvas: {fileID: 589093249}
   gameCanvas: {fileID: 1156929282}
   selectionCanvas: {fileID: 2044755956}

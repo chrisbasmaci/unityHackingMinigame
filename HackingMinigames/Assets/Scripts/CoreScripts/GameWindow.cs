@@ -10,6 +10,8 @@ using UnityEngine.UI;
 
 public class GameWindow : MonoBehaviour
 {
+    private GameObject WindowParent => gameObject.GetComponent<UiMethods>().parent;
+    public WindowMethods Methods => WindowParent.GetComponent<WindowMethods>();
     [NonSerialized]public MinigameType currentMg;
     [NonSerialized] private GameCanvas gameCanvas;
     [SerializeField] public GameObject upperContainer;
@@ -37,7 +39,7 @@ public class GameWindow : MonoBehaviour
         gameCanvas = GetComponentInParent<GameCanvas>();
 
     }
-    
+
     public void Initialize(MinigameType mgType)
     {
         currentMg = mgType;
@@ -124,19 +126,18 @@ public class GameWindow : MonoBehaviour
     }
     //Buttons
 
-    public void MainMenuButton(){
-        Debug.Log("Normal Hack Button Pressed");
-        Game.Instance.gameCanvas.SetActive(false);
-        Game.Instance.selectionCanvas.SetActive(true);
-        Destroy(gameObject);
-
-    }
 
     public void SettingsButton()
     {
         MinigamePanel?._miniGame.EndMinigame();
         ShowSettings();
         StartCoroutine(SettingsCoroutine());
+    }
+
+    public void SetMinimumSize(Vector2 minSize)
+    {
+        var resizer=  WindowParent.GetComponentInChildren<ResizePanel>();
+        resizer.minSize = minSize;
     }
 
     public IEnumerator SettingsCoroutine()

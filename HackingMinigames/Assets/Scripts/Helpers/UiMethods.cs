@@ -7,9 +7,9 @@ namespace Helpers
     public class UiMethods : MonoBehaviour
     {
         public int nestedness;
-        private GameObject parent;
-        private bool state;
-
+        public GameObject parent;
+        // private bool state;
+        
         private void Start()
         {
             parent = GetParent();
@@ -55,17 +55,7 @@ namespace Helpers
             parent.SetActive(false);
         }
 
-        public void ParentToBottomToggle()
-        {
-            if (state)
-            {
-                state = false;
-                ParentMoveToMiddle();
-            }else {
-                state = true;
-                ParentMoveToBottom();
-            }
-        }
+
         public void ParentMoveToBottom()
         {
             var canvBottom = GetCanvas().GetComponent<RectTransform>().rect.yMin;
@@ -81,7 +71,7 @@ namespace Helpers
             RectTransform rectTransform = parent.GetComponent<RectTransform>();
             rectTransform.localPosition = new Vector2(0, 0);
         }
-        public void ParentFitVerticalTightToggle()
+        public void ParentFitVerticalTight()
         {
             var sizeFitter = parent.GetComponent<ContentSizeFitter>();
             if (!sizeFitter)
@@ -89,14 +79,20 @@ namespace Helpers
                 sizeFitter = parent.AddComponent<ContentSizeFitter>();
             }
 
-            sizeFitter.verticalFit = (sizeFitter.verticalFit == ContentSizeFitter.FitMode.Unconstrained)
-                ? ContentSizeFitter.FitMode.MinSize
-                : ContentSizeFitter.FitMode.PreferredSize;
-            
+            sizeFitter.verticalFit = ContentSizeFitter.FitMode.MinSize;
+
+
+        }
+        public void ParentFitVerticalUnconstrained()
+        {
+            var sizeFitter = parent.GetComponent<ContentSizeFitter>();
+            if (!sizeFitter) {
+                sizeFitter = parent.AddComponent<ContentSizeFitter>();
+            }
+            sizeFitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
             ParentRefresh();
-            sizeFitter.verticalFit = (sizeFitter.verticalFit == ContentSizeFitter.FitMode.PreferredSize)
-                ? ContentSizeFitter.FitMode.Unconstrained 
-                : sizeFitter.verticalFit;
+            sizeFitter.verticalFit = ContentSizeFitter.FitMode.Unconstrained;
+
         }
 
         public void ToggleImageRaycast()

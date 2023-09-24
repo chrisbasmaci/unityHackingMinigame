@@ -1,4 +1,5 @@
 using System.Collections;
+using Helpers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 /// <instruction>
@@ -42,7 +43,7 @@ public class SceneNavigator : MonoBehaviour
         }
         else
         {
-            settingsPanel = Resources.Load<GameObject>("UI_Prefabs/SettingsPrefab");
+            settingsPanel = Resources.Load<GameObject>("UI_Prefabs/SettingsWindow");
             settingsPanel = Instantiate(settingsPanel, currentCanvas.transform);    
         }
 
@@ -50,10 +51,25 @@ public class SceneNavigator : MonoBehaviour
 
     private static GameWindow NavigationPrep()
     {
-        GameWindow window =  Instantiate(Game.Instance.gameWindowPrefab, Game.Instance.gameCanvas.transform).GetComponent<GameWindow>();
+        GameWindow window =  Instantiate(Game.Instance.gameWindowPrefab, Game.Instance.gameCanvas.transform).GetComponentInChildren<GameWindow>();
+        Game.Instance.currentActiveWindows.Add(window);
         Game.Instance.selectionCanvas.SetActive(false);
         Game.Instance.gameCanvas.SetActive(true);
         return window;
+    }
+
+    public static void MainMenuButton()
+    {
+        Debug.Log("Normal Hack Button Pressed");        
+        // for (int i = Game.Instance.currentActiveWindows.Count - 1; i >= 0; i--)
+        // {
+        //     var window = Game.Instance.currentActiveWindows[i];
+        //     Destroy(window.GetComponent<UiMethods>().parent);
+        //     Game.Instance.currentActiveWindows.RemoveAt(i);
+        // }
+
+        Game.Instance.gameCanvas.SetActive(false);
+        Game.Instance.selectionCanvas.SetActive(true);
     }
 
 

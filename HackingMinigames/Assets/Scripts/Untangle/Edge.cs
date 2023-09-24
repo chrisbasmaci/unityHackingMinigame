@@ -23,8 +23,7 @@ namespace Untangle
 
             _collider = gameObject.AddComponent<PolygonCollider2D>();
             _lineRenderer = gameObject.AddComponent<LineRenderer>();
-            transform.SetParent(mgPanel.transform);
-            transform.position = new Vector3(0f, 0f, 0f);
+            _lineRenderer.useWorldSpace = false;
 
             _lineRenderer.startWidth = verticePair.leftVertice.GetEdgeThickness();
             _lineRenderer.endWidth = verticePair.rightVertice.GetEdgeThickness();
@@ -63,8 +62,9 @@ namespace Untangle
             }
             _gettingStretched = true;
             // Debug.Log("Stretch Edge");
-            Vector3 startPoint = _verticePair.leftVertice._rect.transform.position;
-            Vector3 endPoint = _verticePair.rightVertice._rect.transform.position;
+            Vector3 startPoint = transform.InverseTransformPoint(_verticePair.leftVertice._rect.transform.position);
+            Vector3 endPoint = transform.InverseTransformPoint(_verticePair.rightVertice._rect.transform.position);
+
 
             startPoint.z = 0;
             endPoint.z = 0;

@@ -11,7 +11,7 @@ public class MgPanel : MonoBehaviour
 {
     // [SerializeField]GameCanvas gameCanvas;
     [SerializeField]public GameWindow gameWindow;
-    [NonSerialized] private RectTransform _panelRect;
+    public Rect _panelRect => gameObject.GetComponent<RectTransform>().rect;
     [NonSerialized]public WindowSize panelBounds;
     [NonSerialized]public MiniGame _miniGame;
     [NonSerialized]private MinigameType _minigameType;
@@ -63,7 +63,16 @@ public class MgPanel : MonoBehaviour
     {
         StartCoroutine(_miniGame.StartMinigame());
     }
+
+    public void WindowResizeEvent(Component sender, object data)
+    {
+
+        Debug.Log("signal rect");
+
+        _miniGame.ResizeMinigame();
     
+    }
+
  
     
 }

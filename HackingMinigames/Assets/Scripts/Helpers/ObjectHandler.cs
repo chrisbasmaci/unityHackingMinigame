@@ -7,17 +7,32 @@ namespace Helpers
 {
     public static class ObjectHandler
     {
-        public static IEnumerator MoveCoroutine(GameObject gameObject, Vector2 destination, float duration, UnityAction call = null)
+        public static IEnumerator MoveCoroutine(GameObject gameObject, Vector2 destination, float boundsWidth, float boundsHeight, float duration, UnityAction call = null)
         {
             var rectTransform = gameObject.GetComponent<RectTransform>() ?? gameObject.AddComponent<RectTransform>();
 
             Vector3 startingPosition = rectTransform.transform.localPosition;
 
+            // Clamp destination within bounds
+            Vector2 clampedDestination = new Vector2(
+                Mathf.Clamp(destination.x, 0, boundsWidth),
+                Mathf.Clamp(destination.y, 0, boundsHeight)
+            );
+
             yield return TimerCoroutine(duration, t => 
             {
-                rectTransform.transform.localPosition = Vector3.Lerp(startingPosition,
-                    new Vector3(destination.x, destination.y, startingPosition.z), t);
+                Vector3 targetPosition = Vector3.Lerp(startingPosition, new Vector3(clampedDestination.x, clampedDestination.y, startingPosition.z), t);
+                rectTransform.transform.localPosition = targetPosition;
             }, call);
+        }
+        public static void  ClampPositionLocal(RectTransform objectRectTransform, Rect boundsRect)
+        {
+            Vector2 newPosition = objectRectTransform.anchoredPosition;
+
+            newPosition.x = Mathf.Clamp(newPosition.x, boundsRect.xMin, boundsRect.xMax);
+            newPosition.y = Mathf.Clamp(newPosition.y, boundsRect.yMin, boundsRect.yMax);
+
+            objectRectTransform.anchoredPosition = newPosition;
         }
 
         public static IEnumerator ChangeSizeCoroutine(GameObject gameObject, (float targetWidth, float targetHeight)dimensions, float duration, UnityAction call = null)

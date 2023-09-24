@@ -11,13 +11,24 @@ public class DragPanel : MonoBehaviour, IPointerDownHandler, IDragHandler
 
     public bool lockHorizontalDrag = true;
     public bool lockVerticalDrag = false;
+    public int nestedness;
 
+    
     void Awake()
     {
-        panelRectTransform = transform.parent as RectTransform;
+        panelRectTransform = GetParent().transform as RectTransform;
         parentRectTransform = panelRectTransform.parent as RectTransform;
     }
 
+    private GameObject GetParent()
+    {
+        Transform currentTransform = transform;
+        for (int i = 0; i < nestedness && currentTransform.parent != null; i++)
+        {
+            currentTransform = currentTransform.parent;
+        }
+        return currentTransform.gameObject;
+    }
     public void OnPointerDown(PointerEventData data)
     {
         originalPanelLocalPosition = panelRectTransform.localPosition;

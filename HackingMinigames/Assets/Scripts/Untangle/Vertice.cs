@@ -12,11 +12,11 @@ using UnityEngine.EventSystems;
 using Helpers;
 namespace Untangle
 {
-    public class Vertice : MonoBehaviour
+    public class Vertice : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
     {
 
         private MgPanel _mgPanel;
-
+        private Vector3 currentPos;
         private Vertex _solvedVertex;
         private Vertex _unsolvedVertex;
         public List<Vertice> connectedVertices;
@@ -30,6 +30,9 @@ namespace Untangle
         private Image _vertexImage;
         private BoxCollider2D _collider;
         public RectTransform _rect;
+        public Rect BoundsRect => _mgPanel.gameObject.GetComponent<RectTransform>().rect;
+
+
 
 
         public List<Edge> Edges()
@@ -39,13 +42,19 @@ namespace Untangle
 
         public float GetEdgeThickness()
         {
-            return _verticeScale / 10;
+            return _verticeScale / 5;
         }
 
         public void Initialize(MgPanel mgPanel, ref Polygon polygon, Vertex solvedVertex, Vertex unsolvedVertex,
             float verticeScale)
         {
+            EventSystem.current.pixelDragThreshold = 0;
+
             _rect = gameObject.AddComponent<RectTransform>();
+            gameObject.AddComponent<Collider2D>();
+            ComponentHandler.SetAnchorToStretch(gameObject);
+            _rect.transform.localScale = new Vector3(0.1f, 0.1f, 1);
+            _verticeScale = _rect.transform.localScale.x;
             connectedVertices = new List<Vertice>();
             Debug.Log("vertissceNO: added" + _verticeTotal);
             verticeNo = ++_verticeTotal;
@@ -55,20 +64,14 @@ namespace Untangle
 
             _vertexImage = ComponentHandler.AddImageComponent(gameObject, Game.Instance.shapeSheet[0]);
             _mgPanel = mgPanel;
-            transform.SetParent(_mgPanel.transform);
             _rect.transform.localPosition =
                 new Vector3((float)unsolvedVertex.X, (float)unsolvedVertex.Y, -2);
             _solvedVertex = solvedVertex;
             _unsolvedVertex = unsolvedVertex;
-            _verticeScale = verticeScale;
-            _rect.transform.localScale = new Vector3(verticeScale, verticeScale, 1);
             _rect = gameObject.GetComponent<RectTransform>();
 
             polygon.Add(_solvedVertex);
 
-            Debug.Log("verticeNo Init:" + verticeNo);
-            Debug.Log("verticePos:" + _rect.transform.localPosition);
-            // _rect.transform.localScale = new Vector3(30, 30, 1);
 
 
 
@@ -77,9 +80,9 @@ namespace Untangle
         private void SetupTriggers()
         {
             var eventTrigger = gameObject.AddComponent<EventTrigger>();
-            EventHandler.AddTrigger(eventTrigger, EventTriggerType.PointerClick, OnMouseDown);
-            EventHandler.AddTrigger(eventTrigger, EventTriggerType.Drag, OnMouseDrag);
-            EventHandler.AddTrigger(eventTrigger, EventTriggerType.PointerUp, OnMouseUp);
+            // EventHandler.AddTrigger(eventTrigger, EventTriggerType.PointerClick, OnBeginDrag);
+            // EventHandler.AddTrigger(eventTrigger, EventTriggerType.Drag, OnMouseDrag);
+            // EventHandler.AddTrigger(eventTrigger, EventTriggerType.PointerUp, OnMouseUp);
 
         }
 
@@ -92,51 +95,53 @@ namespace Untangle
             UpdateVertexConnectionMap(ref verticeConnectionMap, oldConnections, connectedVertices);
         }
 
-        // Update is called once per frame
-        private void OnMouseDown()
-        {
-            if (_mgPanel._miniGame.isPaused)
-            {
-                return;
-            }
+        Vector2 offset = Vector2.zero;
 
-            // Debug.Log("pressed");
-            _difference = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - (Vector2)transform.position;
+        public void OnBeginDrag(PointerEventData eventData)
+        {
+            Debug.Log("onbegin");
+            offset = _rect.anchoredPosition - eventData.position / _rect.GetComponentInParent<Canvas>().scaleFactor;
         }
 
-        private void OnMouseDrag()
+        void Awake()
         {
-            if (_mgPanel._miniGame.isPaused)
+            Debug.Log("onbegin");
+            if (_rect != null)
             {
-                return;
+                Debug.Log("xyz");
+                ObjectHandler.ClampPositionLocal(_rect, BoundsRect);
             }
 
-            var newPos = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - _difference;
-            ///TODO FIX windowsize struct
-            var panelRectTransform = _mgPanel.GetComponent<RectTransform>();
-            var leftBorderWorldPosition = panelRectTransform.TransformPoint(_mgPanel.panelBounds.LeftBorder, 0f, 0f).x;
-            var rightBorderWorldPosition =
-                panelRectTransform.TransformPoint(_mgPanel.panelBounds.RightBorder, 0f, 0f).x;
-            var bottomBorderWorldPosition =
-                panelRectTransform.TransformPoint(0f, _mgPanel.panelBounds.BottomBorder, 0f).y;
-            var topBorderWorldPosition = panelRectTransform.TransformPoint(0f, _mgPanel.panelBounds.TopBorder, 0f).y;
+        }
 
-            float minX = (leftBorderWorldPosition);
-            float maxX = rightBorderWorldPosition;
-            float minY = bottomBorderWorldPosition;
-            float maxY = topBorderWorldPosition;
-            // Debug.Log("panelRectTransform: "+panelRectTransform.rect.width);
+        public void OnDrag(PointerEventData eventData)
+        {
+            float scaleFactor = _rect.GetComponentInParent<Canvas>().scaleFactor;
+            Vector2 newPosition = eventData.position / scaleFactor + offset;
 
-            newPos.x = Mathf.Clamp(newPos.x, minX, maxX);
-            newPos.y = Mathf.Clamp(newPos.y, minY, maxY);
-
-            _rect.position = new Vector3(newPos.x, newPos.y, -2);
-            // Debug.Log(_rect.position);
-
+            _rect.anchoredPosition = newPosition;
+            ObjectHandler.ClampPositionLocal(_rect, BoundsRect);
             stretchAllEdges();
         }
 
-        private void stretchAllEdges()
+
+
+
+
+        public void OnEndDrag(PointerEventData eventData)
+        {
+            // Do something when the drag ends, if needed
+        }
+        private (float minX, float maxX, float minY, float maxY) GetPanelBounds()
+        {
+            float minX = _mgPanel.panelBounds.LeftBorder;
+            float maxX = _mgPanel.panelBounds.RightBorder;
+            float minY = _mgPanel.panelBounds.BottomBorder;
+            float maxY = _mgPanel.panelBounds.TopBorder;
+            return (minX, maxX, minY, maxY);
+        }
+        
+        public void stretchAllEdges()
         {
             if (_edges.Count != 0)
             {
@@ -208,9 +213,10 @@ namespace Untangle
 
         public IEnumerator MoveToSolution()
         {
-
-            yield return ObjectHandler.MoveCoroutine
-                (gameObject, new Vector2((float)_solvedVertex.X, (float)_solvedVertex.Y),1f,stretchAllEdges);
+            // MoveSprite(new Vector2((float)_solvedVertex.X, (float)_solvedVertex.Y), false);
+            yield return null;
+            // yield return ObjectHandler.MoveCoroutine
+            //     (gameObject, new Vector2((float)_solvedVertex.X, (float)_solvedVertex.Y),500,500, 1f,stretchAllEdges);
             //TODO MAYBE MOVE FOR CLEARER SOLUTION NOT URGENT
             _edges.ForEach(edge => edge.SetLineColor(Color.green));
         }

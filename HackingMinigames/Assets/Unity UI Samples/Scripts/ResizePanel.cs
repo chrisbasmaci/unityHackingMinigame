@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
@@ -14,7 +15,13 @@ public class ResizePanel : MonoBehaviour, IPointerDownHandler, IDragHandler {
 	private RectTransform panelRectTransform;
 	private Vector2 originalLocalPointerPosition;
 	private Vector2 originalSizeDelta;
-	
+	private GameEvent _gameEvent;
+
+	private void Start()
+	{ 
+		_gameEvent = Resources.Load<GameEvent>("EventSystem_v1.0/ResizedWindowEvent");
+	}
+
 	void Awake () {
 		Transform currentTransform = transform;
 		for (int i = 0; i < nestedness; i++) {
@@ -24,13 +31,13 @@ public class ResizePanel : MonoBehaviour, IPointerDownHandler, IDragHandler {
 		}
 		panelRectTransform = currentTransform.GetComponent<RectTransform>();
 	}
-
 	public void OnPointerDown (PointerEventData data) {
 		originalSizeDelta = panelRectTransform.sizeDelta;
 		RectTransformUtility.ScreenPointToLocalPointInRectangle (panelRectTransform, data.position, data.pressEventCamera, out originalLocalPointerPosition);
 	}
 	
 	public void OnDrag (PointerEventData data) {
+
 		if (panelRectTransform == null)
 			return;
 
@@ -61,5 +68,6 @@ public class ResizePanel : MonoBehaviour, IPointerDownHandler, IDragHandler {
 		);
 		
 		panelRectTransform.sizeDelta = sizeDelta;
+		_gameEvent.Raise();
 	}
 }

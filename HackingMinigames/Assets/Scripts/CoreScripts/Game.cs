@@ -24,14 +24,17 @@ public class Game : MonoBehaviour
     // public static string arr;
 
     private static Game instance;
+    
+    //
+    public List<GameWindow> currentActiveWindows;
+    public List<GameWindow> currentMinimizedWindows;
+    //
     [SerializeField] public GameObject gameWindowPrefab;
     [SerializeField]public GameObject settingCanvas;
     [SerializeField]public GameObject gameCanvas;
     [SerializeField]public GameObject selectionCanvas;
     
-    //set in unity
-    [SerializeField] public Sprite cardBack;
-    [SerializeField] public Sprite cardFace;
+
     [SerializeField] public Sprite[] cardOrderSheet;
 
     [SerializeField] public GameObject cardBackPrefab;
@@ -88,7 +91,20 @@ public class Game : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    public void WindowMinimized(GameWindow window, bool minimized)
+    {
+        if (minimized)
+        {
+            currentActiveWindows.Remove(window);
+            currentMinimizedWindows.Add(window);  
+        }
+        else
+        {
+            currentMinimizedWindows.Remove(window);
+            currentActiveWindows.Add(window);
+        }
 
+    }
 }
 
 

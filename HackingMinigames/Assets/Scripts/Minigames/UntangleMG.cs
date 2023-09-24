@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using Helpers;
 using TriangleNet.Geometry;
 using TriangleNet;
 using TriangleNet.Meshing;
@@ -33,6 +34,15 @@ public class UntangleMG : MiniGame
         Debug.Log("added settings");
         Settings = new UntangleSettings();
         return Settings;
+    }
+
+    public override void ResizeMinigame()
+    {
+        _vertices.ForEach(vertex =>
+        {
+            ObjectHandler.ClampPositionLocal(vertex._rect, mgPanel._panelRect);
+            vertex.stretchAllEdges();
+        });
     }
 
     public override GameObject InstantiateUpperSettings()
@@ -73,6 +83,8 @@ public class UntangleMG : MiniGame
     }
     public override void StartMinigameChild()
     {
+        mgPanel.gameWindow.SetMinimumSize(new Vector2(650, 800));
+
         Debug.Log("actual puzzle timer"+Settings.CurrentPuzzleTimer);
         
         polygon = new Polygon(InternalSettings.CurrentVertexTotal);
@@ -131,7 +143,7 @@ public class UntangleMG : MiniGame
     //===========
     private void InstantiateVertices()
     {
-        int radius = (mgPanel.panelBounds.Height< mgPanel.panelBounds.Width)? (int)mgPanel.panelBounds.Height / 2: (int)mgPanel.panelBounds.Width / 2 ;
+        int radius = Mathf.Min((int)mgPanel.panelBounds.Height, (int)mgPanel.panelBounds.Width) / 2;
         PlaceVerticesCircleToLatin(InternalSettings.CurrentVertexTotal, radius);
     }
 
@@ -176,27 +188,23 @@ public class UntangleMG : MiniGame
 
     private void InstantiateVertice(Vertex solvedVertex, Vertex unsolvedVertex)
     {
-        var tmpObject = new GameObject("TMP");
+        var tmpObject = ComponentHandler.AddChildGameObject(mgPanel.gameObject, "Tmp");
         var vertice = tmpObject.AddComponent<Vertice>();
 
 
-        var size = CalculateVertexSize();
         vertice.Initialize(mgPanel,ref polygon, solvedVertex, unsolvedVertex, verticeScale);
-        vertice.gameObject.transform.localScale = new Vector2(size, size);
- 
-        
         vertice._rect.position =
             new Vector3(vertice._rect.position.x, vertice._rect.position.y, 0);
         
         tmpObject.name = "Vertice["+vertice.verticeNo+"]";
-        Debug.Log("VX: "+tmpObject.name);
         _vertices.Add(vertice);
     }
 
     private void InstantiateEdge((Vertice leftVertice, Vertice rightVertice)verticePair)
     {
-        var tmpObject = new GameObject("Edge[" + verticePair.leftVertice.verticeNo+"-" + verticePair.rightVertice.verticeNo +"]");
-        var edge = tmpObject.AddComponent<Edge>();
+        var edgeObject = ComponentHandler.AddChildGameObject(mgPanel.gameObject,
+            "Edge[" + verticePair.leftVertice.verticeNo + "-" + verticePair.rightVertice.verticeNo + "]");
+        var edge = edgeObject.AddComponent<Edge>();
         edge.Initialize(mgPanel, verticePair);
         
         verticePair.leftVertice.addEdge(edge, ref verticeConnectionMap);

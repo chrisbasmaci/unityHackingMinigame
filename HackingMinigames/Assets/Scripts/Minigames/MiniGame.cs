@@ -36,6 +36,11 @@ public abstract class MiniGame : MonoBehaviour
 
     }
 
+    public virtual void ResizeMinigame()
+    {
+        Debug.Log("Resize Not Handled");
+    }
+
     protected abstract void InitializeDerivative();
 
     private void ReadyUpGamePanel()

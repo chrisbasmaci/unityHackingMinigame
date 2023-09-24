@@ -69,7 +69,7 @@ public class MgPanel : MonoBehaviour
 
         Debug.Log("signal rect");
 
-        _miniGame.ResizeMinigame();
+        _miniGame?.ResizeMinigame();
     
     }
 

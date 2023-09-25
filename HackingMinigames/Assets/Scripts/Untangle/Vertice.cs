@@ -22,19 +22,16 @@ namespace Untangle
         public List<Vertice> connectedVertices;
         private List<Edge> _edges;
         public int weight;
-        private static int _verticeTotal;
         public int verticeNo;
         private Vector2 _difference = Vector2.zero;
         private float _verticeScale;
 
         private Image _vertexImage;
-        private BoxCollider2D _collider;
+        private Collider2D _collider;
         public RectTransform _rect;
         public Rect BoundsRect => _mgPanel.gameObject.GetComponent<RectTransform>().rect;
 
-
-
-
+        
         public List<Edge> Edges()
         {
             return _edges;
@@ -46,18 +43,17 @@ namespace Untangle
         }
 
         public void Initialize(MgPanel mgPanel, ref Polygon polygon, Vertex solvedVertex, Vertex unsolvedVertex,
-            float verticeScale)
+            float verticeScale,int  verticeNumber)
         {
             EventSystem.current.pixelDragThreshold = 0;
 
             _rect = gameObject.AddComponent<RectTransform>();
-            gameObject.AddComponent<Collider2D>();
+            _collider = gameObject.AddComponent<Collider2D>();
             ComponentHandler.SetAnchorToStretch(gameObject);
             _rect.transform.localScale = new Vector3(0.1f, 0.1f, 1);
             _verticeScale = _rect.transform.localScale.x;
             connectedVertices = new List<Vertice>();
-            Debug.Log("vertissceNO: added" + _verticeTotal);
-            verticeNo = ++_verticeTotal;
+            verticeNo = verticeNumber;
             _edges = new List<Edge>();
 
             SetupTriggers();
@@ -123,7 +119,16 @@ namespace Untangle
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            // Do something when the drag ends, if needed
+            if (_mgPanel._miniGame.isPaused)
+            {
+                return;
+            }
+
+            var mg = _mgPanel?._miniGame as UntangleMG;
+            mg.IncrementMoveTotal();
+            mg.UpdateMoves();
+            Debug.Log("Gonna check solve");
+            mg?.CheckIfSolved();
         }
         private (float minX, float maxX, float minY, float maxY) GetPanelBounds()
         {
@@ -183,26 +188,10 @@ namespace Untangle
         public void destr()
         {
             StopAllCoroutines();
-            Debug.Log("vertissceNO: destr" + _verticeTotal);
-            _verticeTotal--;
-
             Destroy(gameObject);
-
         }
 
-        private void OnMouseUp()
-        {
-            if (_mgPanel._miniGame.isPaused)
-            {
-                return;
-            }
 
-            var mg = _mgPanel?._miniGame as UntangleMG;
-            mg.IncrementMoveTotal();
-            mg.UpdateMoves();
-            mg?.CheckIfSolved();
-
-        }
 
         public IEnumerator MoveToSolution()
         {

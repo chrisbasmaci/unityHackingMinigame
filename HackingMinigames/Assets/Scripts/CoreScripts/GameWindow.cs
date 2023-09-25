@@ -53,7 +53,7 @@ public class GameWindow : MonoBehaviour
 
         // gameObject.AddComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.MinSize;
         _upperContainerLayout.flexibleHeight = 100;
-        _bottomContainerLayout.flexibleHeight = 1;
+        _bottomContainerLayout.flexibleHeight = 2;
         GamePrep();
 
     }

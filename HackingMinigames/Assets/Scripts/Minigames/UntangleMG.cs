@@ -77,6 +77,7 @@ public class UntangleMG : MiniGame
 
     public void CheckIfSolved()
     {
+        Debug.Log(_edgeList.Count(edge => edge._isTangled));
         Debug.Log("CHECK SOLVED");
         if (!_edgeList.Find(edge => edge._isTangled))
         {
@@ -163,8 +164,8 @@ public class UntangleMG : MiniGame
         mesh.Edges.ToList().ForEach(edge =>
         {
             // Debug.Log("p0: "+edge.P0 +"P1:" +edge.P1);
-            var leftVertex = _vertices.Find(vertex => vertex.verticeNo == edge.P0 + 1);
-            var rightVertex = _vertices.Find(vertex => vertex.verticeNo == edge.P1 + 1);
+            var leftVertex = _vertices.Find(vertex => vertex.verticeNo == edge.P0);
+            var rightVertex = _vertices.Find(vertex => vertex.verticeNo == edge.P1);
             if (!leftVertex) {
                 Debug.Log("left vertex not found" + edge.P0);
             }            
@@ -186,7 +187,7 @@ public class UntangleMG : MiniGame
         {
             var random = new Random();
             var circlePos = random.Next(startingDots.Count());
-            InstantiateVertice(dots[i], startingDots[circlePos]);
+            InstantiateVertice(dots[i], startingDots[circlePos], i);
             startingDots.RemoveAt(circlePos);
         }
 
@@ -199,13 +200,13 @@ public class UntangleMG : MiniGame
         return (float)Math.Sqrt(resolutionPerVertex)/300 ;
     }
 
-    private void InstantiateVertice(Vertex solvedVertex, Vertex unsolvedVertex)
+    private void InstantiateVertice(Vertex solvedVertex, Vertex unsolvedVertex, int verticeNo)
     {
         var tmpObject = ComponentHandler.AddChildGameObject(_verticeGroup, "Tmp");
         var vertice = tmpObject.AddComponent<Vertice>();
 
 
-        vertice.Initialize(mgPanel,ref polygon, solvedVertex, unsolvedVertex, verticeScale);
+        vertice.Initialize(mgPanel,ref polygon, solvedVertex, unsolvedVertex, verticeScale,verticeNo);
         vertice._rect.position =
             new Vector3(vertice._rect.position.x, vertice._rect.position.y, 0);
         

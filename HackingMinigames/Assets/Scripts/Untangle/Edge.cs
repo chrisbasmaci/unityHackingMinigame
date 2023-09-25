@@ -98,6 +98,14 @@ namespace Untangle
         private void OnCollisionEnter2D(Collision2D overlappingCollider)
         {
             // CheckIfTangled();
+            LineRenderer otherLine = overlappingCollider.gameObject.GetComponent<LineRenderer>();
+            if (!otherLine)
+            {
+                return;
+            }else if (otherLine.sortingOrder != _mgPanel.gameWindow.currentSortingLayer)
+            {
+                return;
+            }
 
             // Store references to the edges for readability and performance
             var leftEdges = _verticePair.leftVertice.Edges();
@@ -116,6 +124,14 @@ namespace Untangle
 
         private void OnCollisionExit2D(Collision2D overlappingCollider)
         {
+            LineRenderer otherLine = overlappingCollider.gameObject.GetComponent<LineRenderer>();
+            if (!otherLine)
+            {
+                return;
+            }else if (otherLine.sortingOrder != _mgPanel.gameWindow.currentSortingLayer)
+            {
+                return;
+            }
             // Store references to the edges for readability and performance
             var leftEdges = _verticePair.leftVertice.Edges();
             var rightEdges = _verticePair.rightVertice.Edges();

@@ -17,6 +17,8 @@ public class UntangleMG : MiniGame
     private UntangleSettings InternalSettings => Settings as UntangleSettings;
     private BUIuntangle UntangleBottomUI => BottomUI as BUIuntangle;
     private UUIuntangle UntangleUpperUI => UpperUI as UUIuntangle;
+    private GameObject _verticeGroup;
+    private GameObject _edgeGroup;
     private Polygon polygon;
     private List<Vertice> _vertices;
     private List<Edge> _edgeList;
@@ -93,6 +95,11 @@ public class UntangleMG : MiniGame
         _edgeList = new List<Edge>();
         _vertices = new List<Vertice>();
         verticeConnectionMap = new List<(List<Vertice> connections, Vertice vertex)>();
+        _verticeGroup = ComponentHandler.AddChildGameObject(mgPanel.gameObject, "Vertices");
+        ComponentHandler.SetAnchorToStretch(_verticeGroup);
+        _edgeGroup = ComponentHandler.AddChildGameObject(mgPanel.gameObject, "Edges");
+        ComponentHandler.SetAnchorToStretch(_edgeGroup);
+
         // PauseMinigame();
         InstantiateVertices();
         InstantiateEdges();
@@ -158,6 +165,12 @@ public class UntangleMG : MiniGame
             // Debug.Log("p0: "+edge.P0 +"P1:" +edge.P1);
             var leftVertex = _vertices.Find(vertex => vertex.verticeNo == edge.P0 + 1);
             var rightVertex = _vertices.Find(vertex => vertex.verticeNo == edge.P1 + 1);
+            if (!leftVertex) {
+                Debug.Log("left vertex not found" + edge.P0);
+            }            
+            if (!rightVertex) {
+                Debug.Log("right vertex not found" + edge.P1);
+            }
             InstantiateEdge((leftVertex, rightVertex));
         });
     }
@@ -188,7 +201,7 @@ public class UntangleMG : MiniGame
 
     private void InstantiateVertice(Vertex solvedVertex, Vertex unsolvedVertex)
     {
-        var tmpObject = ComponentHandler.AddChildGameObject(mgPanel.gameObject, "Tmp");
+        var tmpObject = ComponentHandler.AddChildGameObject(_verticeGroup, "Tmp");
         var vertice = tmpObject.AddComponent<Vertice>();
 
 
@@ -202,7 +215,7 @@ public class UntangleMG : MiniGame
 
     private void InstantiateEdge((Vertice leftVertice, Vertice rightVertice)verticePair)
     {
-        var edgeObject = ComponentHandler.AddChildGameObject(mgPanel.gameObject,
+        var edgeObject = ComponentHandler.AddChildGameObject(_edgeGroup,
             "Edge[" + verticePair.leftVertice.verticeNo + "-" + verticePair.rightVertice.verticeNo + "]");
         var edge = edgeObject.AddComponent<Edge>();
         edge.Initialize(mgPanel, verticePair);

@@ -55,6 +55,8 @@ public class MgPanel : MonoBehaviour
         }
 
         var set =_miniGame.AddSettings();
+        ComponentHandler.AddCanvasWithOverrideSorting(gameObject, "GameWindow", gameWindow.currentSortingLayer +1);
+
         _miniGame.Initialize(this,set);
         
     }

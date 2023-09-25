@@ -12,6 +12,7 @@ public class GameWindow : MonoBehaviour
 {
     private GameObject WindowParent => gameObject.GetComponent<UiMethods>().parent;
     public WindowMethods Methods => WindowParent.GetComponent<WindowMethods>();
+    public int currentSortingLayer;
     [NonSerialized]public MinigameType currentMg;
     [NonSerialized] private GameCanvas gameCanvas;
     [SerializeField] public GameObject upperContainer;
@@ -37,12 +38,13 @@ public class GameWindow : MonoBehaviour
     private void Start()
     {
         gameCanvas = GetComponentInParent<GameCanvas>();
-
     }
 
-    public void Initialize(MinigameType mgType)
+    public void Initialize(MinigameType mgType,int currentLayer)
     {
+        currentSortingLayer = currentLayer;
         currentMg = mgType;
+        Debug.Log("Adding sorting");
 
         highscoreBoard = highscoreBoardPanel.GetComponent<HighscoreBoardPanel>();            
         _upperContainerLayout = upperContainer.GetComponent<LayoutElement>();

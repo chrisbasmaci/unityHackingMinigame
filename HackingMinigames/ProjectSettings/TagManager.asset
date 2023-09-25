@@ -41,6 +41,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: GameWindow
+    uniqueID: 1311389785
+    locked: 0
   - name: TopMost
     uniqueID: 2065010043
     locked: 0

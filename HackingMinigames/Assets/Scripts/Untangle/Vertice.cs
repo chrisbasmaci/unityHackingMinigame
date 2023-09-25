@@ -71,10 +71,7 @@ namespace Untangle
             _rect = gameObject.GetComponent<RectTransform>();
 
             polygon.Add(_solvedVertex);
-
-
-
-
+            
         }
 
         private void SetupTriggers()
@@ -123,10 +120,6 @@ namespace Untangle
             ObjectHandler.ClampPositionLocal(_rect, BoundsRect);
             stretchAllEdges();
         }
-
-
-
-
 
         public void OnEndDrag(PointerEventData eventData)
         {

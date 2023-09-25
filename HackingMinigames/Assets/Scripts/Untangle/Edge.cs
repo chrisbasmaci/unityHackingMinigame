@@ -28,6 +28,8 @@ namespace Untangle
             _lineRenderer.startWidth = verticePair.leftVertice.GetEdgeThickness();
             _lineRenderer.endWidth = verticePair.rightVertice.GetEdgeThickness();
             _lineRenderer.material = new Material(Shader.Find("UI/Default"));
+            _lineRenderer.sortingLayerName = "GameWindow";
+            _lineRenderer.sortingOrder = mgPanel.gameWindow.currentSortingLayer;
             SetLineColor(Color.green);
 
 

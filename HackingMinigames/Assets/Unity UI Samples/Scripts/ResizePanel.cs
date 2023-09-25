@@ -1,9 +1,10 @@
 ﻿using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class ResizePanel : MonoBehaviour, IPointerDownHandler, IDragHandler {
+public class ResizePanel : MonoBehaviour, IPointerDownHandler, IDragHandler,IEndDragHandler {
 	
 	public enum Corner { BottomRight, BottomLeft, TopRight, TopLeft }
 	public Corner resizeCorner = Corner.BottomRight;
@@ -17,12 +18,10 @@ public class ResizePanel : MonoBehaviour, IPointerDownHandler, IDragHandler {
 	private Vector2 originalSizeDelta;
 	private GameEvent _gameEvent;
 
-	private void Start()
-	{ 
-		_gameEvent = Resources.Load<GameEvent>("EventSystem_v1.0/ResizedWindowEvent");
-	}
 
-	void Awake () {
+	void Start() {
+		_gameEvent = Resources.Load<GameEvent>("EventSystem_v1.0/ResizedWindowEvent");
+
 		Transform currentTransform = transform;
 		for (int i = 0; i < nestedness; i++) {
 			if (currentTransform.parent != null) {
@@ -68,6 +67,10 @@ public class ResizePanel : MonoBehaviour, IPointerDownHandler, IDragHandler {
 		);
 		
 		panelRectTransform.sizeDelta = sizeDelta;
+	}
+
+	public void OnEndDrag(PointerEventData eventData)
+	{
 		_gameEvent.Raise();
 	}
 }

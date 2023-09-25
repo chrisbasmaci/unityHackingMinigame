@@ -4,6 +4,7 @@ using JetBrains.Annotations;
 using ui;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
 
@@ -39,15 +40,52 @@ public static class ComponentHandler
 
         return imageComponent;
     }
+    public static SpriteRenderer AddSpriteComponent(GameObject gameObject, Sprite image = null, Color? color = null)
+    {
+        var spriteRenderer = gameObject.AddComponent<SpriteRenderer>();
+        spriteRenderer.sprite = image;
 
+        if (color != null)
+        {
+            spriteRenderer.color = color.Value;
+        }
+
+        return spriteRenderer;
+    }
+    public static SortingGroup AddSortingGroup(GameObject obj, string sortingLayerName, int sortingOrder = 0)
+    {
+        
+        SortingGroup sortingGroup = obj.AddComponent<SortingGroup>();
+        sortingGroup.sortingLayerName = sortingLayerName;
+        sortingGroup.sortingOrder = sortingOrder;
+        return sortingGroup;
+    }
+
+    public static void AddCanvasWithOverrideSorting(GameObject obj, string sortingLayerName, int sortingOrder = 0)
+    {
+        Canvas canvas = obj.GetComponent<Canvas>();
+        if (!canvas)
+        { 
+            canvas = obj.AddComponent<Canvas>();
+        }
+        canvas.overrideSorting = true;
+        canvas.sortingLayerName = sortingLayerName;
+        canvas.sortingOrder = sortingOrder;
+
+        if (obj.GetComponent<GraphicRaycaster>() == null)
+        {
+            GraphicRaycaster raycaster = obj.AddComponent<GraphicRaycaster>();
+            raycaster.ignoreReversedGraphics = false;
+            raycaster.blockingObjects = GraphicRaycaster.BlockingObjects.None;
+        }
+        canvas.overrideSorting = true;
+    }
 
     public static void SetAnchorToStretch(GameObject gameObject)
     {
         RectTransform rectTransform = gameObject.GetComponent<RectTransform>();
         rectTransform = (rectTransform) ? rectTransform : gameObject.AddComponent<RectTransform>();
-
-
-
+        
         rectTransform.anchorMin = new Vector2(0f, 0f);
         rectTransform.anchorMax = new Vector2(1f, 1f);
 

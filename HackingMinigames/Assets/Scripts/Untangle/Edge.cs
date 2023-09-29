@@ -150,9 +150,7 @@ namespace Untangle
                 }
             }
         }
-
-
-
+        
         private void UpdateColliderPos()
         {
             Debug.Log("Stretch Edge 2");

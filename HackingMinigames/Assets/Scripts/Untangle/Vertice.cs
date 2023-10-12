@@ -48,7 +48,6 @@ namespace Untangle
             EventSystem.current.pixelDragThreshold = 0;
 
             _rect = gameObject.AddComponent<RectTransform>();
-            _collider = gameObject.AddComponent<Collider2D>();
             ComponentHandler.SetAnchorToStretch(gameObject);
             _rect.transform.localScale = new Vector3(0.1f, 0.1f, 1);
             _verticeScale = _rect.transform.localScale.x;

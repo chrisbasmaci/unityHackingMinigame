@@ -1,38 +1,51 @@
+using System;
 using System.Collections;
+using CoreScripts;
 using Helpers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 /// <instruction>
 /// EXAMPLE INSTRUCTION (1)
 /// Add corresponding ENUM
+/// IMPORTANT: The names of the enums must match the names of the minigame scripts!!
 /// </instruction>
-public enum MinigameType {EXAMPLE, HACK, UNTANGLE,JumpChess}
+public enum MinigameType {ExampleMG, HackingMG, UntangleMG, JumpChessMG}
 
 public class SceneNavigator : MonoBehaviour
 {
     private static GameObject settingsPanel;
-    public static int TopSortingLayer = 0; 
-    /// <instruction>
+    GameWindowFactory GameWindowFactory;
+
+    /// <instruction>ss
     /// EXAMPLE INSTRUCTION (2)
     /// Add Navigation to the corresponding enum
     /// EXAMPLE INSTRUCTION (2.5)
     /// Bind this to a button to start the game 
     /// </instruction>
-    public static void Example()
+    public void Awake()
     {
-        NavigationPrep().Initialize(MinigameType.EXAMPLE, TopSortingLayer);
+        GameWindowFactory = new GameWindowFactory(Game.Instance.gameWindowPrefab, Game.Instance.gameCanvas);
     }
-    public static void JumpChess()
+
+    public void CreateAndShowGameWindow(MinigameType type)
     {
-        NavigationPrep().Initialize(MinigameType.JumpChess, TopSortingLayer);
+        ShowGameCanvas(true);
+        GameWindowFactory.CreateGameWindow(type);
     }
-    public static void Hack()
+
+    
+    public static void ShowGameCanvas(bool show)
     {
-        NavigationPrep().Initialize(MinigameType.HACK, TopSortingLayer);
-    }
-    public static void Untangle()
-    {
-        NavigationPrep().Initialize(MinigameType.UNTANGLE, TopSortingLayer);
+        if (Game.Instance.gameCanvas.activeSelf != show)
+        {
+            Debug.Log("ShowGameCanvas: " + show);
+            Game.Instance.gameCanvas.SetActive(show);
+        }
+    
+        if (Game.Instance.selectionCanvas.activeSelf == show)
+        {
+            Game.Instance.selectionCanvas.SetActive(!show);
+        }
     }
 
     public static void ToggleSettings()
@@ -50,31 +63,10 @@ public class SceneNavigator : MonoBehaviour
 
     }
 
-    private static GameWindow NavigationPrep()
-    {
-        TopSortingLayer += 10;
-        GameObject windowObj = Instantiate(Game.Instance.gameWindowPrefab, Game.Instance.gameCanvas.transform);
-        GameWindow window = windowObj.GetComponentInChildren<GameWindow>();
-        ComponentHandler.AddCanvasWithOverrideSorting(windowObj, "GameWindow", TopSortingLayer);
-
-        Game.Instance.currentActiveWindows.Add(window);
-        Game.Instance.selectionCanvas.SetActive(false);
-        Game.Instance.gameCanvas.SetActive(true);
-        return window;
-    }
-
     public static void MainMenuButton()
     {
-        Debug.Log("Normal Hack Button Pressed");        
-        // for (int i = Game.Instance.currentActiveWindows.Count - 1; i >= 0; i--)
-        // {
-        //     var window = Game.Instance.currentActiveWindows[i];
-        //     Destroy(window.GetComponent<UiMethods>().parent);
-        //     Game.Instance.currentActiveWindows.RemoveAt(i);
-        // }
-        
-        Game.Instance.gameCanvas.SetActive(false);
-        Game.Instance.selectionCanvas.SetActive(true);
+        Debug.Log("MainMenuButton Button Pressed");
+        ShowGameCanvas(false);
     }
 
 

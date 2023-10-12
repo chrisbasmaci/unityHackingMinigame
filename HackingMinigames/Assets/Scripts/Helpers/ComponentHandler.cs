@@ -63,14 +63,25 @@ public static class ComponentHandler
 
     public static void AddCanvasWithOverrideSorting(GameObject obj, string sortingLayerName, int sortingOrder = 0)
     {
+        bool wasActive = obj.activeSelf;
+        if (!wasActive)
+        {
+            Debug.Log("wasnt active");
+        }
         Canvas canvas = obj.GetComponent<Canvas>();
-        if (!canvas)
+        if (canvas == null)
         { 
+            Debug.Log("no canvas");
             canvas = obj.AddComponent<Canvas>();
         }
+                
+
+
         canvas.overrideSorting = true;
+       
         canvas.sortingLayerName = sortingLayerName;
         canvas.sortingOrder = sortingOrder;
+        Debug.Log(obj.name + " overrideSorting: " + canvas.overrideSorting);
 
         if (obj.GetComponent<GraphicRaycaster>() == null)
         {

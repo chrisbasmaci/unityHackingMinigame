@@ -656,8 +656,7 @@ GameObject:
   - component: {fileID: 644200583581660010}
   - component: {fileID: 3360597205712308506}
   - component: {fileID: 6958623751313710956}
-  - component: {fileID: 4013107119278565216}
-  - component: {fileID: 8817797380292084124}
+  - component: {fileID: 5475908292501451214}
   m_Layer: 5
   m_Name: MgPanel
   m_TagString: Untagged
@@ -725,7 +724,7 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: 10
   m_LayoutPriority: 1
---- !u!223 &4013107119278565216
+--- !u!223 &5475908292501451214
 Canvas:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -746,25 +745,8 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!114 &8817797380292084124
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4098413439721532862}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 0
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
 --- !u!1 &5696221573474337684
 GameObject:
   m_ObjectHideFlags: 0

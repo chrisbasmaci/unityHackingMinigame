@@ -42,6 +42,10 @@ namespace Helpers
             isMinimized = !isMinimized;
 
         }
+        public void CloseWindow()
+        {
+            Destroy(parent);
+        }
 
         private void showWindow()
         {            

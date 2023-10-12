@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8942546703222845236}
   - component: {fileID: 7314045348039567452}
   - component: {fileID: 3124547444874255103}
+  - component: {fileID: 8633870019915298438}
   m_Layer: 5
   m_Name: GameMenu
   m_TagString: Untagged
@@ -123,6 +124,18 @@ MonoBehaviour:
   untangleButton: {fileID: 4915488034272665722}
   jumpchessButton: {fileID: 4348972549180562115}
   exampleButton: {fileID: 3824685793032525505}
+--- !u!114 &8633870019915298438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8818148521275916082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a6941841f344748819577b58a675aef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1900460014504959016
 PrefabInstance:
   m_ObjectHideFlags: 0

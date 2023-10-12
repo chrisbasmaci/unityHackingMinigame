@@ -28,6 +28,7 @@ public class GameWindow : MonoBehaviour
     [NonSerialized]public UIPanel USPanel;
     [NonSerialized]public UIPanel UUIpanel;
     [NonSerialized]public UIPanel BUIPanel;
+    [NonSerialized]private MinigamePanelFactory _minigamePanelFactory;
     [SerializeField]public MgPanel MinigamePanel;
     [NonSerialized]public HighscoreBoardPanel highscoreBoard;
     
@@ -42,10 +43,9 @@ public class GameWindow : MonoBehaviour
 
     public void Initialize(MinigameType mgType,int currentLayer)
     {
+        _minigamePanelFactory = new MinigamePanelFactory(middleContainer, this);
         currentSortingLayer = currentLayer;
         currentMg = mgType;
-        Debug.Log("Adding sorting");
-
         highscoreBoard = highscoreBoardPanel.GetComponent<HighscoreBoardPanel>();            
         _upperContainerLayout = upperContainer.GetComponent<LayoutElement>();
         _gamePanelLayout = middleContainer.GetComponent<LayoutElement>();
@@ -60,7 +60,8 @@ public class GameWindow : MonoBehaviour
 
     private void GamePrep()
     {
-        MinigamePanel.AddMinigameScript();
+        Debug.Log(currentMg);
+        MinigamePanel = _minigamePanelFactory.createMgPanel(currentMg);
         Debug.Log("added script");
         ObjectHandler.SetSize(gameObject, MinigamePanel._miniGame.Settings.SettingDimensions);
         ShowSettings();

@@ -578,10 +578,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7318439338027400628}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 8949605512145735453}
+        m_TargetAssemblyTypeName: Helpers.WindowMethods, Assembly-CSharp
+        m_MethodName: CloseWindow
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -738,7 +738,7 @@ GameObject:
   - component: {fileID: 2179679555983711631}
   - component: {fileID: 7078284530003130113}
   m_Layer: 6
-  m_Name: Bar (1)
+  m_Name: dragger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

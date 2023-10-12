@@ -9,9 +9,8 @@ using UnityEngine.UI;
 
 public class MgPanel : MonoBehaviour
 {
-    // [SerializeField]GameCanvas gameCanvas;
-    [SerializeField]public GameWindow gameWindow;
     public Rect _panelRect => gameObject.GetComponent<RectTransform>().rect;
+    public GameWindow gameWindow;
     [NonSerialized]public WindowSize panelBounds;
     [NonSerialized]public MiniGame _miniGame;
     [NonSerialized]private MinigameType _minigameType;
@@ -19,7 +18,11 @@ public class MgPanel : MonoBehaviour
 
 
 
-
+    public void Initialize(GameWindow window, MinigameType mgType)
+    {
+        gameWindow = window;
+        AddMinigameScript(mgType);
+    }
 
     public void stopGameCoroutines()
     {
@@ -33,34 +36,23 @@ public class MgPanel : MonoBehaviour
     /// EXAMPLE INSTRUCTION (3)
     /// Add it to the switch
     /// </instruction>
-    public void AddMinigameScript()
+    public void AddMinigameScript(MinigameType mgType)
     {
-        switch (gameWindow.currentMg)
-        {
-            case MinigameType.EXAMPLE:
-                _miniGame = gameObject.AddComponent<ExampleMG>();
-                break;       
-            case MinigameType.HACK:
-                _miniGame = gameObject.AddComponent<HackingMG>();
-                break;
-            case MinigameType.UNTANGLE:
-                _miniGame = gameObject.AddComponent<UntangleMG>();
-                break;            
-            case MinigameType.JumpChess:
-                _miniGame = gameObject.AddComponent<JumpChessMG>();
-                break;
-            default:
-                _miniGame = gameObject.AddComponent<ExampleMG>();
-                break;
+        Debug.Log("Adding minigame script0");
+        Type type = Type.GetType(mgType.ToString());
+        Debug.Log("Adding minigame script1");
+        if (type != null) {
+            _miniGame = (MiniGame)gameObject.AddComponent(type);
+        }else {
+            Debug.LogWarning("Type not found");
+            _miniGame = gameObject.AddComponent<ExampleMG>();
         }
-
-        var set =_miniGame.AddSettings();
-        ComponentHandler.AddCanvasWithOverrideSorting(gameObject, "GameWindow", gameWindow.currentSortingLayer +1);
+        Debug.Log("Added minigame script");
+        
+        var set =_miniGame.AddSettings();  
 
         _miniGame.Initialize(this,set);
-        
     }
-    
     public void StartMinigame()
     {
         StartCoroutine(_miniGame.StartMinigame());

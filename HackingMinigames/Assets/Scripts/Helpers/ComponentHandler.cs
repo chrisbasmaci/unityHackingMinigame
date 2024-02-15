@@ -25,8 +25,6 @@ public static class ComponentHandler
 
         return gameObject;
     }
-    
-    
     public static Image AddImageComponent(GameObject gameObject, Sprite image = null, Color? color = null)
     {
         var imageComponent = gameObject.AddComponent<Image>();

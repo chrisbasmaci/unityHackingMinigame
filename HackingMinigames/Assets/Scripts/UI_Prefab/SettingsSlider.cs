@@ -10,7 +10,6 @@ using Text = UnityEngine.UI.Text;
 
 public class SettingsSlider : CustomUIComponent
 {
-    [SerializeField] private GameObject sliderPrefab;
     public Button decrementButton;
     public TextMeshProUGUI sliderName;
     [SerializeField] public UnityEngine.UI.Slider slidingBar;
@@ -39,9 +38,9 @@ public class SettingsSlider : CustomUIComponent
 
     public override void Setup()
     {
-        // slidingBar.onValueChanged.RemoveAllListeners();
-        // incrementButton.onClick.RemoveAllListeners();
-        // decrementButton.onClick.RemoveAllListeners();
+        slidingBar.onValueChanged.RemoveAllListeners();
+        incrementButton.onClick.RemoveAllListeners();
+        decrementButton.onClick.RemoveAllListeners();
     }
 
     public override void Configure()

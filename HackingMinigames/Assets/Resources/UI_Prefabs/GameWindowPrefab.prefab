@@ -68,7 +68,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: a2290a38decf7d4a698fca6036e41379, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -77,7 +77,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 5
 --- !u!114 &4239364281072182633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -397,7 +397,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: a2290a38decf7d4a698fca6036e41379, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -406,7 +406,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 5
 --- !u!114 &6383995321830179386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -520,7 +520,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: a2290a38decf7d4a698fca6036e41379, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -529,7 +529,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 5
 --- !u!114 &9114511916788188570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -692,6 +692,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6528458774125077497, guid: 56ede76a2280885f2a286685a4b80cf1, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7019969193287256011, guid: 56ede76a2280885f2a286685a4b80cf1, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -839,6 +843,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1597701429753876294, guid: 360a7aab399703e249ee76787762e0dc, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a2290a38decf7d4a698fca6036e41379, type: 3}
+    - target: {fileID: 1597701429753876294, guid: 360a7aab399703e249ee76787762e0dc, type: 3}
+      propertyPath: m_PixelsPerUnitMultiplier
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2281932806305291864, guid: 360a7aab399703e249ee76787762e0dc, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -959,9 +971,37 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3054756455475114426, guid: 360a7aab399703e249ee76787762e0dc, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a2290a38decf7d4a698fca6036e41379, type: 3}
+    - target: {fileID: 3054756455475114426, guid: 360a7aab399703e249ee76787762e0dc, type: 3}
+      propertyPath: m_PixelsPerUnitMultiplier
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3632913623288314030, guid: 360a7aab399703e249ee76787762e0dc, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5638931695891251310, guid: 360a7aab399703e249ee76787762e0dc, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a2290a38decf7d4a698fca6036e41379, type: 3}
+    - target: {fileID: 5638931695891251310, guid: 360a7aab399703e249ee76787762e0dc, type: 3}
+      propertyPath: m_Color.b
+      value: 0.6132269
+      objectReference: {fileID: 0}
+    - target: {fileID: 5638931695891251310, guid: 360a7aab399703e249ee76787762e0dc, type: 3}
+      propertyPath: m_Color.g
+      value: 0.6351904
+      objectReference: {fileID: 0}
+    - target: {fileID: 5638931695891251310, guid: 360a7aab399703e249ee76787762e0dc, type: 3}
+      propertyPath: m_Color.r
+      value: 0.6375871
+      objectReference: {fileID: 0}
+    - target: {fileID: 5638931695891251310, guid: 360a7aab399703e249ee76787762e0dc, type: 3}
+      propertyPath: m_PixelsPerUnitMultiplier
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6391249964229425293, guid: 360a7aab399703e249ee76787762e0dc, type: 3}
       propertyPath: m_AnchorMax.y

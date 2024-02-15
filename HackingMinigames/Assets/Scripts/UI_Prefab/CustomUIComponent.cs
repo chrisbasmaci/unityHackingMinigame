@@ -16,7 +16,11 @@ namespace UI_Prefab
             Configure();
         }
 
-        private void OnValidate()
+        // private void OnValidate()
+        // {
+        //     Init();
+        // }        
+        private void Awake()
         {
             Init();
         }

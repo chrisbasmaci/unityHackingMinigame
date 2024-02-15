@@ -1,0 +1,4 @@
+repository "HackingMinigames@chrisbasmaci@cloud"
+  path "/"
+    br "/main"
+    co "/main"

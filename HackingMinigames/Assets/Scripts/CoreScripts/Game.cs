@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UI_Prefab;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -21,7 +22,8 @@ public class Game : MonoBehaviour
     // public static string arr;
 
     private static Game instance;
-    
+    //
+    [SerializeField] public DominoButton dominoButton;
     //
     public List<GameWindow> currentActiveWindows;
     public List<GameWindow> currentMinimizedWindows;

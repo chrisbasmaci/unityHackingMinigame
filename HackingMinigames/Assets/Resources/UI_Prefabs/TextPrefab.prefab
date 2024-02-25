@@ -185,3 +185,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textData: {fileID: 11400000, guid: 47422d5a4206a50668a5d31665c95ba8, type: 2}
   style: 0
+  text: {fileID: 4306981404049820424}

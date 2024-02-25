@@ -232,7 +232,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonBg: {fileID: 1908026584575532583}
-  buttonName: 
+  buttonName: '-'
 --- !u!1001 &2552968124276907413
 PrefabInstance:
   m_ObjectHideFlags: 0

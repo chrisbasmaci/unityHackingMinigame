@@ -210,6 +210,10 @@ public static class ComponentHandler
 
         var flowLayout = gameObject.AddComponent<FlowLayoutGroup>();
         flowLayout.childAlignment = TextAnchor.MiddleCenter;
-        flowLayout.ChildForceExpandWidth = true;
+        // flowLayout.ChildForceExpandWidth = true;
+        flowLayout.SpacingY = -150;
+        flowLayout.SpacingX = 50;
+        flowLayout.padding = new RectOffset(50, 50, 20, 20);
+        // flowLayout.ExpandHorizontalSpacing = true;
     }
 }

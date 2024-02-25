@@ -11,13 +11,13 @@ namespace UI_Prefab
         public string  buttonName;
         
         public override void Setup() {
-            _buttonText = GetComponentInChildren<UI_Prefab.Text>();
+            _buttonText = GetComponentInChildren<Text>();
         }
 
         public override void Configure()
         {
             _buttonText.style = Style.Tertiary;
-            if (buttonName != null)
+            if (buttonName != null && _buttonText.text != null)
             {
                 _buttonText.text.text = buttonName;
             }

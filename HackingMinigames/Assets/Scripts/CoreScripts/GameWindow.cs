@@ -52,7 +52,7 @@ public class GameWindow : MonoBehaviour
         _bottomContainerLayout = bottomContainer.GetComponent<LayoutElement>();
 
         // gameObject.AddComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.MinSize;
-        _upperContainerLayout.flexibleHeight = 100;
+        _upperContainerLayout.flexibleHeight = 200;
         _bottomContainerLayout.flexibleHeight = 2;
         GamePrep();
 
@@ -106,11 +106,11 @@ public class GameWindow : MonoBehaviour
         BUIPanel?.Initialize(this);
         var uuiLayoutElement = UUIpanel?.GetComponent<LayoutElement>();
         var buiLayoutElement = BUIPanel?.GetComponent<LayoutElement>();
+        //TODO LAYOUT
         
-        
-        _upperContainerLayout.preferredHeight = (uuiLayoutElement)? uuiLayoutElement.preferredHeight : 1;
+        _upperContainerLayout.preferredHeight = (uuiLayoutElement)? uuiLayoutElement.preferredHeight+25 : 1;
         _gamePanelLayout.flexibleHeight = 10000;
-        _bottomContainerLayout.preferredHeight = (buiLayoutElement)? buiLayoutElement.preferredHeight : 1;
+        _bottomContainerLayout.preferredHeight = (buiLayoutElement)? buiLayoutElement.preferredHeight+25 : 1;
     }
     
 

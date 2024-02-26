@@ -4,7 +4,7 @@ using TMPro;
 
 namespace UI_Prefab 
 {
-    public enum Style {Primary,Secondary,Tertiary }
+    public enum Style {Primary,Secondary,Tertiary,Title }
 
     public class Text : CustomUIComponent
     {

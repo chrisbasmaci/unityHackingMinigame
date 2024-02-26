@@ -17,6 +17,10 @@ namespace UI_Prefab
         public Color TertiaryBg;
         public Color TertiaryText;
 
+        [Header("Title")] 
+        public Color TitleBg;
+        public Color TitleText;
+        
         [Header("Other")] public Color disable;
 
         public Color GetTextOrBgColor(Style style, bool wantBg =false)
@@ -27,7 +31,9 @@ namespace UI_Prefab
                 case Style.Secondary:
                     return (wantBg)? SecondaryBg : SecondaryText;
                 case Style.Tertiary:
-                    return (wantBg)? TertiaryBg : TertiaryText;
+                    return (wantBg)? TertiaryBg : TertiaryText;                
+                case Style.Title:
+                    return (wantBg)? TitleBg : TitleText;
                 default:
                     return disable;
             }

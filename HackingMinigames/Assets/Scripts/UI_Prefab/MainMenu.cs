@@ -29,7 +29,7 @@ namespace UI_Prefab
             
             jumpChessButton = Instantiate(Game.Instance.dominoButton.gameObject, pos, Quaternion.identity, tran);
             dominoButtonScript = jumpChessButton.GetComponent<DominoButton>();
-            Sprite chessImg = Resources.Load<Sprite>("Sprites/chess");
+            Sprite chessImg = Resources.Load<Sprite>("Sprites/chesssmall");
             dominoButtonScript.Customize("JumpChess", "Start", chessImg);
             
             exampleButton = Instantiate(Game.Instance.dominoButton.gameObject, pos, Quaternion.identity, tran);

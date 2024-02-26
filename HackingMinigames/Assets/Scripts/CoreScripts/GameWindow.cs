@@ -10,7 +10,8 @@ using UnityEngine.UI;
 
 public class GameWindow : MonoBehaviour
 {
-    private GameObject WindowParent => gameObject.GetComponent<UiMethods>().parent;
+    private UiMethods UIMethods => gameObject.GetComponent<UiMethods>();
+    private GameObject WindowParent => UIMethods.parent;
     public WindowMethods Methods => WindowParent.GetComponent<WindowMethods>();
     private int currentSortingLayer;
 
@@ -148,8 +149,15 @@ public class GameWindow : MonoBehaviour
     {
         
         LayoutElement lay = WindowParent.GetComponent<LayoutElement>();
+        RectTransform rectt = UIMethods.parent.GetComponent<RectTransform>();
         lay.minWidth = minWidth;
         lay.minHeight = minHeight;
+        if(rectt.rect.height < minHeight || rectt.rect.width < minWidth)
+        {
+            rectt.sizeDelta = new Vector2(minWidth, minHeight);
+        }
+        UIMethods.ParentRefresh();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(WindowParent.GetComponent<RectTransform>());
     }
 
     public IEnumerator SettingsCoroutine()

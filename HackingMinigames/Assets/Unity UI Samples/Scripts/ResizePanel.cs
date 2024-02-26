@@ -31,6 +31,7 @@ public class ResizePanel : MonoBehaviour, IPointerDownHandler, IDragHandler,IEnd
 		}
 		Debug.Log("Resizing: " + currentTransform.gameObject.name);
 		panelRectTransform = currentTransform.GetComponent<RectTransform>();
+		mainLayout = currentTransform.GetComponent<LayoutElement>();
 	}
 	public void OnPointerDown (PointerEventData data)
 	{

@@ -36,7 +36,18 @@ public class DragPanel : MonoBehaviour, IPointerDownHandler, IDragHandler
     {
         originalPanelLocalPosition = panelRectTransform.localPosition;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(parentRectTransform, data.position, data.pressEventCamera, out originalLocalPointerPosition);
-        windowMethods.FixLayer();
+        if (windowMethods == null)
+        {
+            Debug.Log("parent: " + GetParent().name);
+            windowMethods = GetParent().GetComponent<WindowMethods>();
+        }
+        if (windowMethods != null)
+        {
+            windowMethods.FixLayer();
+        }else
+        {
+            Debug.LogError("WindowMethods is null");
+        }
     }
 
     public void OnDrag(PointerEventData data)

@@ -2441,8 +2441,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe6a5cfb9fd1719b5b8d49f90b64584c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileSlider: {fileID: 4242123234905418089}
-  timeSlider: {fileID: 8346305437906443454}
+  tileSlider: {fileID: 0}
+  timeSlider: {fileID: 0}
 --- !u!1 &6895490712949847179
 GameObject:
   m_ObjectHideFlags: 0

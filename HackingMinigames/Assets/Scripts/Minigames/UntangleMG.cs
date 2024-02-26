@@ -29,10 +29,14 @@ public class UntangleMG : MiniGame
 
     public override void FixLayoutOrder(int order)
     {
-        foreach (var edge in _edgeList)
+        if (_edgeList != null)
         {
-            edge.setLayoutOrder(order-1);
+            foreach (var edge in _edgeList)
+            {
+                edge.setLayoutOrder(order-1);
+            } 
         }
+
     }
 
     protected override void InitializeDerivative()
@@ -90,6 +94,7 @@ public class UntangleMG : MiniGame
     }
     public override void StartMinigameChild()
     {
+        //TODO THE minimum also effect the settings page, need to separate the two
         mgPanel.gameWindow.SetMinimumSize(800,800);
 
         Debug.Log("actual puzzle timer"+Settings.CurrentPuzzleTimer);

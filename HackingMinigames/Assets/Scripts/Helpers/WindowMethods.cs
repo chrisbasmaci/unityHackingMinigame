@@ -1,26 +1,45 @@
 using CoreScripts;
+using JetBrains.Annotations;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.UIElements;
 using Button = UnityEngine.UI.Button;
 
 namespace Helpers
 {
+    public enum WindowType
+    {
+        None,
+        GameWindow,
+        MenuWindow
+    }
     public class WindowMethods : UiMethods
     {
+        public WindowType windowType;
         public GameObject mainWindow;
-        public RectTransform MainWindowBounds => mainWindow.GetComponent<RectTransform>();
-        private GameWindow gameWindow => mainWindow.GetComponent<GameWindow>();
-        public GameObject bar;
-        [SerializeField]public GameObject resizeButton;
+        private RectTransform MainWindowBounds => mainWindow.GetComponent<RectTransform>();
+        [CanBeNull] public GameObject backgroundGj;
+        private GameObject bar;
+        private GameObject resizeButton;
         public bool isMinimized;
         
 
-        public void Start()
+        public void Awake()
         {
-            var but = resizeButton.GetComponent<Button>();
-            but.onClick.AddListener(ResizeNotify);
-            
+            if (windowType ==WindowType.None )
+            {
+                Debug.LogError("WindowType is null");
+            }
+
+            bar = GetComponentInChildren<PixelBar>().gameObject;
+            if (bar == null)
+            { 
+                Debug.LogError("Bar is null");
+            }
+            resizeButton = gameObject.GetComponentInChildren<ResizePanel>().gameObject;
+            resizeButton.GetComponent<Button>().onClick.AddListener(ResizeNotify);
         }
 
         public void ResizeNotify()
@@ -52,27 +71,59 @@ namespace Helpers
         private void showWindow()
         {            
             mainWindow.SetActive(true);
-            ParentFitVerticalUnconstrained();
+            if (backgroundGj != null)
+            {
+                backgroundGj.SetActive(true);
+            }
+
+            var mainHeight = mainWindow.GetComponent<LayoutElement>().minHeight;
+            var barHeight = bar.gameObject.GetComponent<LayoutElement>().minHeight;
+            ParentFitVerticalUnconstrained(mainHeight + barHeight);
             ParentMoveToMiddle();
             bar.GetComponentInChildren<DragPanel>().ToggleVerticalDrag();
-            Game.Instance.WindowMinimized(gameWindow, false);
+
+            if (windowType == WindowType.GameWindow)
+            {
+                var gameWindow = mainWindow.GetComponent<GameWindow>();
+                Game.Instance.WindowMinimized(gameWindow, false);
+            }
+
 
         }
         private void lowerWindow()
         {
             mainWindow.SetActive(false);
-            ParentFitVerticalTight();
+            if (backgroundGj != null)
+            {
+                backgroundGj.SetActive(false);
+            }
+
+            var lay = parent.GetComponent<LayoutElement>();
+            Debug.Log("SSSS" + parent.name);
+            Debug.Log("SSSS" + "minHeight: " + lay.minHeight);
+            Debug.Log("SSSS" +"minWidth: " + lay.minWidth);
+            ParentFitVerticalTight(new Vector2(lay.minWidth, lay.minHeight), bar.gameObject.GetComponent<RectTransform>().rect.height);
             ParentRefresh();
             ParentMoveToBottom();
             bar.GetComponentInChildren<DragPanel>().ToggleVerticalDrag();
-            Game.Instance.WindowMinimized(gameWindow, true);
+            if (windowType == WindowType.GameWindow)
+            {
+                var gameWindow = mainWindow.GetComponent<GameWindow>();
+                Game.Instance.WindowMinimized(gameWindow, true);
+            }
 
         }
         public void FixLayer()
         {
-            gameWindow.CurrentSortingLayer = GameWindowFactory.useTopSpot();
-            // Debug.Log("sorting layer: " +gameWindow.currentSortingLayer);
-            gameWindow.MinigamePanel.FixLayoutOrder(gameWindow.CurrentSortingLayer + 1);
+            //fixes for gamewindow
+            if(windowType == WindowType.GameWindow)
+            {
+                var gameWindow = mainWindow.GetComponent<GameWindow>();
+                gameWindow.CurrentSortingLayer = GameWindowFactory.useTopSpot();
+                gameWindow.MinigamePanel.FixLayoutOrder(gameWindow.CurrentSortingLayer + 1);
+            }
+            // gameWindow?.CurrentSortingLayer = GameWindowFactory.useTopSpot();
+            // gameWindow?.MinigamePanel.FixLayoutOrder(gameWindow.CurrentSortingLayer + 1);
         }
 
 

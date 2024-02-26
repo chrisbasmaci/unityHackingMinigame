@@ -106,7 +106,7 @@ namespace Helpers
             {
                 sizeFitter = parent.AddComponent<ContentSizeFitter>();
             }
-            parent.GetComponent<LayoutElement>().minWidth = 200;
+            parent.GetComponent<LayoutElement>().minWidth = 250;
 
             sizeFitter.verticalFit = ContentSizeFitter.FitMode.MinSize;
             sizeFitter.horizontalFit = ContentSizeFitter.FitMode.MinSize;

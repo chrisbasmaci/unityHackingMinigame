@@ -155,12 +155,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4105517897595601380}
+  m_Father: {fileID: 9214629752735639345}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 29.62378}
-  m_SizeDelta: {x: 0, y: 59.247498}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8728219016943811492
 CanvasRenderer:
@@ -976,6 +976,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8712418246121049798, guid: 20458ee4c21736943a98623a3c45c654, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8932197567879349015, guid: 20458ee4c21736943a98623a3c45c654, type: 3}
       propertyPath: m_Name
       value: PixelBar
@@ -1575,6 +1579,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2281932806305291864, guid: 360a7aab399703e249ee76787762e0dc, type: 3}
       insertIndex: 1
       addedObject: {fileID: 4606674797388527088}
+    - targetCorrespondingSourceObject: {fileID: 2281932806305291864, guid: 360a7aab399703e249ee76787762e0dc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 53186102402279379}
     - targetCorrespondingSourceObject: {fileID: 6391249964229425293, guid: 360a7aab399703e249ee76787762e0dc, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8814843722818622613}
@@ -1584,9 +1591,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6391249964229425293, guid: 360a7aab399703e249ee76787762e0dc, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6048068157269312791}
-    - targetCorrespondingSourceObject: {fileID: 6391249964229425293, guid: 360a7aab399703e249ee76787762e0dc, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 53186102402279379}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7318439338027400628, guid: 360a7aab399703e249ee76787762e0dc, type: 3}
       insertIndex: -1

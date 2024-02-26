@@ -57,7 +57,7 @@ public class SceneNavigator : MonoBehaviour
         }
         else
         {
-            settingsPanel = Resources.Load<GameObject>("UI_Prefabs/SettingsWindow");
+            settingsPanel = Resources.Load<GameObject>("UI_Prefabs/CoolSettinsWindow");
             settingsPanel = Instantiate(settingsPanel, currentCanvas.transform);    
         }
 

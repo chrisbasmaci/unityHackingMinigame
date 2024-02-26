@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using CoreScripts;
+using Helpers;
+using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
@@ -9,6 +11,7 @@ public class DragPanel : MonoBehaviour, IPointerDownHandler, IDragHandler
     private RectTransform panelRectTransform;
     private RectTransform parentRectTransform;
 
+    [SerializeField]public WindowMethods windowMethods;
     public bool lockHorizontalDrag = true;
     public bool lockVerticalDrag = false;
     public int nestedness;
@@ -33,6 +36,7 @@ public class DragPanel : MonoBehaviour, IPointerDownHandler, IDragHandler
     {
         originalPanelLocalPosition = panelRectTransform.localPosition;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(parentRectTransform, data.position, data.pressEventCamera, out originalLocalPointerPosition);
+        windowMethods.FixLayer();
     }
 
     public void OnDrag(PointerEventData data)

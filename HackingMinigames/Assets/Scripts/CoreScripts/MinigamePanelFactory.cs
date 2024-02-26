@@ -22,7 +22,7 @@ public class MinigamePanelFactory : AFactory<MgPanel>
     protected override GameObject Instantiate()
     {
         var mgPanelGobj = ComponentHandler.AddChildGameObject(_panel, "MGPanel");
-        ComponentHandler.AddCanvasWithOverrideSorting(mgPanelGobj, "GameWindow", _window.currentSortingLayer +1);
+        ComponentHandler.AddCanvasWithOverrideSorting(mgPanelGobj, "GameWindow", _window.CurrentSortingLayer +1);
         return mgPanelGobj;
     }
 

@@ -15,6 +15,10 @@ namespace Untangle
         public bool _isTangled;
         private bool _gettingStretched;
 
+        public void setLayoutOrder(int order)
+        {
+            _lineRenderer.sortingOrder = order;
+        }
         // Start is called before the first frame update
         public void Initialize(MgPanel mgPanel, (Vertice leftVertice, Vertice rightVertice) verticePair)
         {
@@ -29,7 +33,7 @@ namespace Untangle
             _lineRenderer.endWidth = verticePair.rightVertice.GetEdgeThickness();
             _lineRenderer.material = new Material(Shader.Find("UI/Default"));
             _lineRenderer.sortingLayerName = "GameWindow";
-            _lineRenderer.sortingOrder = mgPanel.gameWindow.currentSortingLayer;
+            _lineRenderer.sortingOrder = mgPanel.gameWindow.CurrentSortingLayer;
             SetLineColor(Color.green);
 
 
@@ -102,7 +106,7 @@ namespace Untangle
             if (!otherLine)
             {
                 return;
-            }else if (otherLine.sortingOrder != _mgPanel.gameWindow.currentSortingLayer)
+            }else if (otherLine.sortingOrder != _mgPanel.gameWindow.CurrentSortingLayer)
             {
                 return;
             }
@@ -128,7 +132,7 @@ namespace Untangle
             if (!otherLine)
             {
                 return;
-            }else if (otherLine.sortingOrder != _mgPanel.gameWindow.currentSortingLayer)
+            }else if (otherLine.sortingOrder != _mgPanel.gameWindow.CurrentSortingLayer)
             {
                 return;
             }

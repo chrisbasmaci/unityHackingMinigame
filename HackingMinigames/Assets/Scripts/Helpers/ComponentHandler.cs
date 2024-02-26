@@ -213,7 +213,7 @@ public static class ComponentHandler
         // flowLayout.ChildForceExpandWidth = true;
         flowLayout.SpacingY = -150;
         flowLayout.SpacingX = 50;
-        flowLayout.padding = new RectOffset(50, 50, 20, 20);
+        flowLayout.padding = new RectOffset(50, 50, 0, 0);
         // flowLayout.ExpandHorizontalSpacing = true;
     }
 }

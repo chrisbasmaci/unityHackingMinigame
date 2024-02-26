@@ -80,7 +80,6 @@ namespace TriangleNet
 
             return points;
         }
-
         /// <summary>
         /// Creates a rectangle contour.
         /// </summary>

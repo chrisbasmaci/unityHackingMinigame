@@ -15,15 +15,16 @@ namespace Helpers
 
             // Clamp destination within bounds
             Vector2 clampedDestination = new Vector2(
-                Mathf.Clamp(destination.x, 0, boundsWidth),
-                Mathf.Clamp(destination.y, 0, boundsHeight)
+                Mathf.Clamp(destination.x, -boundsWidth / 2, boundsWidth / 2),
+                Mathf.Clamp(destination.y, -boundsHeight / 2, boundsHeight / 2)
             );
-
+            
             yield return TimerCoroutine(duration, t => 
             {
-                Vector3 targetPosition = Vector3.Lerp(startingPosition, new Vector3(clampedDestination.x, clampedDestination.y, startingPosition.z), t);
-                rectTransform.transform.localPosition = targetPosition;
+                // Use 't' directly as it is already normalized to [0, 1] over the duration
+                rectTransform.anchoredPosition = Vector2.Lerp(startingPosition, clampedDestination, t);
             }, call);
+
         }
         public static void  ClampPositionLocal(RectTransform objectRectTransform, Rect boundsRect)
         {
@@ -59,23 +60,27 @@ namespace Helpers
             rectTransform.sizeDelta = new Vector2(dimensions.targetWidth, dimensions.targetHeight);
         }
 
-
-        public static IEnumerator TimerCoroutine(float duration, Action<float> action, UnityAction call = null)
+        
+        public static IEnumerator TimerCoroutine(float duration, System.Action<float> perTickCallback, UnityAction call = null)
         {
-            float elapsedTime = 0f;
-            while (elapsedTime < duration)
+            float elapsed = 0f;
+
+            while (elapsed < duration)
             {
-                elapsedTime += Time.deltaTime;
-                float t = Mathf.Clamp01(elapsedTime / duration);
-        
-                action(t); // Execute the specific behavior
-        
-                if (call != null) {
-                    call();
-                }
+                elapsed += Time.deltaTime;
+                float normalizedTime = Mathf.Clamp01(elapsed / duration);
+
+                // Call the per-tick callback with the normalized time
+                perTickCallback?.Invoke(normalizedTime);
+
+                // Optionally call 'call' on each tick if needed
+                call?.Invoke();
+
                 yield return null;
             }
         }
+
+
 
     }
 }

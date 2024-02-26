@@ -12,11 +12,17 @@ public class GameWindow : MonoBehaviour
 {
     private GameObject WindowParent => gameObject.GetComponent<UiMethods>().parent;
     public WindowMethods Methods => WindowParent.GetComponent<WindowMethods>();
-    public int currentSortingLayer;
+    private int currentSortingLayer;
+
+    public int CurrentSortingLayer
+    {
+        get { return currentSortingLayer; }
+        set { currentSortingLayer = value; Debug.Log("gmbj name: "+gameObject.name); gameObject.GetComponentInParent<Canvas>().sortingOrder = value;}
+    }
     [NonSerialized]public MinigameType currentMg;
-    [NonSerialized] private GameCanvas gameCanvas;
+    [NonSerialized] public GameCanvas gameCanvas;
     [SerializeField] public GameObject upperContainer;
-    [SerializeField] private GameObject middleContainer;
+    [SerializeField] public GameObject middleContainer;
     [SerializeField] public GameObject bottomContainer;
     [SerializeField] public GameObject highscoreBoardPanel;
 
@@ -40,6 +46,7 @@ public class GameWindow : MonoBehaviour
     {
         gameCanvas = GetComponentInParent<GameCanvas>();
     }
+    
 
     public void Initialize(MinigameType mgType,int currentLayer)
     {
@@ -137,10 +144,12 @@ public class GameWindow : MonoBehaviour
         StartCoroutine(SettingsCoroutine());
     }
 
-    public void SetMinimumSize(Vector2 minSize)
+    public void SetMinimumSize(float minHeight, float minWidth)
     {
-        var resizer=  WindowParent.GetComponentInChildren<ResizePanel>();
-        resizer.minSize = minSize;
+        
+        LayoutElement lay = WindowParent.GetComponent<LayoutElement>();
+        lay.minWidth = minWidth;
+        lay.minHeight = minHeight;
     }
 
     public IEnumerator SettingsCoroutine()

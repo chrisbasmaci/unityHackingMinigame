@@ -11,17 +11,29 @@ public class MgPanel : MonoBehaviour
 {
     public Rect _panelRect => gameObject.GetComponent<RectTransform>().rect;
     public GameWindow gameWindow;
-    [NonSerialized]public WindowSize panelBounds;
     [NonSerialized]public MiniGame _miniGame;
     [NonSerialized]private MinigameType _minigameType;
     // [NonSerialized]public GameObject currentSettingsPrefab;
 
-
+    private void Start()
+    {
+        if (_panelRect == null)
+        {
+            Debug.LogError("Panel Bounds not found");
+        }
+        Debug.Log("height: " + _panelRect.height);
+        Debug.Log("width: " + _panelRect.width);
+    }
 
     public void Initialize(GameWindow window, MinigameType mgType)
     {
         gameWindow = window;
         AddMinigameScript(mgType);
+    }
+    public void FixLayoutOrder(int order)
+    {
+        gameObject.GetComponent<Canvas>().sortingOrder = order;
+        _miniGame.FixLayoutOrder(order);
     }
 
     public void stopGameCoroutines()

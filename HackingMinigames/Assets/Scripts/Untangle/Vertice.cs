@@ -129,14 +129,14 @@ namespace Untangle
             Debug.Log("Gonna check solve");
             mg?.CheckIfSolved();
         }
-        private (float minX, float maxX, float minY, float maxY) GetPanelBounds()
-        {
-            float minX = _mgPanel.panelBounds.LeftBorder;
-            float maxX = _mgPanel.panelBounds.RightBorder;
-            float minY = _mgPanel.panelBounds.BottomBorder;
-            float maxY = _mgPanel.panelBounds.TopBorder;
-            return (minX, maxX, minY, maxY);
-        }
+        // private (float minX, float maxX, float minY, float maxY) GetPanelBounds()
+        // {
+        //     float minX = _mgPanel.panelBounds.LeftBorder;
+        //     float maxX = _mgPanel.panelBounds.RightBorder;
+        //     float minY = _mgPanel.panelBounds.BottomBorder;
+        //     float maxY = _mgPanel.panelBounds.TopBorder;
+        //     return (minX, maxX, minY, maxY);
+        // }
         
         public void stretchAllEdges()
         {
@@ -195,9 +195,16 @@ namespace Untangle
         public IEnumerator MoveToSolution()
         {
             // MoveSprite(new Vector2((float)_solvedVertex.X, (float)_solvedVertex.Y), false);
+            var test = _mgPanel.gameWindow.middleContainer.GetComponent<RectTransform>().rect;
+            Debug.Log("test width: "+test.width);
+            Debug.Log("test height: "+test.height);
             yield return null;
-            // yield return ObjectHandler.MoveCoroutine
-            //     (gameObject, new Vector2((float)_solvedVertex.X, (float)_solvedVertex.Y),500,500, 1f,stretchAllEdges);
+            yield return ObjectHandler.MoveCoroutine
+                (gameObject, new Vector2((float)_solvedVertex.X, 
+                    (float)_solvedVertex.Y),
+                    test.width, 
+                    test.height, 
+                    0.8f,stretchAllEdges);
             //TODO MAYBE MOVE FOR CLEARER SOLUTION NOT URGENT
             _edges.ForEach(edge => edge.SetLineColor(Color.green));
         }

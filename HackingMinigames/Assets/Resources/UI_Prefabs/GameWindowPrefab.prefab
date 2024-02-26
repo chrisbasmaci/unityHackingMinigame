@@ -1097,7 +1097,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7019969193287256011, guid: 56ede76a2280885f2a286685a4b80cf1, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1180
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7019969193287256011, guid: 56ede76a2280885f2a286685a4b80cf1, type: 3}
       propertyPath: m_SizeDelta.y
@@ -1133,7 +1133,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7019969193287256011, guid: 56ede76a2280885f2a286685a4b80cf1, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 590
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7019969193287256011, guid: 56ede76a2280885f2a286685a4b80cf1, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1226,6 +1226,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1581248018889212690, guid: 360a7aab399703e249ee76787762e0dc, type: 3}
+      propertyPath: windowMethods
+      value: 
+      objectReference: {fileID: 2051565516073318004}
     - target: {fileID: 1597701429753876294, guid: 360a7aab399703e249ee76787762e0dc, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -1342,6 +1346,10 @@ PrefabInstance:
       propertyPath: minSize.y
       value: 500
       objectReference: {fileID: 0}
+    - target: {fileID: 2901927809963096938, guid: 360a7aab399703e249ee76787762e0dc, type: 3}
+      propertyPath: mainLayout
+      value: 
+      objectReference: {fileID: 1517091624579636283}
     - target: {fileID: 3047687384725201324, guid: 360a7aab399703e249ee76787762e0dc, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1352,7 +1360,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3047687384725201324, guid: 360a7aab399703e249ee76787762e0dc, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1200
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3047687384725201324, guid: 360a7aab399703e249ee76787762e0dc, type: 3}
       propertyPath: m_SizeDelta.y
@@ -1360,7 +1368,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3047687384725201324, guid: 360a7aab399703e249ee76787762e0dc, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 600
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3047687384725201324, guid: 360a7aab399703e249ee76787762e0dc, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1470,6 +1478,22 @@ PrefabInstance:
       propertyPath: m_ChildControlHeight
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8450503285397562706, guid: 360a7aab399703e249ee76787762e0dc, type: 3}
+      propertyPath: m_MinWidth
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 8450503285397562706, guid: 360a7aab399703e249ee76787762e0dc, type: 3}
+      propertyPath: m_MinHeight
+      value: 550
+      objectReference: {fileID: 0}
+    - target: {fileID: 8450503285397562706, guid: 360a7aab399703e249ee76787762e0dc, type: 3}
+      propertyPath: m_PreferredWidth
+      value: 1900
+      objectReference: {fileID: 0}
+    - target: {fileID: 8450503285397562706, guid: 360a7aab399703e249ee76787762e0dc, type: 3}
+      propertyPath: m_PreferredHeight
+      value: 1000
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -1550,6 +1574,28 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &1517091624579636283 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8450503285397562706, guid: 360a7aab399703e249ee76787762e0dc, type: 3}
+  m_PrefabInstance: {fileID: 6938918086337542505}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 422121144681792733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2051565516073318004 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8949605512145735453, guid: 360a7aab399703e249ee76787762e0dc, type: 3}
+  m_PrefabInstance: {fileID: 6938918086337542505}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 422121144681792733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 203f8d7670924c009fc2e681c16a908f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2645880637988750566 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4968582371940629903, guid: 360a7aab399703e249ee76787762e0dc, type: 3}

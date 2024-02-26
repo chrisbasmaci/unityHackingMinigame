@@ -1,3 +1,4 @@
+using CoreScripts;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -19,6 +20,7 @@ namespace Helpers
         {
             var but = resizeButton.GetComponent<Button>();
             but.onClick.AddListener(ResizeNotify);
+            
         }
 
         public void ResizeNotify()
@@ -65,6 +67,12 @@ namespace Helpers
             bar.GetComponentInChildren<DragPanel>().ToggleVerticalDrag();
             Game.Instance.WindowMinimized(gameWindow, true);
 
+        }
+        public void FixLayer()
+        {
+            gameWindow.CurrentSortingLayer = GameWindowFactory.useTopSpot();
+            // Debug.Log("sorting layer: " +gameWindow.currentSortingLayer);
+            gameWindow.MinigamePanel.FixLayoutOrder(gameWindow.CurrentSortingLayer + 1);
         }
 
 

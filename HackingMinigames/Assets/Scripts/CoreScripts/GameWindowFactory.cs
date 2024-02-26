@@ -4,7 +4,13 @@ namespace CoreScripts
 {
     public class GameWindowFactory : AFactory<GameWindow>
     {
-        private static int TopSortingLayer = 0;
+        private static int topSortingLayer = 0;
+
+        public static int TopSortingLayer
+        {
+            get { return topSortingLayer; }
+            private set { topSortingLayer = value; }
+        }
         private MinigameType _mgType;
         private GameObject _parent;
         private GameObject _prefab;
@@ -30,6 +36,11 @@ namespace CoreScripts
             return windowObj;
         }
 
+        public static int useTopSpot()
+        {
+            return TopSortingLayer += 10;
+        }
+
         protected override GameWindow Initialize(GameObject windowObj)
         {
             GameWindow window = windowObj.GetComponentInChildren<GameWindow>();
@@ -39,6 +50,7 @@ namespace CoreScripts
             window.Initialize(_mgType, TopSortingLayer);
             return window;
         }
+        
 
     }
 }

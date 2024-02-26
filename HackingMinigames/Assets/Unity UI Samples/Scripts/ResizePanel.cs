@@ -13,6 +13,7 @@ public class ResizePanel : MonoBehaviour, IPointerDownHandler, IDragHandler,IEnd
 	public Vector2 maxSize = new Vector2 (400, 400);
 	public int nestedness = 1;
 
+	[SerializeField]public LayoutElement mainLayout; 
 	private RectTransform panelRectTransform;
 	private Vector2 originalLocalPointerPosition;
 	private Vector2 originalSizeDelta;
@@ -28,11 +29,16 @@ public class ResizePanel : MonoBehaviour, IPointerDownHandler, IDragHandler,IEnd
 				currentTransform = currentTransform.parent;
 			}
 		}
+		Debug.Log("Resizing: " + currentTransform.gameObject.name);
 		panelRectTransform = currentTransform.GetComponent<RectTransform>();
 	}
-	public void OnPointerDown (PointerEventData data) {
+	public void OnPointerDown (PointerEventData data)
+	{
+		minSize = new Vector2(mainLayout.minWidth,mainLayout.minHeight);
+		maxSize = new Vector2(mainLayout.preferredWidth,mainLayout.preferredHeight);
 		originalSizeDelta = panelRectTransform.sizeDelta;
 		RectTransformUtility.ScreenPointToLocalPointInRectangle (panelRectTransform, data.position, data.pressEventCamera, out originalLocalPointerPosition);
+		
 	}
 	
 	public void OnDrag (PointerEventData data) {

@@ -20,7 +20,10 @@ public abstract class MiniGame : MonoBehaviour
     protected UIPanel UpperUI;
 
     //initialization
-
+    public virtual void FixLayoutOrder(int order)
+    {
+        Debug.Log("FixLayoutOrder Not Handled");
+    }
     public void Initialize(MgPanel panel,MgSettings startSetting)
     {
         mgPanel = panel;
@@ -46,7 +49,7 @@ public abstract class MiniGame : MonoBehaviour
     private void ReadyUpGamePanel()
     {
         var mgPanelRectTransform = mgPanel.gameObject.GetComponent<RectTransform>();
-        mgPanel.panelBounds = GameCanvas.CalculateWsWithPadding(mgPanelRectTransform.rect, 0);
+        // mgPanel.panelBounds = GameCanvas.CalculateWsWithPadding(mgPanel.panelBounds, 0);
 
     }
 

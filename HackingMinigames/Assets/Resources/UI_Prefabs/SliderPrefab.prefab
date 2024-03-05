@@ -113,8 +113,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 176.72726, y: 0}
-  m_SizeDelta: {x: 84.545456, y: 0}
+  m_AnchoredPosition: {x: 296.55557, y: 0}
+  m_SizeDelta: {x: 172.44444, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8045670028737688436
 MonoBehaviour:
@@ -272,9 +272,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IgnoreLayout: 0
-  m_MinWidth: 80
+  m_MinWidth: 100
   m_MinHeight: -1
-  m_PreferredWidth: 90
+  m_PreferredWidth: 110
   m_PreferredHeight: -1
   m_FlexibleWidth: 2
   m_FlexibleHeight: -1
@@ -545,7 +545,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 300, y: 0}
+  m_SizeDelta: {x: 500, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1041307718222573803
 CanvasRenderer:
@@ -568,14 +568,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 0.4528302, g: 0.4528302, b: 0.4528302, a: 0.5176471}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: a2290a38decf7d4a698fca6036e41379, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -584,7 +584,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 10
 --- !u!114 &6547815785183929901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -855,6 +855,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Decrement
       objectReference: {fileID: 0}
+    - target: {fileID: 8778612118505242381, guid: 3b32042d79d0883599a82ef5df5a737a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7429776174973955603, guid: 3b32042d79d0883599a82ef5df5a737a, type: 3}
     m_RemovedGameObjects: []
@@ -1001,6 +1005,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Increment
       objectReference: {fileID: 0}
+    - target: {fileID: 8778612118505242381, guid: 3b32042d79d0883599a82ef5df5a737a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7429776174973955603, guid: 3b32042d79d0883599a82ef5df5a737a, type: 3}
     m_RemovedGameObjects: []
@@ -1065,8 +1073,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4306981404049820424, guid: 47d927d2bf1cd3e678126fbd0cfed195, type: 3}
       propertyPath: m_text
-      value: <
+      value: '-'
       objectReference: {fileID: 0}
+    - target: {fileID: 7456699414608677249, guid: 47d927d2bf1cd3e678126fbd0cfed195, type: 3}
+      propertyPath: style
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7456699414608677249, guid: 47d927d2bf1cd3e678126fbd0cfed195, type: 3}
+      propertyPath: textData
+      value: 
+      objectReference: {fileID: 11400000, guid: 5d54971cc0513b240b87e0659a8782b3, type: 2}
     - target: {fileID: 8268720303636296247, guid: 47d927d2bf1cd3e678126fbd0cfed195, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1184,6 +1200,14 @@ PrefabInstance:
       propertyPath: m_text
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 7456699414608677249, guid: 47d927d2bf1cd3e678126fbd0cfed195, type: 3}
+      propertyPath: style
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7456699414608677249, guid: 47d927d2bf1cd3e678126fbd0cfed195, type: 3}
+      propertyPath: textData
+      value: 
+      objectReference: {fileID: 11400000, guid: 5d54971cc0513b240b87e0659a8782b3, type: 2}
     - target: {fileID: 8268720303636296247, guid: 47d927d2bf1cd3e678126fbd0cfed195, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

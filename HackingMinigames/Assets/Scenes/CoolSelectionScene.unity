@@ -1115,7 +1115,7 @@ MonoBehaviour:
   - {fileID: 306604308, guid: 015ce0a0416af4840af1956cafef6e76, type: 3}
   - {fileID: -969398947, guid: 015ce0a0416af4840af1956cafef6e76, type: 3}
   - {fileID: 315469783, guid: 015ce0a0416af4840af1956cafef6e76, type: 3}
-  upperHackPrefab: {fileID: 5710736252010185880, guid: 89e74338b6872d0709bad3d34579992b, type: 3}
+  simpleUpperUiPrefab: {fileID: 5710736252010185880, guid: 89e74338b6872d0709bad3d34579992b, type: 3}
   upperUntanglePrefab: {fileID: 5710736252010185880, guid: 2c0e65ed9f509c9168d3b6853528de64, type: 3}
   bottomHackPrefab: {fileID: 9163261624999878219, guid: 353d39d17cc9a6c3ca452f32bfb2aca1, type: 3}
   bottomUntanglePrefab: {fileID: 9163261624999878219, guid: f5f3c049bf54caa17b5802a84e8a5fae, type: 3}
@@ -1323,6 +1323,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1522112832}
     m_Modifications:
+    - target: {fileID: 1363286759242744689, guid: 6f3119ac9afb8f647a95482475985520, type: 3}
+      propertyPath: m_Color.a
+      value: 0.87058824
+      objectReference: {fileID: 0}
     - target: {fileID: 1491877991877313729, guid: 6f3119ac9afb8f647a95482475985520, type: 3}
       propertyPath: m_Name
       value: Backg

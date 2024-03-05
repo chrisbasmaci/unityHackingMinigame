@@ -832,7 +832,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7456699414608677249, guid: 47d927d2bf1cd3e678126fbd0cfed195, type: 3}
       propertyPath: style
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7456699414608677249, guid: 47d927d2bf1cd3e678126fbd0cfed195, type: 3}
       propertyPath: textData

@@ -16,11 +16,15 @@ namespace UI_Prefab
 
         public override void Configure()
         {
-            _buttonText.style = Style.Tertiary;
-            if (buttonName != null && _buttonText.text != null)
+            if (_buttonText)
             {
-                _buttonText.text.text = buttonName;
+                _buttonText.style = Style.Tertiary;
+                if (buttonName != null && _buttonText.text != null)
+                {
+                    _buttonText.text.text = buttonName;
+                }
             }
+
             
         }
     }

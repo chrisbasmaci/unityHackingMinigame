@@ -18,7 +18,7 @@ namespace Helpers
         public GameObject mainWindow;
         private RectTransform MainWindowBounds => mainWindow.GetComponent<RectTransform>();
         [CanBeNull] public GameObject backgroundGj;
-        private GameObject bar;
+        private PixelBar bar;
         private GameObject resizeButton;
         public bool isMinimized;
         
@@ -30,7 +30,7 @@ namespace Helpers
                 Debug.LogError("WindowType is null");
             }
 
-            bar = GetComponentInChildren<PixelBar>().gameObject;
+            bar = GetComponentInChildren<PixelBar>();
             if (bar == null)
             { 
                 Debug.LogError("Bar is null");
@@ -77,7 +77,7 @@ namespace Helpers
             var barHeight = bar.gameObject.GetComponent<LayoutElement>().minHeight;
             ParentFitVerticalUnconstrained(mainHeight + barHeight);
             ParentMoveToMiddle();
-            bar.GetComponentInChildren<DragPanel>().ToggleVerticalDrag();
+            bar.SetLowered(false);
 
             if (windowType == WindowType.GameWindow)
             {
@@ -96,13 +96,12 @@ namespace Helpers
             }
 
             var lay = parent.GetComponent<LayoutElement>();
-            Debug.Log("SSSS" + parent.name);
-            Debug.Log("SSSS" + "minHeight: " + lay.minHeight);
-            Debug.Log("SSSS" +"minWidth: " + lay.minWidth);
             ParentFitVerticalTight(new Vector2(lay.minWidth, lay.minHeight), bar.gameObject.GetComponent<RectTransform>().rect.height);
             ParentRefresh();
             ParentMoveToBottom();
-            bar.GetComponentInChildren<DragPanel>().ToggleVerticalDrag();
+            bar.SetLowered(true);
+            
+            
             if (windowType == WindowType.GameWindow)
             {
                 var gameWindow = mainWindow.GetComponent<GameWindow>();
@@ -110,6 +109,8 @@ namespace Helpers
             }
 
         }
+
+
         public void FixLayer()
         {
             //fixes for gamewindow

@@ -139,8 +139,16 @@ PrefabInstance:
       value: 600
       objectReference: {fileID: 0}
     - target: {fileID: 1623996002925340713, guid: b3ecbad960c96fa4887a4c0e36d731d0, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -190.59999
+      objectReference: {fileID: 0}
+    - target: {fileID: 1623996002925340713, guid: b3ecbad960c96fa4887a4c0e36d731d0, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1623996002925340713, guid: b3ecbad960c96fa4887a4c0e36d731d0, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -25.299995
       objectReference: {fileID: 0}
     - target: {fileID: 2051565516073318004, guid: b3ecbad960c96fa4887a4c0e36d731d0, type: 3}
       propertyPath: windowType
@@ -169,6 +177,14 @@ PrefabInstance:
     - target: {fileID: 2345171105699390922, guid: b3ecbad960c96fa4887a4c0e36d731d0, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204574610651346486, guid: b3ecbad960c96fa4887a4c0e36d731d0, type: 3}
+      propertyPath: backButtonGj
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204574610651346486, guid: b3ecbad960c96fa4887a4c0e36d731d0, type: 3}
+      propertyPath: infoButtonGj
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4273028185813528916, guid: b3ecbad960c96fa4887a4c0e36d731d0, type: 3}
       propertyPath: m_AnchorMax.y
@@ -225,6 +241,10 @@ PrefabInstance:
     - target: {fileID: 5643500139005963979, guid: b3ecbad960c96fa4887a4c0e36d731d0, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -14.9999695
+      objectReference: {fileID: 0}
+    - target: {fileID: 6232870092110642648, guid: b3ecbad960c96fa4887a4c0e36d731d0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7828656103333448029, guid: b3ecbad960c96fa4887a4c0e36d731d0, type: 3}
       propertyPath: m_MinWidth
@@ -324,7 +344,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5132452107783755966, guid: b3ecbad960c96fa4887a4c0e36d731d0, type: 3}
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 6232870092110642648, guid: b3ecbad960c96fa4887a4c0e36d731d0, type: 3}
+    - {fileID: 1154633036331084252, guid: b3ecbad960c96fa4887a4c0e36d731d0, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4273028185813528916, guid: b3ecbad960c96fa4887a4c0e36d731d0, type: 3}
       insertIndex: -1

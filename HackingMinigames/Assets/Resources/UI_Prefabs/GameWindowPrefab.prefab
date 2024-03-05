@@ -420,8 +420,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: a2290a38decf7d4a698fca6036e41379, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -429,7 +429,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 10
 --- !u!114 &313289447036250592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1794,6 +1794,7 @@ MonoBehaviour:
   bottomContainer: {fileID: 6713940905275517162}
   highscoreBoardPanel: {fileID: 5159142192094415006}
   MinigamePanel: {fileID: 0}
+  showingSettings: 0
   navigationPanelGOBJ: {fileID: 4667404609148254811}
 --- !u!224 &4105517897595601380 stripped
 RectTransform:

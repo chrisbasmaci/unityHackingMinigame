@@ -125,7 +125,7 @@ namespace Helpers
                 var gameWindow = mainWindow.GetComponent<GameWindow>();
                 gameWindow.CurrentSortingLayer = GameWindowFactory.useTopSpot();
                 gameWindow.MinigamePanel.FixLayoutOrder(gameWindow.CurrentSortingLayer + 1);
-                // curtain.gameObject.GetComponent<SortingLayer>(). = gameWindow.CurrentSortingLayer + 1;
+                curtain.gameObject.GetComponent<Canvas>().sortingOrder = gameWindow.CurrentSortingLayer + 1;
             }
             // gameWindow?.CurrentSortingLayer = GameWindowFactory.useTopSpot();
             // gameWindow?.MinigamePanel.FixLayoutOrder(gameWindow.CurrentSortingLayer + 1);

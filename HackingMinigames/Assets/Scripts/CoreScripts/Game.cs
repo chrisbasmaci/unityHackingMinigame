@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UI_Prefab;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 
 public enum ShapeBundle{circle=0, triangle, square, diamond, rectangle}
@@ -44,7 +45,7 @@ public class Game : MonoBehaviour
     
     
     //UI PREFABS
-    [SerializeField] public GameObject upperHackPrefab;
+    [FormerlySerializedAs("upperHackPrefab")] [SerializeField] public GameObject simpleUpperUiPrefab;
     [SerializeField] public GameObject upperUntanglePrefab;
     [SerializeField] public GameObject bottomHackPrefab;
     [SerializeField] public GameObject bottomUntanglePrefab;

@@ -16,7 +16,7 @@ public class UntangleMG : MiniGame
 {
     private UntangleSettings InternalSettings => Settings as UntangleSettings;
     private BUIuntangle UntangleBottomUI => BottomUI as BUIuntangle;
-    private UUIuntangle UntangleUpperUI => UpperUI as UUIuntangle;
+    private UUIsimple UntangleUpperUI => UpperUI as UUIsimple;
     private GameObject _verticeGroup;
     private GameObject _edgeGroup;
     private Polygon polygon;
@@ -78,9 +78,10 @@ public class UntangleMG : MiniGame
     }    
     protected override UIPanel InitUpperUIChild()
     {
-        mgPanel.gameWindow.UUIpanel = Instantiate(Game.Instance.upperUntanglePrefab, mgPanel.gameWindow.upperContainer.transform)
-            .GetComponent<UUIuntangle>();
-        var upperUI = (UUIuntangle)mgPanel.gameWindow.UUIpanel;
+        mgPanel.gameWindow.UUIpanel = Instantiate(Game.Instance.simpleUpperUiPrefab, mgPanel.gameWindow.upperContainer.transform)
+            .GetComponent<UUIsimple>();
+        var upperUI = (UUIsimple)mgPanel.gameWindow.UUIpanel;
+        upperUI.SetDisplayText("Moves");
         return upperUI;
     }
     public void CheckIfSolved()
@@ -127,7 +128,7 @@ public class UntangleMG : MiniGame
     }
     public void UpdateMoves()
     {
-        UntangleUpperUI.UpdateMoves(InternalSettings.currentMoves);
+        UntangleUpperUI.updateDisplay(InternalSettings.currentMoves, "Moves");
     }
     public void showSolution()
     {

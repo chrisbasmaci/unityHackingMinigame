@@ -6,7 +6,7 @@ public class HackSettings : MgSettings
     public int currentCardTotal;
     public int currentStreak;
     public Dictionary<int, int> BestStreak{ get; }
-    public string GameMode => "|| GameMode [" + currentCardTotal + "] Cards ||";
+    public string GameMode => "[" + currentCardTotal + " Cards] ";
 
     public HackSettings(){
         

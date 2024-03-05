@@ -10,7 +10,7 @@ public class HackingMG : MiniGame
     
     private HackSettings InternalSettings => Settings as HackSettings;
     private BUIhack HackBottomUI => BottomUI as BUIhack;
-    private UUIhack HackUpperUI => UpperUI as UUIhack;
+    private UUIsimple HackUpperUI => UpperUI as UUIsimple;
     
     private HackUsi _uiSettings;
 
@@ -34,9 +34,10 @@ public class HackingMG : MiniGame
 
     protected override UIPanel InitUpperUIChild()
     {
-        mgPanel.gameWindow.UUIpanel = Instantiate(Game.Instance.upperHackPrefab, mgPanel.gameWindow.upperContainer.transform)
-            .GetComponent<UUIhack>();
-        var upperUI = (UUIhack)mgPanel.gameWindow.UUIpanel;
+        mgPanel.gameWindow.UUIpanel = Instantiate(Game.Instance.simpleUpperUiPrefab, mgPanel.gameWindow.upperContainer.transform)
+            .GetComponent<UUIsimple>();
+        var upperUI = (UUIsimple)mgPanel.gameWindow.UUIpanel;
+        upperUI.SetDisplayText("Streak");
         return upperUI;
     }
 
@@ -243,7 +244,7 @@ public class HackingMG : MiniGame
             if (HackBottomUI.CheckAnswer(correctAnswer))
             {
                 Debug.Log("Game success");
-                HackUpperUI.updateStreak(++InternalSettings.currentStreak);
+                HackUpperUI.updateDisplay(++InternalSettings.currentStreak, "Streak");
                 _cardDeck.ForEach(card => card.backSprite =Game.Instance.cardOrderSheet[10]);
                 yield return flipCards();
                 continueHacks();

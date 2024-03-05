@@ -44,7 +44,7 @@ public class HackSettings : MgSettings
         {
             return GameMode+recordName + record;
         }
-        return GameMode + recordName + "No Highscore";
+        return GameMode + recordName + "-";
     }
     
     public void UpdateStreakRecord()

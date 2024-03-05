@@ -13,7 +13,7 @@
         public override void Initialize(GameWindow gameWindow){
             Debug.Log("BUTTON");
             Debug.Log("added listener");
-            leftButton.onClick.AddListener(gameWindow.SettingsButton);
+            leftButton.onClick.AddListener(gameWindow.BackButton);
         }
 
         public override void ResetPanel()

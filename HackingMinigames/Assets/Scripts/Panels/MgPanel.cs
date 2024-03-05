@@ -34,6 +34,7 @@ public class MgPanel : MonoBehaviour
     {
         gameObject.GetComponent<Canvas>().sortingOrder = order;
         _miniGame.FixLayoutOrder(order);
+        
     }
 
     public void stopGameCoroutines()

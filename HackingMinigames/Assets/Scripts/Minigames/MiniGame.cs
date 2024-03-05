@@ -91,7 +91,9 @@ public abstract class MiniGame : MonoBehaviour
     public virtual void EndMinigame()
     {
         ///Todo add bottom UI RESET, AND PUT IT HERE
-        BottomUI?.ResetPanel();
+        if (BottomUI) {
+            BottomUI.ResetPanel();
+        }
         StopAllCoroutines();
         _puzzleTimer.reset_timer(Settings);
     }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Helpers;
+using UnityEngine;
 
 namespace CoreScripts
 {
@@ -33,6 +34,7 @@ namespace CoreScripts
             TopSortingLayer += 10;
             GameObject windowObj = Object.Instantiate(_prefab, _parent.transform);
             ComponentHandler.AddCanvasWithOverrideSorting(windowObj, "GameWindow", TopSortingLayer);
+            ComponentHandler.AddCanvasWithOverrideSorting(windowObj.GetComponent<WindowMethods>().curtain.gameObject, "GameWindow", TopSortingLayer+5);
             return windowObj;
         }
 

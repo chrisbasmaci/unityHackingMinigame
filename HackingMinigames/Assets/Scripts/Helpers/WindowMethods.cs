@@ -16,8 +16,10 @@ namespace Helpers
     {
         public WindowType windowType;
         public GameObject mainWindow;
+        public GameWindow GameWindow => mainWindow.GetComponent<GameWindow>();
         private RectTransform MainWindowBounds => mainWindow.GetComponent<RectTransform>();
         [CanBeNull] public GameObject backgroundGj;
+        [SerializeField]public Image curtain;
         private PixelBar bar;
         private GameObject resizeButton;
         public bool isMinimized;
@@ -37,6 +39,10 @@ namespace Helpers
             }
             resizeButton = gameObject.GetComponentInChildren<ResizePanel>().gameObject;
             resizeButton.GetComponent<Button>().onClick.AddListener(ResizeNotify);
+        }
+        public void ToggleCurtain()
+        {
+            curtain.gameObject.SetActive(!curtain.gameObject.activeSelf);
         }
 
         public void ResizeNotify()
@@ -119,6 +125,7 @@ namespace Helpers
                 var gameWindow = mainWindow.GetComponent<GameWindow>();
                 gameWindow.CurrentSortingLayer = GameWindowFactory.useTopSpot();
                 gameWindow.MinigamePanel.FixLayoutOrder(gameWindow.CurrentSortingLayer + 1);
+                // curtain.gameObject.GetComponent<SortingLayer>(). = gameWindow.CurrentSortingLayer + 1;
             }
             // gameWindow?.CurrentSortingLayer = GameWindowFactory.useTopSpot();
             // gameWindow?.MinigamePanel.FixLayoutOrder(gameWindow.CurrentSortingLayer + 1);

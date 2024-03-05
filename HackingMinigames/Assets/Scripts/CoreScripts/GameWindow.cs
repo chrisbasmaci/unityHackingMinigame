@@ -38,6 +38,7 @@ public class GameWindow : MonoBehaviour
     [NonSerialized]private MinigamePanelFactory _minigamePanelFactory;
     [SerializeField]public MgPanel MinigamePanel;
     [NonSerialized]public HighscoreBoardPanel highscoreBoard;
+    public bool showingSettings;
     
     [FormerlySerializedAs("navigationPanelContainer")] [SerializeField] private GameObject navigationPanelGOBJ;
     private (int height, int width) _dimensions;
@@ -90,11 +91,12 @@ public class GameWindow : MonoBehaviour
             USPanel = currentSettings.GetComponent<UIPanel>();
         }
         USPanel.ShowPanel();
-        
+        showingSettings = true;
         navigationPanelGOBJ.SetActive(true);
     }
     public void ShowGame()
     {
+        showingSettings = false;
         if (USPanel) {
             USPanel.HidePanel();
         }
@@ -103,7 +105,7 @@ public class GameWindow : MonoBehaviour
         {
             highscoreBoard.ShowPanel();
         }
-        
+
         navigationPanelGOBJ.SetActive(false);
         middleContainer.SetActive(true);
     }
@@ -125,24 +127,30 @@ public class GameWindow : MonoBehaviour
     // Update is called once per frame
     public void GameStartButton()
     {
-        StartCoroutine(StartMinigame());
+        StartMinigame();
     }
-    public IEnumerator StartMinigame()
+    public void StartMinigame()
     {
         ShowGame();
-        yield return ObjectHandler.ChangeSizeCoroutine(gameObject, (MinigamePanel._miniGame.Settings.GameDimensions), 0.3f);
+        // yield return ObjectHandler.ChangeSizeCoroutine(gameObject, (MinigamePanel._miniGame.Settings.GameDimensions), 0.3f);
         Debug.Log("aboutta start minigame");
         MinigamePanel.StartMinigame();
-        yield return null;
     }
     //Buttons
 
 
-    public void SettingsButton()
+    public void BackButton()
     {
-        MinigamePanel?._miniGame.EndMinigame();
-        ShowSettings();
-        StartCoroutine(SettingsCoroutine());
+        if (showingSettings)
+        {
+            SceneNavigator.MainMenuButton();
+        }
+        else
+        {
+            MinigamePanel._miniGame.EndMinigame();
+            ShowSettings();
+        }        
+  
     }
 
     public void SetMinimumSize(float minHeight, float minWidth)
@@ -162,7 +170,8 @@ public class GameWindow : MonoBehaviour
 
     public IEnumerator SettingsCoroutine()
     {
-        yield return ObjectHandler.ChangeSizeCoroutine(gameObject, MinigamePanel._miniGame.Settings.SettingDimensions, 0.3f);
+        // yield return ObjectHandler.ChangeSizeCoroutine(gameObject, MinigamePanel._miniGame.Settings.SettingDimensions, 0.3f);
+        yield return null;
 
     }
 }

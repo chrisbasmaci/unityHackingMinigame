@@ -28,11 +28,21 @@ public class PixelBar : MonoBehaviour
 
         var toggleButton = minimizeButtonGj.GetComponent<Button>();
         var closeButton = closeButtonGj.GetComponent<Button>();
+
         toggleButton.onClick.AddListener(() => windowMethods.MinimizeWindow());
         closeButton.onClick.AddListener(() => windowMethods.CloseWindow());
+        if (infoButtonGj){
+            var infoButton = infoButtonGj.GetComponent<Button>();
+            infoButton.onClick.AddListener(() => windowMethods.ToggleCurtain());
+        }
+        if (backButtonGj)
+        {
+            var backButton = backButtonGj.GetComponent<Button>();
+            backButton.onClick.AddListener(() => windowMethods.GameWindow.BackButton());
+        }
         
-    _startingOffsetMax = dragButtonGj.GetComponent<RectTransform>().offsetMax.x;
-    _startingOffsetMin = dragButtonGj.GetComponent<RectTransform>().offsetMin.x;
+        _startingOffsetMax = dragButtonGj.GetComponent<RectTransform>().offsetMax.x;
+        _startingOffsetMin = dragButtonGj.GetComponent<RectTransform>().offsetMin.x;
     }
     private void SetButtonsMinimized(bool isMinimized)
     {

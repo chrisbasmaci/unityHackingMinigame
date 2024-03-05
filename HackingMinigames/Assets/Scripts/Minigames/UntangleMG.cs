@@ -120,8 +120,10 @@ public class UntangleMG : MiniGame
     public override void EndMinigame()
     {
         base.EndMinigame();
-        _vertices.ForEach(vertice =>vertice.destr());
-        _edgeList.ForEach(edge => Destroy(edge.gameObject));
+        _vertices?.ForEach(vertice =>vertice.destr());
+        _edgeList?.ForEach(edge => Destroy(edge.gameObject));
+        _vertices?.Clear();
+        _edgeList?.Clear();
     }
     public void UpdateMoves()
     {

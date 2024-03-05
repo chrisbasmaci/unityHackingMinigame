@@ -14,7 +14,7 @@ public class UUIhack :UIPanel
     {
         _gameWindow = gameWindow;
         Debug.Log("BUTTON");
-        leftButton.onClick.AddListener(gameWindow.SettingsButton);
+        leftButton.onClick.AddListener(gameWindow.BackButton);
     }
 
     public override void ResetPanel()

@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine.Serialization;
@@ -59,13 +60,22 @@ public abstract class MiniGame : MonoBehaviour
         Debug.Log("Minigame Started");
         isPaused = false;
         ReadyUpGamePanel();
-        yield return null;
+        yield return waitingPage();
         mgPanel.gameWindow.UUIpanel?.gameObject.SetActive(true);
         mgPanel.gameWindow.BUIPanel?.gameObject.SetActive(true);
         _puzzleTimer.reset_timer(Settings);
         UpdateHighscoreBoard();
         UpperUI?.ResetPanel();
         StartMinigameChild();
+    }
+    private IEnumerator waitingPage()
+    {
+        mgPanel.gameWindow.Methods.loadingCurtain.gameObject.SetActive(true);
+        mgPanel.gameWindow.Methods.curtain.color = Color.red;
+        yield return new WaitForSeconds(1f);
+        mgPanel.gameWindow.Methods.loadingCurtain.gameObject.SetActive(false);
+
+
     }
     public abstract void StartMinigameChild();
     public virtual void PauseMinigame()

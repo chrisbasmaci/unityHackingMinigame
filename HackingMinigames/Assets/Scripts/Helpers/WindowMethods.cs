@@ -20,6 +20,7 @@ namespace Helpers
         private RectTransform MainWindowBounds => mainWindow.GetComponent<RectTransform>();
         [CanBeNull] public GameObject backgroundGj;
         [SerializeField]public Image curtain;
+        [SerializeField]public Image loadingCurtain;
         private PixelBar bar;
         private GameObject resizeButton;
         public bool isMinimized;
